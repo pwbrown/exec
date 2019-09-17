@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "es2015",
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "strict": true,
+        "jsx": "react"
+    },
+    "include": [ "./**/*" ]
+}
