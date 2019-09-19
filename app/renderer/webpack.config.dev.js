@@ -19,7 +19,7 @@ module.exports = {
                 }
             },
             {
-                enfore: 'pre',
+                enforce: 'pre',
                 test: /\.js$/,
                 loader: 'source-map-loader'
             }

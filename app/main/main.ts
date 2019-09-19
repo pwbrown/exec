@@ -1,26 +1,24 @@
-/**
- * @copyright 2019 Philip Brown
- */
+/** ELECTRON */
+import { app, systemPreferences } from "electron";
 
-import { app } from 'electron';
-import { Window } from './window';
+/** UTILITIES */
+import { Window } from "./window";
 
 /********* INITIALIZE GLOBALS **********/
 
 /** Main Window Instance */
-global.mainWindow = new Window('main', 'app.html', {
-    width: 500,
+global.mainWindow = new Window("main", "app.html", {
     height: 500,
-    frame: false,
-    webPreferences: { nodeIntegration: true }
-})
+    webPreferences: { nodeIntegration: true },
+    width: 500,
+});
 
 /** Entry point of the application */
-app.on('ready', async () => {
+app.on("ready", async () => {
     global.mainWindow.open();
-})
+});
 
 /** Close the application on window close */
-app.on('window-all-closed', () => {
+app.on("window-all-closed", () => {
     app.quit();
-})
+});
