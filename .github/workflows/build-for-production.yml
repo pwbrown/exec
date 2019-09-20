@@ -1,4 +1,4 @@
-name: Build For Mac
+name: Build For Production
 
 on:
   push:
