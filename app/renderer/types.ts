@@ -2,7 +2,6 @@
 export interface ICommand {
     label: string;
     command: string;
-    exit: boolean;
 }
 
 /** Redux Action Type Builders */

@@ -1,6 +1,6 @@
 {
   "name": "exec",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Desktop Application for managing and executing commonly used terminal commands",
   "main": "app/build/main.js",
   "scripts": {
@@ -17,7 +17,8 @@
     "local": "npm run-script clean && npm run-script compile && electron app/build/main.js",
     "watch": "concurrently -n \"Main Watch,Renderer Watch\" -c \"magenta,cyan\" \"electron app/build/main.js\" \"npm run-script watch:renderer\"",
     "dev": "npm run-script clean && npm run-script compile:dev && npm run-script watch",
-    "clean": "ts-node scripts/clean.ts"
+    "clean": "ts-node scripts/clean.ts",
+    "dist": "npm run-script clean && npm run-script compile && electron-builder"
   },
   "repository": {
     "type": "git",
@@ -32,7 +33,6 @@
   "devDependencies": {
     "@material-ui/core": "^4.4.2",
     "@material-ui/icons": "^4.4.1",
-    "@material-ui/lab": "^4.0.0-alpha.26",
     "@material-ui/styles": "^4.4.1",
     "@types/fs-extra": "^8.0.0",
     "@types/node": "^12.7.5",
@@ -41,6 +41,7 @@
     "@types/react-redux": "^7.1.2",
     "concurrently": "^4.1.2",
     "electron": "^6.0.9",
+    "electron-builder": "^21.2.0",
     "fs-extra": "^8.1.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
@@ -58,6 +59,7 @@
     "webpack-cli": "^3.3.9"
   },
   "dependencies": {
-    "electron-store": "^5.0.0"
+    "electron-store": "^5.0.0",
+    "fix-path": "^2.1.0"
   }
 }

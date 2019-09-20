@@ -9,6 +9,7 @@ import { createStore } from "redux";
 /** MATERIAL */
 import CssBaseline from "@material-ui/core/CssBaseline";
 import createMuiTheme, { Theme } from "@material-ui/core/styles/createMuiTheme";
+import makeStyles from "@material-ui/styles/makeStyles";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 
 /** REDUCERS */
@@ -16,23 +17,38 @@ import { reducer } from "./app.reducer";
 
 /** COMPONENTS */
 import CommandEditor from "./CommandEditor";
-import Menu from "./Menu";
+import CommandList from "./CommandList";
+import Controls from "./Controls";
+import Help from "./Help";
 
 /** Build and expose Redux Store */
 export const Store = createStore(reducer);
 
 /** APPLICATION THEME */
-const darkTheme: Theme = createMuiTheme({ palette: { type: "light" }});
+const darkTheme: Theme = createMuiTheme({ palette: { type: "dark" }});
 
 /** Exec Application Entry Component */
-const App: FC = () => (
-    <ThemeProvider theme={darkTheme}>
-        <ReduxProvider store={Store}>
-            <CssBaseline/>
-            <Menu/>
-            <CommandEditor/>
-        </ReduxProvider>
-    </ThemeProvider>
-);
+const App: FC = () => {
+    const classes = AppStyles();
+    return (
+        <ThemeProvider theme={darkTheme}>
+            <ReduxProvider store={Store}>
+                <CssBaseline/>
+                <CommandEditor/>
+                <Help/>
+                <div className={classes.container}>
+                    <Controls/>
+                    <CommandList/>
+                </div>
+            </ReduxProvider>
+        </ThemeProvider>
+    );
+};
+
+const AppStyles = makeStyles({
+    container: {
+        margin: 10,
+    },
+});
 
 render(<App/>, document.getElementById("exec"));

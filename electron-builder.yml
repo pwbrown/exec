@@ -1,0 +1,9 @@
+appId: com.github.pwbrown.exec
+productName: exec
+directories:
+  buildResources: ./resources
+files: 
+  - ./app/build/**/*
+  - ./app/assets/**/*
+mac:
+  asar: false
