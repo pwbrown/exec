@@ -6,8 +6,8 @@ on:
       - master
 
 jobs:
-  build:
-    name: Build Application
+  build_for_mac:
+    name: Build for Mac
     runs-on: macOS-latest
     steps:
       # Checkout the master branch
