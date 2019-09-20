@@ -1,5 +1,7 @@
 # exec
 
+[![Actions Status](https://github.com/pwbrown/exec/workflows/Build%20For%20Mac/badge.svg)](https://github.com/pwbrown/exec/actions)
+
 <img src="./resources/icon.png" width=100 height=100>
 
 Desktop Application for managing and executing commonly used terminal commands
