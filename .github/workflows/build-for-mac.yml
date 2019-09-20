@@ -1,0 +1,28 @@
+name: Build For Mac
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build Application
+    runs-on: macOS-latest
+    steps:
+      # Checkout the master branch
+      - uses: actions/checkout@master
+
+      # Install node.js
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      
+      # Install dependencies
+      - name: Npm Install
+        run: npm install
+
+      # Build the application for production
+      - name: Compile and Build for Production
+        run: npm run-script dist
