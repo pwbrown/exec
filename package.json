@@ -60,6 +60,6 @@
   },
   "dependencies": {
     "electron-store": "^5.0.0",
-    "fix-path": "^2.1.0"
+    "run-in-terminal": "0.0.3"
   }
 }
