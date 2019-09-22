@@ -20,9 +20,16 @@ import CommandEditor from "./CommandEditor";
 import CommandList from "./CommandList";
 import Controls from "./Controls";
 import Help from "./Help";
+import Update from "./Update";
+
+/** BACKGROUND */
+import RunBackgroundListeners from "./background";
 
 /** Build and expose Redux Store */
 export const Store = createStore(reducer);
+
+/** Start listening to background events from main */
+RunBackgroundListeners(Store);
 
 /** APPLICATION THEME */
 const darkTheme: Theme = createMuiTheme({ palette: { type: "dark" }});
@@ -36,6 +43,7 @@ const App: FC = () => {
                 <CssBaseline/>
                 <CommandEditor/>
                 <Help/>
+                <Update/>
                 <div className={classes.container}>
                     <Controls/>
                     <CommandList/>
