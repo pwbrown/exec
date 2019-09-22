@@ -20,7 +20,7 @@ jobs:
           node-version: '10.x'
       
       # Install dependencies
-      - name: Npm Install
+      - name: Install Dependencies
         run: npm install
 
       # Build and generate a github release draft
