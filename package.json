@@ -18,7 +18,8 @@
     "watch": "concurrently -n \"Main Watch,Renderer Watch\" -c \"magenta,cyan\" \"electron app/build/main.js\" \"npm run-script watch:renderer\"",
     "dev": "npm run-script clean && npm run-script compile:dev && npm run-script watch",
     "clean": "ts-node scripts/clean.ts",
-    "dist": "npm run-script clean && npm run-script compile && electron-builder"
+    "build": "npm run-script clean && npm run-script compile && electron-builder",
+    "release": "npm run-script clean && npm run-script compile && electron-builder"
   },
   "repository": {
     "type": "git",

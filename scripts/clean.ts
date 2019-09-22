@@ -11,6 +11,6 @@ const rm = (path: string) => removeSync(join(__dirname, "../", path));
 
 /** REMOVES */
 rm("app/build");
-rm("dist");
+rm("artifacts");
 rm("app/assets/js/exec.js");
 rm("app/assets/js/exec.js.map");

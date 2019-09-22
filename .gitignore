@@ -63,5 +63,5 @@ typings/
 app/build
 app/assets/js/exec.js
 app/assets/js/exec.js.map
-dist/
+artifacts/
 .DS_Store

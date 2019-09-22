@@ -16,8 +16,8 @@ Desktop Application for managing and executing commonly used terminal commands
 1. Clone/Download the repository
 2. Open a terminal and navigate to the root of the project
 3. Run `npm install`
-4. Run `npm run-script dist`
-5. Open a File Explorer and navigate to the dist folder generated at the root of the app and choose the appropriate executable.
+4. Run `npm run-script build`
+5. Open a File Explorer and navigate to the "artifacts" folder generated at the root of the app and choose the appropriate executable.
 
 ## Upcoming Goal Tracking
 - [ ] Integrate with Github Actions(Beta)

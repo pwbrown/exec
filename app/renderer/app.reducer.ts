@@ -99,6 +99,7 @@ export const reducer = (
                         state.command,
                         ...state.commands.slice(state.index + 1),
                     ],
+                    editor: false,
                 };
             }
             ipc.sendSync("commandsSync:set", newState.commands);

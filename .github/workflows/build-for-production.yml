@@ -23,6 +23,8 @@ jobs:
       - name: Npm Install
         run: npm install
 
-      # Build the application for production
-      - name: Compile and Build for Production
-        run: npm run-script dist
+      # Build and generate a github release draft
+      - name: Build and Draft Release
+        run: npm run-script release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}

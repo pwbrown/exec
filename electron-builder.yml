@@ -2,8 +2,12 @@ appId: com.github.pwbrown.exec
 productName: exec
 directories:
   buildResources: ./resources
+  output: artifacts
 files: 
   - ./app/build/**/*
   - ./app/assets/**/*
 mac:
   asar: false
+publish:
+  provider: github
+  owner: pwbrown
