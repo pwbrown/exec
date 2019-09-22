@@ -1,0 +1,32 @@
+name: Quality Assurance
+
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  audit_lint:
+    name: Security Audit and Code Linting
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the master branch
+      - uses: actions/checkout@master
+
+      # Install node.js
+      - name: Install node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      
+      # Install dependencies
+      - name: Install Dependencies
+        run: npm install
+      
+      # Audit dependencies
+      - name: Dependency Security Audit
+        run: npm audit
+      
+      # Linting
+      - name: Code Quality Check
+        run: npm run-script lint
