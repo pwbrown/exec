@@ -8,6 +8,7 @@ import {
     IAction,
     ICommand,
     IPayload,
+    IUpdateStatus,
 } from "./types";
 
 /** SHAPE OF THE APPLICATION STATE */
@@ -24,6 +25,12 @@ export interface IAppState {
     editor: boolean;
     /** Whether the help dialog is displayed */
     help: boolean;
+    /** Whether the updater dialog is displayed */
+    updater: boolean;
+    /** Software update status */
+    update: IUpdateStatus & {
+        attempted: boolean;
+    };
 }
 
 /** HELPERS */
@@ -40,6 +47,14 @@ const initialState: IAppState = {
     editor: false,
     help: false,
     index: 0,
+    update: {
+        attempted: false,
+        available: false,
+        checking: false,
+        next: null,
+        progress: null,
+    },
+    updater: false,
 };
 
 /** ALL ACTIONS TO INTERACT WITH STATE */
@@ -49,9 +64,11 @@ enum Actions {
     EDIT_COMMAND = "EDIT_COMMAND",
     SAVE_COMMAND = "SAVE_COMMAND",
     TOGGLE_HELP = "TOGGLE_HELP",
+    TOGGLE_UPDATE = "TOGGLE_UPDATE",
     UPDATE_CURRENT_LABEL = "UPDATE_CURRENT_LABEL",
     UPDATE_CURRENT_COMMAND = "UPDATE_CURRENT_COMMAND",
     REMOVE_COMMAND = "REMOVE_COMMAND",
+    UPDATE_STATUS = "UPDATE_STATUS",
 }
 
 type ActionTypes =
@@ -59,10 +76,12 @@ type ActionTypes =
     IAction<Actions.CREATE_COMMAND> |
     IAction<Actions.SAVE_COMMAND> |
     IAction<Actions.TOGGLE_HELP> |
+    IAction<Actions.TOGGLE_UPDATE> |
     IPayload<Actions.EDIT_COMMAND, { index: number }> |
     IPayload<Actions.REMOVE_COMMAND, { index: number}> |
     IPayload<Actions.UPDATE_CURRENT_LABEL, { label: string }> |
-    IPayload<Actions.UPDATE_CURRENT_COMMAND, { command: string }>;
+    IPayload<Actions.UPDATE_CURRENT_COMMAND, { command: string }> |
+    IPayload<Actions.UPDATE_STATUS, { update: Partial<IAppState["update"]> }>;
 
 export const reducer = (
     state: IAppState = initialState,
@@ -83,6 +102,8 @@ export const reducer = (
             };
         case Actions.TOGGLE_HELP:
             return { ...state, help: !state.help };
+        case Actions.TOGGLE_UPDATE:
+            return { ...state, updater: !state.updater };
         case Actions.SAVE_COMMAND:
             let newState: IAppState;
             if (state.creating) {
@@ -140,6 +161,8 @@ export const reducer = (
                     command: action.payload.command,
                 },
             };
+        case Actions.UPDATE_STATUS:
+            return { ...state, update: { ...state.update, ...action.payload.update }};
         default:
             return state;
     }
@@ -154,6 +177,8 @@ export const cancelEdit = (): ActionTypes => ({ type: Actions.CANCEL_EDIT });
 export const saveCommand = (): ActionTypes => ({ type: Actions.SAVE_COMMAND });
 
 export const toggleHelp = (): ActionTypes => ({ type: Actions.TOGGLE_HELP });
+
+export const toggleUpdate = (): ActionTypes => ({ type: Actions.TOGGLE_UPDATE });
 
 export const editCommand = (index: number): ActionTypes => ({
     payload: { index },
@@ -173,4 +198,9 @@ export const updateCurrentLabel = (label: string): ActionTypes => ({
 export const updateCurrentCommand = (command: string): ActionTypes => ({
     payload: { command },
     type: Actions.UPDATE_CURRENT_COMMAND,
+});
+
+export const updateStatus = (update: Partial<IAppState["update"]>): ActionTypes => ({
+    payload: { update },
+    type: Actions.UPDATE_STATUS,
 });
