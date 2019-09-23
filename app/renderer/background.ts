@@ -3,7 +3,7 @@ import { ipcRenderer as ipc, IpcRendererEvent } from "electron";
 
 /** REDUX */
 import { Store } from "redux";
-import { IAppState, updateStatus } from "./app.reducer";
+import { IAppState, updateStatus, updateTheme } from "./app.reducer";
 
 /** MISC */
 import { IUpdateStatus } from "./types";
@@ -20,6 +20,13 @@ const run = (store: Store): void => {
             nextUpdate.attempted = true;
         }
         store.dispatch(updateStatus(nextUpdate));
+    });
+
+    /** Listen for theme changes */
+    ipc.on("theme:changed", (_: IpcRendererEvent, theme?: IAppState["theme"]) => {
+        if (theme) {
+            store.dispatch(updateTheme(theme));
+        }
     });
 
 };

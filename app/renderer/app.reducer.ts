@@ -25,6 +25,8 @@ export interface IAppState {
     editor: boolean;
     /** Whether the help dialog is displayed */
     help: boolean;
+    /** The apps current color theme */
+    theme: "dark" | "light";
     /** Whether the updater dialog is displayed */
     updater: boolean;
     /** Software update status */
@@ -47,6 +49,7 @@ const initialState: IAppState = {
     editor: false,
     help: false,
     index: 0,
+    theme: ipc.sendSync("themeSync:get") || "light",
     update: {
         attempted: false,
         available: false,
@@ -69,6 +72,7 @@ enum Actions {
     UPDATE_CURRENT_COMMAND = "UPDATE_CURRENT_COMMAND",
     REMOVE_COMMAND = "REMOVE_COMMAND",
     UPDATE_STATUS = "UPDATE_STATUS",
+    UPDATE_THEME = "UPDATE_THEME",
 }
 
 type ActionTypes =
@@ -81,7 +85,8 @@ type ActionTypes =
     IPayload<Actions.REMOVE_COMMAND, { index: number}> |
     IPayload<Actions.UPDATE_CURRENT_LABEL, { label: string }> |
     IPayload<Actions.UPDATE_CURRENT_COMMAND, { command: string }> |
-    IPayload<Actions.UPDATE_STATUS, { update: Partial<IAppState["update"]> }>;
+    IPayload<Actions.UPDATE_STATUS, { update: Partial<IAppState["update"]> }> |
+    IPayload<Actions.UPDATE_THEME, { theme: IAppState["theme"] }>;
 
 export const reducer = (
     state: IAppState = initialState,
@@ -163,6 +168,8 @@ export const reducer = (
             };
         case Actions.UPDATE_STATUS:
             return { ...state, update: { ...state.update, ...action.payload.update }};
+        case Actions.UPDATE_THEME:
+            return { ...state, theme: action.payload.theme };
         default:
             return state;
     }
@@ -203,4 +210,9 @@ export const updateCurrentCommand = (command: string): ActionTypes => ({
 export const updateStatus = (update: Partial<IAppState["update"]>): ActionTypes => ({
     payload: { update },
     type: Actions.UPDATE_STATUS,
+});
+
+export const updateTheme = (theme: IAppState["theme"]): ActionTypes => ({
+    payload: { theme },
+    type: Actions.UPDATE_THEME,
 });
