@@ -26,7 +26,7 @@ export interface IAppState {
     /** Whether the help dialog is displayed */
     help: boolean;
     /** The apps current color theme */
-    theme: "dark" | "light",
+    theme: "dark" | "light";
     /** Whether the updater dialog is displayed */
     updater: boolean;
     /** Software update status */
