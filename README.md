@@ -20,6 +20,16 @@ Desktop Application for managing and executing commonly used terminal commands
 5. Open a File Explorer and navigate to the "artifacts" folder generated at the root of the app and choose the appropriate executable.
 
 ## Upcoming Goal Tracking
-- [ ] Integrate with Github Actions(Beta)
-- [ ] Automate build releases for Mac
-- [ ] Enable Auto Updating within the app
+- [x] Integrate with Github Actions(Beta)
+- [x] Automate build releases for Mac
+- [x] Enable Auto Updating within the app
+
+### Screenshots
+
+***
+
+Click to view.
+
+[![create command](./resources/screenshots/create-command.png)](./resources/screenshots/create-command.png)
+[![command list](./resources/screenshots/command-list.png)](./resources/screenshots/command-list.png)
+[![command executed](./resources/screenshots/command-executed.png)](./resources/screenshots/command-executed.png)

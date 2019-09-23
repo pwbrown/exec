@@ -3,6 +3,7 @@ import { app } from "electron";
 
 /** UTILITIES */
 import "./commands";
+import "./theme";
 import { CheckForUpdates } from "./updater";
 import { Window } from "./window";
 
@@ -13,6 +14,7 @@ global.mainWindow = new Window("main", "app.html", {
     height: 500,
     minHeight: 450,
     minWidth: 290,
+    titleBarStyle: "hiddenInset",
     webPreferences: { nodeIntegration: true },
     width: 500,
 });
