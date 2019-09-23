@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "electron-store": "^5.0.0",
+    "electron-updater": "^4.1.2",
     "run-in-terminal": "0.0.3"
   }
 }
