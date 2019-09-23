@@ -8,6 +8,11 @@ files:
   - ./app/assets/**/*
 mac:
   asar: false
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: .build/entitlements.mac.plist
+  entitlementsInherit: .build/entitlements.mac.plist
+afterSign: scripts/notarize.js
 publish:
   provider: github
   owner: pwbrown
