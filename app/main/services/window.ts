@@ -1,3 +1,7 @@
+/**
+ * Exposes a helper class for managing a window instance
+ */
+
 /** ELECTRON */
 import {
     BrowserWindow,
@@ -23,7 +27,7 @@ export class Window {
     constructor(id: string, fileInAssets: string, config: BrowserWindowConstructorOptions) {
         this.id = id;
         this.config = config;
-        this.file = join(__dirname, '../assets', fileInAssets);
+        this.file = join(__dirname, '../../assets', fileInAssets);
         this.store = new Store({ name: `window_${this.id}` });
     }
 

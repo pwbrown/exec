@@ -19,7 +19,7 @@ import makeStyles from '@material-ui/styles/makeStyles';
 /** REDUX */
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { IAppState, toggleUpdate } from './app.reducer';
+import { IAppState, toggleUpdate } from '../utils/app.reducer';
 
 /** REDUX PROPS */
 interface IStateProps {

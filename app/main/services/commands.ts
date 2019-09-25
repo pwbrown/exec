@@ -1,3 +1,8 @@
+/**
+ * Handles the storing, retrieving, and executing
+ * of commands.
+ */
+
 /** ELECTRON */
 import { app, ipcMain as ipc, IpcMainEvent } from 'electron';
 import Store from 'electron-store';

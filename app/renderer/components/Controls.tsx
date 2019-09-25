@@ -13,7 +13,7 @@ import Update from '@material-ui/icons/Update';
 /** REDUX */
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { createCommand, IAppState, toggleHelp, toggleUpdate } from './app.reducer';
+import { createCommand, IAppState, toggleHelp, toggleUpdate } from '../utils/app.reducer';
 
 /** REDUX PROPS */
 interface IStateProps {

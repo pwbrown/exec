@@ -1,3 +1,8 @@
+/**
+ * Handles listening for system wide theme changes,
+ * and relaying changes to the window
+ */
+
 /** ELECTRON */
 import { ipcMain as ipc, IpcMainEvent, systemPreferences } from 'electron';
 

@@ -17,7 +17,7 @@
     "local": "npm run-script clean && npm run-script compile && electron app/build/main.js",
     "watch": "concurrently -n \"Main Watch,Renderer Watch\" -c \"magenta,cyan\" \"electron app/build/main.js\" \"npm run-script watch:renderer\"",
     "dev": "npm run-script clean && npm run-script compile:dev && npm run-script watch",
-    "clean": "ts-node scripts/clean.ts",
+    "clean": "node .build/scripts/clean.js",
     "build": "npm run-script clean && npm run-script compile && electron-builder",
     "release": "npm run-script clean && npm run-script compile && electron-builder"
   },
@@ -51,7 +51,6 @@
     "redux": "^4.0.4",
     "source-map-loader": "^0.2.4",
     "ts-loader": "^6.1.0",
-    "ts-node": "^8.4.1",
     "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",

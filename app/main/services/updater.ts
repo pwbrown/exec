@@ -1,3 +1,9 @@
+/**
+ * Handles auto updates for the application
+ * and exposes methods and listeners for manually
+ * checking for application updates
+ */
+
 /** ELECTRON */
 import { ProgressInfo, UpdateInfo } from 'builder-util-runtime';
 import { ipcMain as ipc, IpcMainEvent } from 'electron';
@@ -99,6 +105,8 @@ ipc.on('updater:check', () => {
         CheckForUpdates();
     }
 });
+
+/************** SIMULATION METHODS (Not for production use) ********************/
 
 const SimulateCheckAndDownloadSuccess = async () => {
     const nextUpdate: UpdateInfo = {

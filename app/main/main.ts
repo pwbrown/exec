@@ -1,11 +1,11 @@
 /** ELECTRON */
 import { app } from 'electron';
 
-/** UTILITIES */
-import './commands';
-import './theme';
-import { CheckForUpdates } from './updater';
-import { Window } from './window';
+/** SERVICES */
+import './services/commands';
+import './services/theme';
+import { CheckForUpdates } from './services/updater';
+import { Window } from './services/window';
 
 /*********************** INITIALIZE GLOBALS **************************/
 

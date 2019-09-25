@@ -18,7 +18,7 @@ import {
     saveCommand,
     updateCurrentCommand,
     updateCurrentLabel,
-} from './app.reducer';
+} from '../utils/app.reducer';
 
 /** TYPES */
 type TextEvent = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;

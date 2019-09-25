@@ -1,7 +1,7 @@
 appId: com.github.pwbrown.exec
 productName: exec
 directories:
-  buildResources: ./resources
+  buildResources: ./.build/resources
   output: artifacts
 files: 
   - ./app/build/**/*
@@ -10,9 +10,9 @@ mac:
   asar: false
   hardenedRuntime: true
   gatekeeperAssess: false
-  entitlements: .build/entitlements.mac.plist
-  entitlementsInherit: .build/entitlements.mac.plist
-afterSign: scripts/notarize.js
+  entitlements: .build/config/entitlements.mac.plist
+  entitlementsInherit: .build/config/entitlements.mac.plist
+afterSign: .build/scripts/notarize.js
 publish:
   provider: github
   owner: pwbrown

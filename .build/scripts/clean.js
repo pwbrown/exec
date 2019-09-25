@@ -3,11 +3,11 @@
  */
 
 /** DEPENDENCIES */
-import { removeSync } from 'fs-extra';
-import { join } from 'path';
+const { removeSync } = require('fs-extra');
+const { join } = require('path');
 
 /** HELPERS */
-const rm = (path: string) => removeSync(join(__dirname, '../', path));
+const rm = path => removeSync(join(__dirname, '../../', path));
 
 /** REMOVES */
 rm('app/build');

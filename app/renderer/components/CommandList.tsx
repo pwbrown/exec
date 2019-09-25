@@ -16,8 +16,8 @@ import Delete from '@material-ui/icons/Delete';
 /** REDUX */
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { editCommand, IAppState, removeCommand } from './app.reducer';
-import { ICommand } from './types';
+import { editCommand, IAppState, removeCommand } from '../utils/app.reducer';
+import { ICommand } from '../utils/types';
 
 /** UTILITIES */
 const clean = (label: string) => {
