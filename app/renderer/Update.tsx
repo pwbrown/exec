@@ -1,30 +1,30 @@
 /** REACT */
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
 /** ELECTRON */
-import { ipcRenderer as ipc, remote} from "electron";
+import { ipcRenderer as ipc, remote} from 'electron';
 
 /** MATERIAL */
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import IconButton from "@material-ui/core/IconButton";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import Typography from "@material-ui/core/Typography";
-import Check from "@material-ui/icons/Check";
-import Close from "@material-ui/icons/Close";
-import makeStyles from "@material-ui/styles/makeStyles";
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import IconButton from '@material-ui/core/IconButton';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Typography from '@material-ui/core/Typography';
+import Check from '@material-ui/icons/Check';
+import Close from '@material-ui/icons/Close';
+import makeStyles from '@material-ui/styles/makeStyles';
 
 /** REDUX */
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { IAppState, toggleUpdate } from "./app.reducer";
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { IAppState, toggleUpdate } from './app.reducer';
 
 /** REDUX PROPS */
 interface IStateProps {
     open: boolean;
-    update: IAppState["update"];
+    update: IAppState['update'];
 }
 interface IDispatchProps {
     close: () => void;
@@ -37,9 +37,9 @@ export const Update: FC<IStateProps & IDispatchProps> = (props) => {
 
     const CheckOrApply = () => {
         if (available) {
-            ipc.send("updater:apply");
+            ipc.send('updater:apply');
         } else {
-            ipc.send("updater:check");
+            ipc.send('updater:check');
         }
     };
 
@@ -47,12 +47,12 @@ export const Update: FC<IStateProps & IDispatchProps> = (props) => {
         if (attempted && !checking && !available) {
             return (
                 <div className={classes.latest}>
-                    <Check fontSize="small" color="secondary"/>
-                    <Typography color="secondary">Up to Date</Typography>
+                    <Check fontSize='small' color='secondary'/>
+                    <Typography color='secondary'>Up to Date</Typography>
                 </div>
             );
         }
-        return "";
+        return '';
     };
 
     const Progress = () => {
@@ -61,24 +61,24 @@ export const Update: FC<IStateProps & IDispatchProps> = (props) => {
                 <div className={classes.progress}>
                     <Typography>
                         Downloading version {next.version} ...&nbsp;
-                        <Typography component="span" color="textSecondary">
+                        <Typography component='span' color='textSecondary'>
                             {bts(progress.transferred)} of {bts(progress.total)} ({bts(progress.bytesPerSecond)}/s)
                         </Typography>
                     </Typography>
-                    <LinearProgress variant="determinate" value={Math.floor(progress.percent)} color="secondary"/>
+                    <LinearProgress variant='determinate' value={Math.floor(progress.percent)} color='secondary'/>
                 </div>
             );
         }
-        return "";
+        return '';
     };
 
-    let buttonText: string = "Check for Update";
+    let buttonText: string = 'Check for Update';
     if (checking && !progress) {
-        buttonText = "Checking ...";
+        buttonText = 'Checking ...';
     } else if (available) {
-        buttonText = "Install Update and Restart";
+        buttonText = 'Install Update and Restart';
     } else if (checking && progress) {
-        buttonText = "Downloading ...";
+        buttonText = 'Downloading ...';
     }
 
     return (
@@ -94,14 +94,14 @@ export const Update: FC<IStateProps & IDispatchProps> = (props) => {
             </DialogActions>
             <DialogContent>
                 <div className={classes.container}>
-                    <Typography variant="caption" color="textSecondary">
+                    <Typography variant='caption' color='textSecondary'>
                         exec version {remote.app.getVersion()}
                     </Typography>
                     {OnLatest()}
                     {Progress()}
                     <Button
-                        variant="contained"
-                        color="secondary"
+                        variant='contained'
+                        color='secondary'
                         disabled={checking}
                         onClick={CheckOrApply}
                         className={classes.button}
@@ -118,9 +118,9 @@ export const Update: FC<IStateProps & IDispatchProps> = (props) => {
 
 /** Converts bytes to a readable size */
 const bts = (bytes: number) => {
-    const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     if (bytes === 0) {
-        return "n/a";
+        return 'n/a';
     }
     const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString(), 10);
     if (i === 0) {
@@ -132,21 +132,21 @@ const bts = (bytes: number) => {
 /** STYLES */
 const Styles = makeStyles({
     button: {
-        margin: "10px 0px",
+        margin: '10px 0px',
     },
     container: {
-        display: "flex",
-        flexDirection: "column",
+        display: 'flex',
+        flexDirection: 'column',
     },
     latest: {
-        display: "flex",
-        flexDirection: "row",
-        margin: "10px 0px",
+        display: 'flex',
+        flexDirection: 'row',
+        margin: '10px 0px',
     },
     progress: {
-        display: "flex",
-        flexDirection: "column",
-        margin: "20px 0px",
+        display: 'flex',
+        flexDirection: 'column',
+        margin: '20px 0px',
     },
 });
 

@@ -1,27 +1,27 @@
 /** REACT */
-import React, { FC, Fragment, MouseEvent, useState } from "react";
+import React, { FC, Fragment, MouseEvent, useState } from 'react';
 
 /** ELECTRON */
-import { ipcRenderer as ipc } from "electron";
+import { ipcRenderer as ipc } from 'electron';
 
 /** MATERIAL */
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Create from "@material-ui/icons/Create";
-import Delete from "@material-ui/icons/Delete";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Create from '@material-ui/icons/Create';
+import Delete from '@material-ui/icons/Delete';
 
 /** REDUX */
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { editCommand, IAppState, removeCommand } from "./app.reducer";
-import { ICommand } from "./types";
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { editCommand, IAppState, removeCommand } from './app.reducer';
+import { ICommand } from './types';
 
 /** UTILITIES */
 const clean = (label: string) => {
-    return label.toLowerCase().trim().replace(/[^a-zA-Z0-9]/g, "");
+    return label.toLowerCase().trim().replace(/[^a-zA-Z0-9]/g, '');
 };
 type ContextEvent = MouseEvent<HTMLDivElement>;
 
@@ -64,7 +64,7 @@ const ICommandItem: FC<ICommandItemProps & ICommandItemDispatchProps> = (props) 
         closeContextMenu();
         props.edit(props.index);
     };
-    const execute = () => ipc.send("commands:execute", props.command.command);
+    const execute = () => ipc.send('commands:execute', props.command.command);
     return (
         <Fragment>
             <ListItem

@@ -3,14 +3,14 @@
  */
 
 /** DEPENDENCIES */
-import { removeSync } from "fs-extra";
-import { join } from "path";
+import { removeSync } from 'fs-extra';
+import { join } from 'path';
 
 /** HELPERS */
-const rm = (path: string) => removeSync(join(__dirname, "../", path));
+const rm = (path: string) => removeSync(join(__dirname, '../', path));
 
 /** REMOVES */
-rm("app/build");
-rm("artifacts");
-rm("app/assets/js/exec.js");
-rm("app/assets/js/exec.js.map");
+rm('app/build');
+rm('artifacts');
+rm('app/assets/js/exec.js');
+rm('app/assets/js/exec.js.map');

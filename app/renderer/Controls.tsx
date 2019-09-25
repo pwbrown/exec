@@ -1,19 +1,19 @@
 /** REACT */
-import React, { FC, Fragment } from "react";
+import React, { FC, Fragment } from 'react';
 
 /** MATERIAL */
-import Badge from "@material-ui/core/Badge";
-import Fab from "@material-ui/core/Fab";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import Add from "@material-ui/icons/Add";
-import HelpOutline from "@material-ui/icons/HelpOutline";
-import Update from "@material-ui/icons/Update";
+import Badge from '@material-ui/core/Badge';
+import Fab from '@material-ui/core/Fab';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
+import Add from '@material-ui/icons/Add';
+import HelpOutline from '@material-ui/icons/HelpOutline';
+import Update from '@material-ui/icons/Update';
 
 /** REDUX */
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { createCommand, IAppState, toggleHelp, toggleUpdate } from "./app.reducer";
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { createCommand, IAppState, toggleHelp, toggleUpdate } from './app.reducer';
 
 /** REDUX PROPS */
 interface IStateProps {
@@ -33,7 +33,7 @@ const Controls: FC<IStateProps & IDispatchProps> = (props) => {
     const UpdateIcon = () => {
         if (props.updateAvailable) {
             return (
-                <Badge variant="dot" color="error">
+                <Badge variant='dot' color='error'>
                     <Update/>
                 </Badge>
             );
@@ -43,18 +43,18 @@ const Controls: FC<IStateProps & IDispatchProps> = (props) => {
 
     return (
         <Fragment>
-            <Tooltip title="Create Command" placement="right">
-                <Fab color="secondary" onClick={create} size="small">
+            <Tooltip title='Create Command' placement='right'>
+                <Fab color='secondary' onClick={create} size='small'>
                     <Add/>
                 </Fab>
             </Tooltip>
-            <Tooltip title="Help" placement="right">
-                <IconButton size="small" onClick={help}>
+            <Tooltip title='Help' placement='right'>
+                <IconButton size='small' onClick={help}>
                     <HelpOutline/>
                 </IconButton>
             </Tooltip>
-            <Tooltip title={props.updateAvailable ? "Update Available" : "Software Update"} placement="right">
-                <IconButton size="small" onClick={update}>
+            <Tooltip title={props.updateAvailable ? 'Update Available' : 'Software Update'} placement='right'>
+                <IconButton size='small' onClick={update}>
                     {UpdateIcon()}
                 </IconButton>
             </Tooltip>

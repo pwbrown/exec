@@ -1,7 +1,7 @@
 /** ELECTRON */
-import { ProgressInfo, UpdateInfo } from "builder-util-runtime";
-import { ipcMain as ipc, IpcMainEvent } from "electron";
-import { autoUpdater } from "electron-updater";
+import { ProgressInfo, UpdateInfo } from 'builder-util-runtime';
+import { ipcMain as ipc, IpcMainEvent } from 'electron';
+import { autoUpdater } from 'electron-updater';
 
 /** UPDATER SETTINGS */
 autoUpdater.autoInstallOnAppQuit = false;
@@ -47,7 +47,7 @@ const GetCurrentStatus = () => ({
 });
 
 const SendStatusToWindow = () => {
-    global.mainWindow.send("updater:status", GetCurrentStatus());
+    global.mainWindow.send('updater:status', GetCurrentStatus());
 };
 
 const CheckingForUpdates = () => {
@@ -78,23 +78,23 @@ const UpdateDownloaded = (info: UpdateInfo) => {
     SendStatusToWindow();
 };
 
-autoUpdater.on("update-available", UpdateAvailable);
-autoUpdater.on("update-not-available", UpdateNotAvailable);
-autoUpdater.on("download-progress", DownloadProgress);
-autoUpdater.on("update-downloaded", UpdateDownloaded);
+autoUpdater.on('update-available', UpdateAvailable);
+autoUpdater.on('update-not-available', UpdateNotAvailable);
+autoUpdater.on('download-progress', DownloadProgress);
+autoUpdater.on('update-downloaded', UpdateDownloaded);
 
 /********************* CLIENT REQUESTS **********************/
-ipc.on("updaterSync:status", (event: IpcMainEvent) => {
+ipc.on('updaterSync:status', (event: IpcMainEvent) => {
     event.returnValue = GetCurrentStatus();
 });
 
-ipc.on("updater:apply", () => {
+ipc.on('updater:apply', () => {
     if (AVAILABLE) {
         autoUpdater.quitAndInstall();
     }
 });
 
-ipc.on("updater:check", () => {
+ipc.on('updater:check', () => {
     if (!CHECKING) {
         CheckForUpdates();
     }
@@ -102,9 +102,9 @@ ipc.on("updater:check", () => {
 
 const SimulateCheckAndDownloadSuccess = async () => {
     const nextUpdate: UpdateInfo = {
-        files: [], path: "", releaseDate: "Date",
-        releaseName: "Name", releaseNotes: "Notes",
-        sha512: "", stagingPercentage: 10, version: "1.4.0",
+        files: [], path: '', releaseDate: 'Date',
+        releaseName: 'Name', releaseNotes: 'Notes',
+        sha512: '', stagingPercentage: 10, version: '1.4.0',
     };
     await Sleep(1);
     UpdateAvailable(nextUpdate);
