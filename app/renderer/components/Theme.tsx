@@ -7,7 +7,7 @@ import ThemeProvider from '@material-ui/styles/ThemeProvider';
 
 /** REDUX */
 import { connect } from 'react-redux';
-import { IAppState } from '../utils/app.reducer';
+import { IAppState } from '../redux';
 
 /** THEMES */
 const THEMES = {

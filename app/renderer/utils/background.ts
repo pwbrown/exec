@@ -3,7 +3,7 @@ import { ipcRenderer as ipc, IpcRendererEvent } from 'electron';
 
 /** REDUX */
 import { Store } from 'redux';
-import { IAppState, updateStatus, updateTheme } from './app.reducer';
+import { IAppState, updateStatus, updateTheme } from '../redux';
 
 /** MISC */
 import { IUpdateStatus } from './types';

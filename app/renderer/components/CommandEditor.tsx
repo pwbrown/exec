@@ -18,7 +18,7 @@ import {
     saveCommand,
     updateCurrentCommand,
     updateCurrentLabel,
-} from '../utils/app.reducer';
+} from '../redux';
 
 /** TYPES */
 type TextEvent = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;

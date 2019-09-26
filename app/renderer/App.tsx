@@ -11,7 +11,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import makeStyles from '@material-ui/styles/makeStyles';
 
 /** REDUCERS */
-import { reducer } from './utils/app.reducer';
+import { reducer } from './redux';
 
 /** COMPONENTS */
 import CommandEditor from './components/CommandEditor';

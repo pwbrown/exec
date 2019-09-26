@@ -16,7 +16,7 @@ import Delete from '@material-ui/icons/Delete';
 /** REDUX */
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { editCommand, IAppState, removeCommand } from '../utils/app.reducer';
+import { editCommand, IAppState, removeCommand } from '../redux';
 import { ICommand } from '../utils/types';
 
 /** UTILITIES */

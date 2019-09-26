@@ -1,39 +1,9 @@
-/**
- * APP REDUX REDUCER
- */
-
-/** DEPENDENCIES */
+/** ELECTRON */
 import { ipcRenderer as ipc } from 'electron';
-import {
-    IAction,
-    ICommand,
-    IPayload,
-    IUpdateStatus,
-} from './types';
 
-/** SHAPE OF THE APPLICATION STATE */
-export interface IAppState {
-    /** All of the commands saved */
-    commands: ICommand[];
-    /** The state of the command displayed in the editor */
-    command: ICommand;
-    /** The index of the command loaded into the editor */
-    index: number;
-    /** Whether the editor is handling creating or editing */
-    creating: boolean;
-    /** Whether the editor is displayed */
-    editor: boolean;
-    /** Whether the help dialog is displayed */
-    help: boolean;
-    /** The apps current color theme */
-    theme: 'dark' | 'light';
-    /** Whether the updater dialog is displayed */
-    updater: boolean;
-    /** Software update status */
-    update: IUpdateStatus & {
-        attempted: boolean;
-    };
-}
+/** TYPES */
+import { ICommand } from '../utils/types';
+import { Actions, ActionTypes, IAppState } from './types';
 
 /** HELPERS */
 const EMPTY_COMMAND: ICommand = {
@@ -59,34 +29,6 @@ const initialState: IAppState = {
     },
     updater: false,
 };
-
-/** ALL ACTIONS TO INTERACT WITH STATE */
-enum Actions {
-    CANCEL_EDIT = 'CANCEL_EDIT',
-    CREATE_COMMAND = 'CREATE_COMMAND',
-    EDIT_COMMAND = 'EDIT_COMMAND',
-    SAVE_COMMAND = 'SAVE_COMMAND',
-    TOGGLE_HELP = 'TOGGLE_HELP',
-    TOGGLE_UPDATE = 'TOGGLE_UPDATE',
-    UPDATE_CURRENT_LABEL = 'UPDATE_CURRENT_LABEL',
-    UPDATE_CURRENT_COMMAND = 'UPDATE_CURRENT_COMMAND',
-    REMOVE_COMMAND = 'REMOVE_COMMAND',
-    UPDATE_STATUS = 'UPDATE_STATUS',
-    UPDATE_THEME = 'UPDATE_THEME',
-}
-
-type ActionTypes =
-    IAction<Actions.CANCEL_EDIT> |
-    IAction<Actions.CREATE_COMMAND> |
-    IAction<Actions.SAVE_COMMAND> |
-    IAction<Actions.TOGGLE_HELP> |
-    IAction<Actions.TOGGLE_UPDATE> |
-    IPayload<Actions.EDIT_COMMAND, { index: number }> |
-    IPayload<Actions.REMOVE_COMMAND, { index: number}> |
-    IPayload<Actions.UPDATE_CURRENT_LABEL, { label: string }> |
-    IPayload<Actions.UPDATE_CURRENT_COMMAND, { command: string }> |
-    IPayload<Actions.UPDATE_STATUS, { update: Partial<IAppState['update']> }> |
-    IPayload<Actions.UPDATE_THEME, { theme: IAppState['theme'] }>;
 
 export const reducer = (
     state: IAppState = initialState,
@@ -174,45 +116,3 @@ export const reducer = (
             return state;
     }
 };
-
-/** ACTIONS */
-
-export const createCommand = (): ActionTypes => ({ type: Actions.CREATE_COMMAND });
-
-export const cancelEdit = (): ActionTypes => ({ type: Actions.CANCEL_EDIT });
-
-export const saveCommand = (): ActionTypes => ({ type: Actions.SAVE_COMMAND });
-
-export const toggleHelp = (): ActionTypes => ({ type: Actions.TOGGLE_HELP });
-
-export const toggleUpdate = (): ActionTypes => ({ type: Actions.TOGGLE_UPDATE });
-
-export const editCommand = (index: number): ActionTypes => ({
-    payload: { index },
-    type: Actions.EDIT_COMMAND,
-});
-
-export const removeCommand = (index: number): ActionTypes => ({
-    payload: { index },
-    type: Actions.REMOVE_COMMAND,
-});
-
-export const updateCurrentLabel = (label: string): ActionTypes => ({
-    payload: { label },
-    type: Actions.UPDATE_CURRENT_LABEL,
-});
-
-export const updateCurrentCommand = (command: string): ActionTypes => ({
-    payload: { command },
-    type: Actions.UPDATE_CURRENT_COMMAND,
-});
-
-export const updateStatus = (update: Partial<IAppState['update']>): ActionTypes => ({
-    payload: { update },
-    type: Actions.UPDATE_STATUS,
-});
-
-export const updateTheme = (theme: IAppState['theme']): ActionTypes => ({
-    payload: { theme },
-    type: Actions.UPDATE_THEME,
-});

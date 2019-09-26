@@ -12,7 +12,7 @@ import Close from '@material-ui/icons/Close';
 /** REDUX */
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { IAppState, toggleHelp } from '../utils/app.reducer';
+import { IAppState, toggleHelp } from '../redux';
 
 /** REDUX PROPS */
 interface IStateProps {
