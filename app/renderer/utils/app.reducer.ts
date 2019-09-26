@@ -3,13 +3,13 @@
  */
 
 /** DEPENDENCIES */
-import { ipcRenderer as ipc } from "electron";
+import { ipcRenderer as ipc } from 'electron';
 import {
     IAction,
     ICommand,
     IPayload,
     IUpdateStatus,
-} from "./types";
+} from './types';
 
 /** SHAPE OF THE APPLICATION STATE */
 export interface IAppState {
@@ -26,7 +26,7 @@ export interface IAppState {
     /** Whether the help dialog is displayed */
     help: boolean;
     /** The apps current color theme */
-    theme: "dark" | "light";
+    theme: 'dark' | 'light';
     /** Whether the updater dialog is displayed */
     updater: boolean;
     /** Software update status */
@@ -37,19 +37,19 @@ export interface IAppState {
 
 /** HELPERS */
 const EMPTY_COMMAND: ICommand = {
-    command: "",
-    label: "",
+    command: '',
+    label: '',
 };
 
 /** DEFAULT/INITIAL STATE OF THE APPLICATION */
 const initialState: IAppState = {
     command: { ...EMPTY_COMMAND },
-    commands: ipc.sendSync("commandsSync:get") || [],
+    commands: ipc.sendSync('commandsSync:get') || [],
     creating: false,
     editor: false,
     help: false,
     index: 0,
-    theme: ipc.sendSync("themeSync:get") || "light",
+    theme: ipc.sendSync('themeSync:get') || 'light',
     update: {
         attempted: false,
         available: false,
@@ -62,17 +62,17 @@ const initialState: IAppState = {
 
 /** ALL ACTIONS TO INTERACT WITH STATE */
 enum Actions {
-    CANCEL_EDIT = "CANCEL_EDIT",
-    CREATE_COMMAND = "CREATE_COMMAND",
-    EDIT_COMMAND = "EDIT_COMMAND",
-    SAVE_COMMAND = "SAVE_COMMAND",
-    TOGGLE_HELP = "TOGGLE_HELP",
-    TOGGLE_UPDATE = "TOGGLE_UPDATE",
-    UPDATE_CURRENT_LABEL = "UPDATE_CURRENT_LABEL",
-    UPDATE_CURRENT_COMMAND = "UPDATE_CURRENT_COMMAND",
-    REMOVE_COMMAND = "REMOVE_COMMAND",
-    UPDATE_STATUS = "UPDATE_STATUS",
-    UPDATE_THEME = "UPDATE_THEME",
+    CANCEL_EDIT = 'CANCEL_EDIT',
+    CREATE_COMMAND = 'CREATE_COMMAND',
+    EDIT_COMMAND = 'EDIT_COMMAND',
+    SAVE_COMMAND = 'SAVE_COMMAND',
+    TOGGLE_HELP = 'TOGGLE_HELP',
+    TOGGLE_UPDATE = 'TOGGLE_UPDATE',
+    UPDATE_CURRENT_LABEL = 'UPDATE_CURRENT_LABEL',
+    UPDATE_CURRENT_COMMAND = 'UPDATE_CURRENT_COMMAND',
+    REMOVE_COMMAND = 'REMOVE_COMMAND',
+    UPDATE_STATUS = 'UPDATE_STATUS',
+    UPDATE_THEME = 'UPDATE_THEME',
 }
 
 type ActionTypes =
@@ -85,8 +85,8 @@ type ActionTypes =
     IPayload<Actions.REMOVE_COMMAND, { index: number}> |
     IPayload<Actions.UPDATE_CURRENT_LABEL, { label: string }> |
     IPayload<Actions.UPDATE_CURRENT_COMMAND, { command: string }> |
-    IPayload<Actions.UPDATE_STATUS, { update: Partial<IAppState["update"]> }> |
-    IPayload<Actions.UPDATE_THEME, { theme: IAppState["theme"] }>;
+    IPayload<Actions.UPDATE_STATUS, { update: Partial<IAppState['update']> }> |
+    IPayload<Actions.UPDATE_THEME, { theme: IAppState['theme'] }>;
 
 export const reducer = (
     state: IAppState = initialState,
@@ -128,7 +128,7 @@ export const reducer = (
                     editor: false,
                 };
             }
-            ipc.sendSync("commandsSync:set", newState.commands);
+            ipc.sendSync('commandsSync:set', newState.commands);
             return newState;
         case Actions.EDIT_COMMAND:
             const command = action.payload.index < state.commands.length ?
@@ -148,7 +148,7 @@ export const reducer = (
                     ...state.commands.slice(action.payload.index + 1),
                 ],
             };
-            ipc.sendSync("commandsSync:set", removeState.commands);
+            ipc.sendSync('commandsSync:set', removeState.commands);
             return removeState;
         case Actions.UPDATE_CURRENT_LABEL:
             return {
@@ -207,12 +207,12 @@ export const updateCurrentCommand = (command: string): ActionTypes => ({
     type: Actions.UPDATE_CURRENT_COMMAND,
 });
 
-export const updateStatus = (update: Partial<IAppState["update"]>): ActionTypes => ({
+export const updateStatus = (update: Partial<IAppState['update']>): ActionTypes => ({
     payload: { update },
     type: Actions.UPDATE_STATUS,
 });
 
-export const updateTheme = (theme: IAppState["theme"]): ActionTypes => ({
+export const updateTheme = (theme: IAppState['theme']): ActionTypes => ({
     payload: { theme },
     type: Actions.UPDATE_THEME,
 });

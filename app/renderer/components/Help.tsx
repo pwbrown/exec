@@ -1,18 +1,18 @@
 /** REACT */
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
 /** MATERIAL */
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import IconButton from "@material-ui/core/IconButton";
-import Close from "@material-ui/icons/Close";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import IconButton from '@material-ui/core/IconButton';
+import Close from '@material-ui/icons/Close';
 
 /** REDUX */
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { IAppState, toggleHelp } from "./app.reducer";
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { IAppState, toggleHelp } from '../utils/app.reducer';
 
 /** REDUX PROPS */
 interface IStateProps {
@@ -43,7 +43,7 @@ const Help: FC<IStateProps & IDispatchProps> = (props) => {
                 </DialogContentText>
                 <DialogContentText>
                     - <strong>NOTE:</strong> All commands will execute in a remote terminal
-                    window using the context of your "HOME" directory.
+                    window using the context of your 'HOME' directory.
                 </DialogContentText>
             </DialogContent>
         </Dialog>

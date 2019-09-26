@@ -1,24 +1,24 @@
 /** REACT */
-import React, { ChangeEvent, FC } from "react";
+import React, { ChangeEvent, FC } from 'react';
 
 /** MATERIAL */
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
 
 /** REDUX */
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import {
     cancelEdit,
     IAppState,
     saveCommand,
     updateCurrentCommand,
     updateCurrentLabel,
-} from "./app.reducer";
+} from '../utils/app.reducer';
 
 /** TYPES */
 type TextEvent = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
@@ -48,38 +48,38 @@ const CommandEditor: FC<IStateProps & IDispatchProps> = (props) => {
             <DialogTitle
                 style={{ paddingBottom: 0 }}
             >
-                {props.creating ? "Create a" : "Edit"} Commmand
+                {props.creating ? 'Create a' : 'Edit'} Commmand
             </DialogTitle>
             <DialogContent>
                 <TextField
-                    label="Display Name"
+                    label='Display Name'
                     fullWidth={true}
-                    margin="normal"
-                    variant="outlined"
+                    margin='normal'
+                    variant='outlined'
                     value={props.label}
                     onChange={updateLabel}
                 />
                 <TextField
-                    label="Command"
+                    label='Command'
                     fullWidth={true}
                     multiline={true}
-                    margin="normal"
-                    variant="outlined"
+                    margin='normal'
+                    variant='outlined'
                     value={props.command}
                     onChange={updateCommand}
                 />
             </DialogContent>
             <DialogActions>
                 <Button
-                    color="secondary"
-                    variant="outlined"
+                    color='secondary'
+                    variant='outlined'
                     onClick={cancel}
                 >
                     Cancel
                 </Button>
                 <Button
-                    color="default"
-                    variant="outlined"
+                    color='default'
+                    variant='outlined'
                     onClick={save}
                 >
                     Save

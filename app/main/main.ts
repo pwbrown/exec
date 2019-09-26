@@ -1,20 +1,20 @@
 /** ELECTRON */
-import { app } from "electron";
+import { app } from 'electron';
 
-/** UTILITIES */
-import "./commands";
-import "./theme";
-import { CheckForUpdates } from "./updater";
-import { Window } from "./window";
+/** SERVICES */
+import './services/commands';
+import './services/theme';
+import { CheckForUpdates } from './services/updater';
+import { Window } from './services/window';
 
 /*********************** INITIALIZE GLOBALS **************************/
 
 /** Main Window Instance */
-global.mainWindow = new Window("main", "app.html", {
+global.mainWindow = new Window('main', 'app.html', {
     height: 500,
     minHeight: 450,
     minWidth: 290,
-    titleBarStyle: "hiddenInset",
+    titleBarStyle: 'hiddenInset',
     webPreferences: { nodeIntegration: true },
     width: 500,
 });
@@ -22,7 +22,7 @@ global.mainWindow = new Window("main", "app.html", {
 /*********************** HANDLE APPLICATION EVENTS ********************/
 
 /** Entry point of the application */
-app.on("ready", async () => {
+app.on('ready', async () => {
     global.mainWindow.open();
     /** Start update check interval after a short delay */
     setTimeout(() => {
@@ -31,6 +31,6 @@ app.on("ready", async () => {
 });
 
 /** Close the application on window close */
-app.on("window-all-closed", () => {
+app.on('window-all-closed', () => {
     app.quit();
 });

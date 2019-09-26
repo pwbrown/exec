@@ -1,16 +1,20 @@
+/**
+ * Exposes a helper class for managing a window instance
+ */
+
 /** ELECTRON */
 import {
     BrowserWindow,
     BrowserWindowConstructorOptions,
     Rectangle,
     screen,
-} from "electron";
+} from 'electron';
 
 /** NODE */
-import { join } from "path";
+import { join } from 'path';
 
 /** UTILITIES */
-import Store from "electron-store";
+import Store from 'electron-store';
 
 /** Window Manager */
 export class Window {
@@ -23,7 +27,7 @@ export class Window {
     constructor(id: string, fileInAssets: string, config: BrowserWindowConstructorOptions) {
         this.id = id;
         this.config = config;
-        this.file = join(__dirname, "../assets", fileInAssets);
+        this.file = join(__dirname, '../../assets', fileInAssets);
         this.store = new Store({ name: `window_${this.id}` });
     }
 
@@ -37,10 +41,10 @@ export class Window {
         /** Create the window */
         this.window = new BrowserWindow({ ...this.config, show: false });
         /** Track window state */
-        this.window.on("resize", () => this.trackResize());
-        this.window.on("move", () => this.trackResize());
+        this.window.on('resize', () => this.trackResize());
+        this.window.on('move', () => this.trackResize());
         /** Show the window when it has finished loading */
-        this.window.on("ready-to-show", () => {
+        this.window.on('ready-to-show', () => {
             if (this.window) {
                 this.window.show();
             }
@@ -63,7 +67,7 @@ export class Window {
      */
     private trackResize() {
         if (this.window) {
-            this.store.set("state", this.window.getBounds());
+            this.store.set('state', this.window.getBounds());
         }
     }
 
@@ -72,7 +76,7 @@ export class Window {
      * the window and verifies that it is usable
      */
     private retrieveStoredBounds(): Rectangle | null {
-        const state = this.store.get("state", null);
+        const state = this.store.get('state', null);
         if (!state) {
             return state;
         }

@@ -1,5 +1,5 @@
 /** UPDATER */
-import { ProgressInfo, UpdateInfo} from "builder-util-runtime";
+import { ProgressInfo, UpdateInfo} from 'builder-util-runtime';
 
 /** Shape of an individual Command */
 export interface ICommand {

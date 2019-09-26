@@ -1,23 +1,23 @@
 /** REACT */
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
 /** MATERIAL */
-import createMuiTheme, { Theme } from "@material-ui/core/styles/createMuiTheme";
-import ThemeProvider from "@material-ui/styles/ThemeProvider";
+import createMuiTheme, { Theme } from '@material-ui/core/styles/createMuiTheme';
+import ThemeProvider from '@material-ui/styles/ThemeProvider';
 
 /** REDUX */
-import { connect } from "react-redux";
-import { IAppState } from "./app.reducer";
+import { connect } from 'react-redux';
+import { IAppState } from '../utils/app.reducer';
 
 /** THEMES */
 const THEMES = {
-    dark: createMuiTheme({ palette: { type: "dark" } }),
-    light: createMuiTheme({ palette: { type: "light" } }),
+    dark: createMuiTheme({ palette: { type: 'dark' } }),
+    light: createMuiTheme({ palette: { type: 'light' } }),
 };
 
 /** REDUX PROPS */
 interface IStateProps {
-    theme: IAppState["theme"];
+    theme: IAppState['theme'];
 }
 
 const Theme: FC<IStateProps> = (props) => {
