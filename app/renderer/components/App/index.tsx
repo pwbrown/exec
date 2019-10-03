@@ -13,8 +13,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { AppStyles } from './app.styles';
 
 /** COMPONENTS */
-import CommandList from '../CommandList';
 import CommandEditor from '../CommandEditor';
+import CommandList from '../CommandList';
 import Help from '../Help';
 import Menu from '../Menu';
 import Theme from '../Theme';

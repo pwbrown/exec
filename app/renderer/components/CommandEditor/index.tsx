@@ -52,11 +52,6 @@ const CommandEditor: FC<Props> = (props) => {
                     value={props.command.command}
                     onChange={updateCommand}
                 />
-                {/*}
-                <ArgumentEditor/>
-                <SuggestedArgumentList/>
-                <ArgumentList/>
-                {*/}
             </DialogContent>
             <DialogActions>
                 <Button
