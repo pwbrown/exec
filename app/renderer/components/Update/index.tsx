@@ -14,26 +14,18 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
 import Check from '@material-ui/icons/Check';
 import Close from '@material-ui/icons/Close';
-import makeStyles from '@material-ui/styles/makeStyles';
 
-/** REDUX */
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { IAppState, toggleUpdate } from '../redux';
+/** TOOLS */
+import { bts } from '../../utils/tools';
 
-/** REDUX PROPS */
-interface IStateProps {
-    open: boolean;
-    update: IAppState['update'];
-}
-interface IDispatchProps {
-    close: () => void;
-}
+/** PROPS & STYLES */
+import { Connected, Props } from './update.props';
+import { UpdateStyles } from './update.styles';
 
-export const Update: FC<IStateProps & IDispatchProps> = (props) => {
-    const classes = Styles();
+export const Update: FC<Props> = (props) => {
+    const classes = UpdateStyles();
     const close = () => props.close();
-    const { attempted, checking, available, next, progress } = props.update;
+    const { attempted, checking, available, next, progress } = props.status;
 
     const CheckOrApply = () => {
         if (available) {
@@ -114,49 +106,4 @@ export const Update: FC<IStateProps & IDispatchProps> = (props) => {
     );
 };
 
-/** UTILS */
-
-/** Converts bytes to a readable size */
-const bts = (bytes: number) => {
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    if (bytes === 0) {
-        return 'n/a';
-    }
-    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString(), 10);
-    if (i === 0) {
-        return `${bytes} ${sizes[i]})`;
-    }
-    return `${(bytes / (1024 ** i)).toFixed(1)} ${sizes[i]}`;
-};
-
-/** STYLES */
-const Styles = makeStyles({
-    button: {
-        margin: '10px 0px',
-    },
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    latest: {
-        display: 'flex',
-        flexDirection: 'row',
-        margin: '10px 0px',
-    },
-    progress: {
-        display: 'flex',
-        flexDirection: 'column',
-        margin: '20px 0px',
-    },
-});
-
-/** REDUX MAPS */
-const mapStateToProps = (state: IAppState): IStateProps => ({
-    open: state.updater,
-    update: state.update,
-});
-const mapDispatchToProps = (d: Dispatch): IDispatchProps => ({
-    close: () => d(toggleUpdate()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Update);
+export default Connected(Update);

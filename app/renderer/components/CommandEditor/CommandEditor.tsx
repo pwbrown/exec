@@ -13,22 +13,27 @@ import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import {
-    cancelEdit,
+    cancelCommandEdit,
     IAppState,
     saveCommand,
-    updateCurrentCommand,
-    updateCurrentLabel,
-} from '../redux';
+    updateCommandCommand,
+    updateCommandLabel,
+} from '../../redux';
+import { ICommand } from '../../utils/types';
+
+/** COMPONENTS */
+import ArgumentEditor from './ArgumentEditor';
+import ArgumentList from './ArgumentList';
+import SuggestedArgumentList from './SuggestedArgumentList';
 
 /** TYPES */
 type TextEvent = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
 /** REDUX PROPS */
 interface IStateProps {
-    open: boolean;
-    creating: boolean;
-    label: string;
-    command: string;
+    show: boolean;
+    editing: boolean;
+    command: ICommand;
 }
 
 interface IDispatchProps {
@@ -44,11 +49,11 @@ const CommandEditor: FC<IStateProps & IDispatchProps> = (props) => {
     const updateLabel = (e: TextEvent) => props.updateLabel(e.currentTarget.value);
     const updateCommand = (e: TextEvent) => props.updateCommand(e.currentTarget.value);
     return (
-        <Dialog open={props.open} fullWidth={true}>
+        <Dialog open={props.show} fullScreen={true}>
             <DialogTitle
-                style={{ paddingBottom: 0 }}
+                style={{ paddingBottom: 0, paddingTop: 40 }}
             >
-                {props.creating ? 'Create a' : 'Edit'} Commmand
+                {props.editing ? 'Edit' : 'Create a'} Commmand
             </DialogTitle>
             <DialogContent>
                 <TextField
@@ -56,7 +61,7 @@ const CommandEditor: FC<IStateProps & IDispatchProps> = (props) => {
                     fullWidth={true}
                     margin='normal'
                     variant='outlined'
-                    value={props.label}
+                    value={props.command.label}
                     onChange={updateLabel}
                 />
                 <TextField
@@ -65,9 +70,12 @@ const CommandEditor: FC<IStateProps & IDispatchProps> = (props) => {
                     multiline={true}
                     margin='normal'
                     variant='outlined'
-                    value={props.command}
+                    value={props.command.command}
                     onChange={updateCommand}
                 />
+                <ArgumentEditor/>
+                <SuggestedArgumentList/>
+                <ArgumentList/>
             </DialogContent>
             <DialogActions>
                 <Button
@@ -90,17 +98,16 @@ const CommandEditor: FC<IStateProps & IDispatchProps> = (props) => {
 };
 
 /** REDUX MAPS */
-const mapStateToProps = ({ creating, editor, command }: IAppState): IStateProps => ({
-    command: command.command,
-    creating,
-    label: command.label,
-    open: editor,
+const mapStateToProps = (state: IAppState): IStateProps => ({
+    command: state.commandEditorState.command,
+    editing: state.commandEditorState.editing,
+    show: state.commandEditorState.show,
 });
 const mapDispatchToProps = (d: Dispatch): IDispatchProps => ({
-    cancel: () => d(cancelEdit()),
+    cancel: () => d(cancelCommandEdit()),
     save: () => d(saveCommand()),
-    updateCommand: (command: string) => d(updateCurrentCommand(command)),
-    updateLabel: (label: string) => d(updateCurrentLabel(label)),
+    updateCommand: (command: string) => d(updateCommandCommand(command)),
+    updateLabel: (label: string) => d(updateCommandLabel(label)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommandEditor);

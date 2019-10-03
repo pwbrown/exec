@@ -9,20 +9,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
 
-/** REDUX */
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { IAppState, toggleHelp } from '../redux';
+/** PROPS */
+import { Connected, Props } from './help.props';
 
-/** REDUX PROPS */
-interface IStateProps {
-    open: boolean;
-}
-interface IDispatchProps {
-    close: () => void;
-}
-
-const Help: FC<IStateProps & IDispatchProps> = (props) => {
+const Help: FC<Props> = (props) => {
     const close = () => props.close();
     return (
         <Dialog open={props.open} onClose={close} fullWidth={true}>
@@ -50,12 +40,4 @@ const Help: FC<IStateProps & IDispatchProps> = (props) => {
     );
 };
 
-/** REDUX MAPS */
-const mapStateToProps = (state: IAppState): IStateProps => ({
-    open: state.help,
-});
-const mapDispatchToProps = (d: Dispatch): IDispatchProps => ({
-    close: () => d(toggleHelp()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Help);
+export default Connected(Help);

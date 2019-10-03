@@ -5,9 +5,8 @@ import React, { FC } from 'react';
 import createMuiTheme, { Theme } from '@material-ui/core/styles/createMuiTheme';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
 
-/** REDUX */
-import { connect } from 'react-redux';
-import { IAppState } from '../redux';
+/** PROPS */
+import { Connected, Props } from './theme.props';
 
 /** THEMES */
 const THEMES = {
@@ -15,12 +14,7 @@ const THEMES = {
     light: createMuiTheme({ palette: { type: 'light' } }),
 };
 
-/** REDUX PROPS */
-interface IStateProps {
-    theme: IAppState['theme'];
-}
-
-const Theme: FC<IStateProps> = (props) => {
+const Theme: FC<Props> = (props) => {
     return (
         <ThemeProvider theme={THEMES[props.theme]}>
             {props.children}
@@ -28,9 +22,4 @@ const Theme: FC<IStateProps> = (props) => {
     );
 };
 
-/** REDUX MAPS */
-const mapStateToProps = (state: IAppState): IStateProps => ({
-    theme: state.theme,
-});
-
-export default connect(mapStateToProps)(Theme);
+export default Connected(Theme);

@@ -1,34 +1,30 @@
 /** ELECTRON */
 import { ipcRenderer as ipc, IpcRendererEvent } from 'electron';
 
-/** REDUX */
-import { Store } from 'redux';
-import { IAppState, updateStatus, updateTheme } from '../redux';
+/** REDUX & TYPES */
+import { Store } from '../store';
+import { setTheme, setUpdateStatus } from '../store/actions';
+import { State } from '../store/reducers';
+import { IUpdateState, IUpdateStatus, Theme } from '../store/types';
 
-/** MISC */
-import { IUpdateStatus } from './types';
+/***************************** INITIALIZE BACKGROUND *****************************/
 
-const run = (store: Store): void => {
-    /** Get the initial software update status */
-    store.dispatch(updateStatus(ipc.sendSync('updaterSync:status')));
+/** Get the initial software update status */
+Store.dispatch(setUpdateStatus(ipc.sendSync('updaterSync:status')));
 
-    /** Listen for software update status events */
-    ipc.on('updater:status', (_: IpcRendererEvent, update: IUpdateStatus) => {
-        const wasChecking: boolean = (store.getState() as IAppState).update.checking;
-        const nextUpdate: Partial<IAppState['update']> = { ...update };
-        if (wasChecking && !update.checking) {
-            nextUpdate.attempted = true;
-        }
-        store.dispatch(updateStatus(nextUpdate));
-    });
+/** Listen for software update status events */
+ipc.on('updater:status', (_: IpcRendererEvent, update: IUpdateStatus) => {
+    const wasChecking: boolean = (Store.getState() as State).update.status.checking;
+    const nextUpdate: Partial<IUpdateState['status']> = { ...update };
+    if (wasChecking && !update.checking) {
+        nextUpdate.attempted = true;
+    }
+    Store.dispatch(setUpdateStatus(nextUpdate));
+});
 
-    /** Listen for theme changes */
-    ipc.on('theme:changed', (_: IpcRendererEvent, theme?: IAppState['theme']) => {
-        if (theme) {
-            store.dispatch(updateTheme(theme));
-        }
-    });
-
-};
-
-export default run;
+/** Listen for theme changes */
+ipc.on('theme:changed', (_: IpcRendererEvent, theme?: Theme) => {
+    if (theme) {
+        Store.dispatch(setTheme(theme));
+    }
+});

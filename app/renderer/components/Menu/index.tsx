@@ -10,22 +10,10 @@ import Add from '@material-ui/icons/Add';
 import HelpOutline from '@material-ui/icons/HelpOutline';
 import Update from '@material-ui/icons/Update';
 
-/** REDUX */
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { createCommand, IAppState, toggleHelp, toggleUpdate } from '../redux';
+/** PROPS */
+import { Connected, Props } from './menu.props';
 
-/** REDUX PROPS */
-interface IStateProps {
-    updateAvailable: boolean;
-}
-interface IDispatchProps {
-    create: () => void;
-    help: () => void;
-    update: () => void;
-}
-
-const Controls: FC<IStateProps & IDispatchProps> = (props) => {
+const Menu: FC<Props> = (props) => {
     const create = () => props.create();
     const help = () => props.help();
     const update = () => props.update();
@@ -62,14 +50,4 @@ const Controls: FC<IStateProps & IDispatchProps> = (props) => {
     );
 };
 
-/** REDUX MAPS */
-const mapStateToProps = (state: IAppState): IStateProps => ({
-    updateAvailable: state.update.available,
-});
-const mapDispatchToProps = (d: Dispatch): IDispatchProps => ({
-    create: () => d(createCommand()),
-    help: () => d(toggleHelp()),
-    update: () => d(toggleUpdate()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Controls);
+export default Connected(Menu);
