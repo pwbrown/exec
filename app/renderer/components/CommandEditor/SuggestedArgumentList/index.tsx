@@ -7,24 +7,13 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Add from '@material-ui/icons/Add';
 
-/** REDUX */
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { createArgument, IAppState } from '../../redux';
-import { ICommand } from '../../utils/types';
+/** PROPS */
+import { Connected, Props } from './suggestedArgumentList.props';
 
-/** UTILITES */
-import { FindAllMatches } from '../../utils/tools';
+/** TOOLS */
+import { FindAllMatches } from '../../../utils/tools';
 
-/** REDUX PROPS */
-interface IStateProps {
-    command: ICommand;
-}
-interface IDispatchProps {
-    create: (id: string) => void;
-}
-
-const SuggestedArgumentList: FC<IStateProps & IDispatchProps> = (props) => {
+const SuggestedArgumentList: FC<Props> = (props) => {
     const { command, args = [] } = props.command;
     const search = /\{\{\s*([^} ]+)\s*\}\}/g; // Mustache syntax finder
     const matches = FindAllMatches(command, search, 1, args.map((a) => a.id));
@@ -62,12 +51,4 @@ const SuggestedArgumentList: FC<IStateProps & IDispatchProps> = (props) => {
     );
 };
 
-/** REDUX MAPS */
-const stateToProps = (state: IAppState): IStateProps => ({
-    command: state.commandEditorState.command,
-});
-const dispatchToProps = (d: Dispatch): IDispatchProps => ({
-    create: (id: string) => d(createArgument(id)),
-});
-
-export default connect(stateToProps, dispatchToProps)(SuggestedArgumentList);
+export default Connected(SuggestedArgumentList);

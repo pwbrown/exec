@@ -14,7 +14,7 @@ export interface ICommandEditorState {
 export enum CommandEditorActions {
     CREATE_COMMAND = 'CREATE_COMMAND',
     EDIT_COMMAND = 'EDIT_COMMAND',
-    CANCEL_COMMAND_EDIT = 'CANCEL_COMMAND_EDIT',
+    CLOSE_COMMAND_EDITOR = 'CLOSE_COMMAND_EDITOR',
     UPDATE_COMMAND_LABEL = 'UPDATE_COMMAND_LABEL',
     UPDATE_COMMAND_COMMAND = 'UPDATE_COMMAND_COMMAND',
 }
@@ -23,6 +23,6 @@ export enum CommandEditorActions {
 export type CommandEditorActionTypes =
     IAction<CommandEditorActions.CREATE_COMMAND> |
     IPayload<CommandEditorActions.EDIT_COMMAND, { index: number, command: ICommand }> |
-    IAction<CommandEditorActions.CANCEL_COMMAND_EDIT> |
+    IAction<CommandEditorActions.CLOSE_COMMAND_EDITOR> |
     IPayload<CommandEditorActions.UPDATE_COMMAND_LABEL, { label: string }> |
     IPayload<CommandEditorActions.UPDATE_COMMAND_COMMAND, { command: string }>;

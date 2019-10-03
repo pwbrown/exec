@@ -25,15 +25,17 @@ export const AppReducer = (
         case AppActions.SET_THEME:
             return { ...state, theme: action.payload.theme };
         case AppActions.ADD_COMMAND:
-            return {
+            const addState: IAppState = {
                 ...state,
                 commands: [
                     ...state.commands,
                     action.payload.command,
                 ],
             };
+            ipc.sendSync('commandsSync:set', addState.commands);
+            return addState;
         case AppActions.UPDATE_COMMAND:
-            return {
+            const updateState: IAppState = {
                 ...state,
                 commands: [
                     ...state.commands.slice(0, action.payload.index),
@@ -41,14 +43,18 @@ export const AppReducer = (
                     ...state.commands.slice(action.payload.index + 1),
                 ],
             };
+            ipc.sendSync('commandsSync:set', updateState.commands);
+            return updateState;
         case AppActions.REMOVE_COMMAND:
-            return {
+            const removeState: IAppState = {
                 ...state,
                 commands: [
                     ...state.commands.slice(0, action.payload.index),
                     ...state.commands.slice(action.payload.index + 1),
                 ],
             };
+            ipc.sendSync('commandsSync:set', removeState.commands);
+            return removeState;
         default:
             return state;
     }

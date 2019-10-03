@@ -25,7 +25,7 @@ export const CommandEditorReducer = (
     action: CommandEditorActionTypes,
 ): ICommandEditorState => {
     switch (action.type) {
-        case CommandEditorActions.CANCEL_COMMAND_EDIT:
+        case CommandEditorActions.CLOSE_COMMAND_EDITOR:
             return { ...state, show: false };
         case CommandEditorActions.CREATE_COMMAND:
             return {

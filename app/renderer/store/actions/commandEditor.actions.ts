@@ -5,8 +5,8 @@ import {
     ICommand,
 } from '../types';
 
-export const cancelCommandEdit = (): CommandEditorActionTypes => ({
-    type: CommandEditorActions.CANCEL_COMMAND_EDIT,
+export const closeCommandEditor = (): CommandEditorActionTypes => ({
+    type: CommandEditorActions.CLOSE_COMMAND_EDITOR,
 });
 
 export const createCommand = (): CommandEditorActionTypes => ({

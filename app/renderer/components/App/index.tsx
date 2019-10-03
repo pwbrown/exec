@@ -14,6 +14,7 @@ import { AppStyles } from './app.styles';
 
 /** COMPONENTS */
 import CommandList from '../CommandList';
+import CommandEditor from '../CommandEditor';
 import Help from '../Help';
 import Menu from '../Menu';
 import Theme from '../Theme';
@@ -30,6 +31,7 @@ const App: FC = () => {
                 <CssBaseline/>
                 <Help/>
                 <Update/>
+                <CommandEditor/>
                 <div className={classes.container}>
                     <Menu/>
                     <CommandList/>
