@@ -6,8 +6,8 @@ import {
     ArgumentType,
 } from '../types';
 
-export const cancelArgumentEdit = (): ArgumentEditorActionTypes => ({
-    type: ArgumentEditorActions.CANCEL_ARGUMENT_EDIT,
+export const closeArgumentEditor = (): ArgumentEditorActionTypes => ({
+    type: ArgumentEditorActions.CLOSE_ARGUMENT_EDITOR,
 });
 
 export const createArgument = (id?: string): ArgumentEditorActionTypes => ({
@@ -38,4 +38,9 @@ export const updateArgumentType = (type: ArgumentType): ArgumentEditorActionType
 export const updateArgumentValue = (value: string): ArgumentEditorActionTypes => ({
     payload: { value },
     type: ArgumentEditorActions.UPDATE_ARGUMENT_VALUE,
+});
+
+export const updateArgumentLabel = (label: string): ArgumentEditorActionTypes => ({
+    payload: { label },
+    type: ArgumentEditorActions.UPDATE_ARGUMENT_LABEL,
 });

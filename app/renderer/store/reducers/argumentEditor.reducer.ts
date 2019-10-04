@@ -10,6 +10,7 @@ import {
 /** Empty Argument */
 const EMPTY_ARGUMENT: Argument = {
     id: '',
+    label: '',
     type: ArgumentType.FREE_FORM,
     value: '{{VALUE}}',
 };
@@ -27,7 +28,7 @@ export const ArgumentEditorReducer = (
     action: ArgumentEditorActionTypes,
 ): IArgumentEditorState => {
     switch (action.type) {
-        case ArgumentEditorActions.CANCEL_ARGUMENT_EDIT:
+        case ArgumentEditorActions.CLOSE_ARGUMENT_EDITOR:
             return { ...state, show: false };
         case ArgumentEditorActions.CREATE_ARGUMENT:
             return {
@@ -77,6 +78,14 @@ export const ArgumentEditorReducer = (
                 argument: {
                     ...state.argument,
                     value: action.payload.value,
+                },
+            };
+        case ArgumentEditorActions.UPDATE_ARGUMENT_LABEL:
+            return {
+                ...state,
+                argument: {
+                    ...state.argument,
+                    label: action.payload.label,
                 },
             };
         default:

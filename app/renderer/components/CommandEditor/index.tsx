@@ -12,6 +12,11 @@ import TextField from '@material-ui/core/TextField';
 /** PROPS */
 import { Connected, Props } from './commandEditor.props';
 
+/** COMPONENTS */
+import ArgumentEditor from './ArgumentEditor';
+import ArgumentList from './ArgumentList';
+import SuggestedArgumentList from './SuggestedArgumentList';
+
 /** TYPES */
 type TextEvent = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -39,7 +44,7 @@ const CommandEditor: FC<Props> = (props) => {
                     label='Display Name'
                     fullWidth={true}
                     margin='normal'
-                    variant='outlined'
+                    variant='filled'
                     value={props.command.label}
                     onChange={updateLabel}
                 />
@@ -48,10 +53,13 @@ const CommandEditor: FC<Props> = (props) => {
                     fullWidth={true}
                     multiline={true}
                     margin='normal'
-                    variant='outlined'
+                    variant='filled'
                     value={props.command.command}
                     onChange={updateCommand}
                 />
+                <ArgumentEditor/>
+                <SuggestedArgumentList/>
+                <ArgumentList/>
             </DialogContent>
             <DialogActions>
                 <Button

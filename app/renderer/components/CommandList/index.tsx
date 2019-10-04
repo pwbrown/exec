@@ -1,8 +1,10 @@
 /** REACT */
-import React, { FC } from 'react';
+import React, { FC, Fragment } from 'react';
 
 /** MATERIAL */
+import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
 
 /** COMPONENTS */
 import Command from './Command';
@@ -20,9 +22,13 @@ const CommandList: FC<Props> = (props) => {
         return <div/>;
     } else {
         return (
-            <List>
-                {props.commands.map((c, i) => <Command key={clean(c.label)} command={c} index={i}/>)}
-            </List>
+            <Fragment>
+                <Typography variant='h5' style={{ marginTop: 10 }}>Commands</Typography>
+                <Divider style={{ margin: '5px 0px' }}/>
+                <List dense={true}>
+                    {props.commands.map((c, i) => <Command key={clean(c.label)} command={c} index={i}/>)}
+                </List>
+            </Fragment>
         );
     }
 };

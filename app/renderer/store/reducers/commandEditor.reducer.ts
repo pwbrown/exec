@@ -42,6 +42,43 @@ export const CommandEditorReducer = (
                 index: action.payload.index,
                 show: true,
             };
+        case CommandEditorActions.ADD_ARGUMENT:
+            const addExistArgs = state.command.args || [];
+            return {
+                ...state,
+                command: {
+                    ...state.command,
+                    args: [
+                        ...addExistArgs,
+                        action.payload.argument,
+                    ],
+                },
+            };
+        case CommandEditorActions.UPDATE_ARGUMENT:
+            const updateExistArgs = state.command.args || [];
+            return {
+                ...state,
+                command: {
+                    ...state.command,
+                    args: [
+                        ...updateExistArgs.slice(0, action.payload.index),
+                        action.payload.argument,
+                        ...updateExistArgs.slice(action.payload.index + 1),
+                    ],
+                },
+            };
+        case CommandEditorActions.REMOVE_ARGUMENT:
+            const removeExistArgs = state.command.args || [];
+            return {
+                ...state,
+                command: {
+                    ...state.command,
+                    args: [
+                        ...removeExistArgs.slice(0, action.payload.index),
+                        ...removeExistArgs.slice(action.payload.index + 1),
+                    ],
+                },
+            };
         case CommandEditorActions.UPDATE_COMMAND_COMMAND:
             return {
                 ...state,

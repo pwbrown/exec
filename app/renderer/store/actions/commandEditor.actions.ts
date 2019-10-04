@@ -1,5 +1,6 @@
 /** TYPES */
 import {
+    Argument,
     CommandEditorActions,
     CommandEditorActionTypes,
     ICommand,
@@ -16,6 +17,21 @@ export const createCommand = (): CommandEditorActionTypes => ({
 export const editCommand = (index: number, command: ICommand): CommandEditorActionTypes => ({
     payload: { index, command },
     type: CommandEditorActions.EDIT_COMMAND,
+});
+
+export const addArgument = (argument: Argument): CommandEditorActionTypes => ({
+    payload: { argument },
+    type: CommandEditorActions.ADD_ARGUMENT,
+});
+
+export const updateArgument = (index: number, argument: Argument): CommandEditorActionTypes => ({
+    payload: { index, argument },
+    type: CommandEditorActions.UPDATE_ARGUMENT,
+});
+
+export const removeArgument = (index: number): CommandEditorActionTypes => ({
+    payload: { index },
+    type: CommandEditorActions.REMOVE_ARGUMENT,
 });
 
 export const updateCommandCommand = (command: string): CommandEditorActionTypes => ({

@@ -1,0 +1,158 @@
+{
+	// Place your exec workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"PropsFile": {
+		"scope": "typescript",
+		"prefix": "exec:props",
+		"body": [
+			"/** REACT */",
+			"import { FC } from 'react';",
+			"",
+			"/** REDUX & TYPES */",
+			"import { connect } from 'react-redux';",
+			"import { Dispatch } from 'redux';",
+			"import { } from '$1../../store/actions';",
+			"import { State } from '$1../../store/reducers';",
+			"import { } from '$1../../store/types';",
+			"",
+			"interface IStateProps {",
+			"$0",
+			"}",
+			"",
+			"interface IDispatchProps {",
+			"",
+			"}",
+			"",
+			"export type Props = IStateProps & IDispatchProps;",
+			"",
+			"const mapStateToProps = (state: State): IStateProps => ({",
+			"",
+			"});",
+			"",
+			"const mapDispatchToProps = (d: Dispatch): IDispatchProps => ({",
+			"",
+			"});",
+			"",
+			"export const Connected = (comp: FC<Props>) => connect(mapStateToProps, mapDispatchToProps)(comp);",
+			""
+		],
+		"description": "Creates a new props file for a component"
+	},
+	"ComponentFile": {
+		"scope": "typescriptreact",
+		"prefix": "exec:component",
+		"body": [
+			"/** REACT */",
+			"import React, { FC } from 'react';",
+			"",
+			"/** MATERIAL */",
+			"",
+			"/** PROPS */",
+			"import { Connected, Props } from $1;",
+			"",
+			"const ${2:NewComponent}: FC<Props> = (props) => {",
+			"    return (",
+			"        ${0:<div/>}",
+			"    );",
+			"};",
+			"",
+			"export default Connected(${2:NewComponent});",
+			""
+		],
+		"description": "Creates a new component"
+	},
+	"StylesFile": {
+		"scope": "typescript",
+		"prefix": "exec:styles",
+		"body": [
+			"/** MATERIAL */",
+			"import makeStyles from '@material-ui/styles/makeStyles';",
+			"",
+			"export const ${1:Component}Styles = makeStyles({",
+			"$0",
+			"});",
+			""
+		],
+		"description": "Creates a new styles definition file for a component"
+	},
+	"ReduxTypes": {
+		"scope": "typescript",
+		"prefix": "exec:redux:types",
+		"body": [
+			"/** OTHER TYPES */",
+			"import { IAction, IPayload } from './redux.types';",
+			"",
+			"export interface I${1:NameHere}State {",
+			"\t$0",
+			"}",
+			"",
+			"export enum ${1:NameHere}Actions {",
+			"",
+			"}",
+			"",
+			"export type ${1:NameHere}ActionTypes = any;",
+			""
+		],
+		"description": "Creates a redux types file"
+	},
+	"ReduxReducer": {
+		"scope": "typescript",
+		"prefix": "exec:redux:reducer",
+		"body": [
+			"/** TYPES */",
+			"import {",
+			"    ${1:NameHere}Actions,",
+			"    ${1:NameHere}ActionTypes,",
+			"    I${1:NameHere}State,",
+			"} from '../types';",
+			"",
+			"/** Initial Argument Editor State */",
+			"const initial${1:NameHere}State: I${1:NameHere}State = {",
+			"\t$0",
+			"};",
+			"",
+			"export const ${1:NameHere}Reducer = (",
+			"    state: I${1:NameHere}State = initial${1:NameHere}State,",
+			"    action: ${1:NameHere}ActionTypes,",
+			"): I${1:NameHere}State => {",
+			"    switch (action.type) {",
+			"        default:",
+			"            return state;",
+			"    }",
+			"};",
+			""
+		],
+		"description": "Creates a redux reducer file based off of a redux types file"
+	},
+	"ReduxActions": {
+		"scope": "typescript",
+		"prefix": "exec:redux:actions",
+		"body": [
+			"/** TYPES */",
+			"import {",
+			"    ${1:NameHere}Actions,",
+			"    ${1:NameHere}ActionTypes,",
+			"} from '../types';",
+			"",
+			"export const ${3:ActionMethod} = (${4:Arguments_Here}): ${1:NameHere}ActionTypes => ({",
+			"    $0type: ${1:NameHere}Actions${2:.ACTION_HERE},",
+			"});",
+			"",
+		],
+		"description": "Creates a redux actions file based off redux types file"
+	}
+}
