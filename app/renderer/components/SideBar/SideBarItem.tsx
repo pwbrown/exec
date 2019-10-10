@@ -21,7 +21,7 @@ const SideBarItem: FC<IProps> = (props) => {
         if (typeof props.onClick === 'function') {
             props.onClick();
         }
-    }
+    };
     return (
         <ButtonBase onClick={click}>
             <Tooltip title={props.tip} placement='right'>
