@@ -7,6 +7,7 @@ const app = path => join(__dirname, '../', path);
 
 module.exports = {
     ...prodConfig,
+    mode: 'development',
     devtool: 'source-map',
     module: {
         rules: [

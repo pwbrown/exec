@@ -8,5 +8,6 @@
                 "suppressWhileTypeErrorsPresent": true
             }
         ]
-    }
+    },
+    "include": [ "./app/**/*" ]
 }
