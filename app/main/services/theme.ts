@@ -6,7 +6,7 @@
 /** ELECTRON */
 import { ipcMain as ipc, IpcMainEvent, systemPreferences } from 'electron';
 
-const CurrentTheme = () => systemPreferences.isDarkMode() ? 'dark' : 'light';
+const CurrentTheme = () => systemPreferences.isDarkMode() ? 'DARK' : 'LIGHT';
 
 /** LISTEN FOR SYSTEM THEME CHANGE */
 systemPreferences.subscribeNotification('AppleInterfaceThemeChangedNotification', () => {

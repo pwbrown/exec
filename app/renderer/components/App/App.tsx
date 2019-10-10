@@ -2,25 +2,36 @@
 import React, { FC } from 'react';
 import { render } from 'react-dom';
 
-/** MATERIAL */
-import CssBaseline from '@material-ui/core/CssBaseline';
+/** PROVIDERS */
+import Providers from '../Providers/Providers';
 
-/** REDUX */
-import { Provider as ReduxProvider } from 'react-redux';
+/** STYLES */
+import { useStyles } from './App.styles';
 
-/** HELPERS */
-import ThemeProvider from '../Helpers/ThemeProvider';
+/** COMPONENTS */
+import CommandEditor from '../CommandEditor/CommandEditor';
+import CommandList from '../CommandList/CommandList';
+import SideBar from '../SideBar/SideBar';
+import TitleBar from '../TitleBar/TitleBar';
 
-/** STORE */
-import { Store } from '../../store';
+/** Listen for Background Events */
+import '../../store/background';
 
 const App: FC = () => {
+    const classes = useStyles();
     return (
-        <ReduxProvider store={Store}>
-            <ThemeProvider>
-                <CssBaseline/>
-            </ThemeProvider>
-        </ReduxProvider>
+        <Providers>
+            <div className={classes.container}>
+                <TitleBar/>
+                <div className={classes.appContainer}>
+                    <SideBar/>
+                    <div className={classes.mainContainer}>
+                        <CommandEditor/>
+                        <CommandList/>
+                    </div>
+                </div>
+            </div>
+        </Providers>
     );
 };
 

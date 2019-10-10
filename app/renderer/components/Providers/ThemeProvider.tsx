@@ -1,6 +1,6 @@
 /**
  * PURPOSE:
- *  The purpose of this helper is to wrap the
+ *  The purpose of this provider is to wrap the
  *  material-ui theme provider to automatically
  *  update the theme with the redux store
  */

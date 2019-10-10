@@ -5,6 +5,9 @@ import {
     IPayload,
 } from '../types';
 
+/** ELECTRON */
+import { ipcRenderer as ipc } from 'electron';
+
 /** State */
 interface IState {
     /** Map of commands where the key is the command's id */
@@ -30,8 +33,10 @@ export enum Actions {
     ARCHIVE_COMMAND = 'ARCHIVE_COMMAND',
     DELETE_COMMAND = 'DELETE_COMMAND',
     RESTORE_COMMAND = 'RESTORE_COMMAND',
+    EXECUTE_COMMAND = 'EXECUTE_COMMAND',
     WIPE_COMMAND_ARCHIVE = 'WIPE_COMMAND_ARCHIVE',
     MOVE_COMMAND = 'MOVE_COMMAND',
+    CLOSE_COMMAND_EDITOR = 'CLOSE_COMMAND_EDITOR',
 }
 
 /** Combined Action Types */
@@ -42,8 +47,10 @@ export type ActionTypes =
     IPayload<Actions.ARCHIVE_COMMAND, { id: string }> |
     IPayload<Actions.DELETE_COMMAND, { id: string }> |
     IPayload<Actions.RESTORE_COMMAND, { id: string }> |
+    IPayload<Actions.EXECUTE_COMMAND, { id: string }> |
     IAction<Actions.WIPE_COMMAND_ARCHIVE> |
-    IPayload<Actions.MOVE_COMMAND, { id: string, to: number }>;
+    IPayload<Actions.MOVE_COMMAND, { id: string, to: number }> |
+    IAction<Actions.CLOSE_COMMAND_EDITOR>;
 
 /** Initial State */
 const initialState: IState = {
@@ -117,6 +124,12 @@ export const reducer = (
                 archive: [ ...state.archive.slice(0, ai), ...state.archive.slice(ai + 1) ],
                 order: [ ...state.order, action.payload.id ],
             };
+        case Actions.EXECUTE_COMMAND:
+            id = action.payload.id;
+            if ( state.commands[id].script ) {
+                ipc.send('commands:execute', state.commands[id].script);
+            }
+            return state;
         case Actions.WIPE_COMMAND_ARCHIVE:
             commands = state.commands;
             state.archive.forEach((cmdId) => delete commands[cmdId]);
@@ -125,6 +138,8 @@ export const reducer = (
                 archive: [],
                 commands,
             };
+        case Actions.CLOSE_COMMAND_EDITOR:
+            return { ...state, editor: { ...state.editor, id: null, show: false } };
         case Actions.MOVE_COMMAND:
         default:
             return state;

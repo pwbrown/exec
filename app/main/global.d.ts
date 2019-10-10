@@ -4,7 +4,7 @@
  */
 
 /** DEPENDENCIES */
-import { Window } from './services/window';
+import { Window } from './utils/window';
 
 /** GLOBAL NAMESPACE EXPANSION */
 declare global {
