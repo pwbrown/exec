@@ -2,6 +2,7 @@
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/styles/makeStyles';
 
+/* tslint:disable:object-literal-sort-keys object-literal-key-quotes */
 export const useStyles = makeStyles((theme: Theme) => ({
     container: {
         display: 'flex',
@@ -31,12 +32,12 @@ export const useStyles = makeStyles((theme: Theme) => ({
         '&::-webkit-scrollbar-track': {
             background: theme.palette.background.default,
         },
-        'bottom': 0,
-        'left': 0,
-        'overflow': 'auto',
-        'position': 'absolute',
-        'right': 0,
-        'top': 0,
+        bottom: 0,
+        left: 0,
+        overflow: 'auto',
+        position: 'absolute',
+        right: 0,
+        top: 0,
     },
     listOuter: {
         flex: 1,

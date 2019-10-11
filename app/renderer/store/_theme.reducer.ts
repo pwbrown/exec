@@ -24,7 +24,7 @@ export type ActionTypes =
 
 /** Initial State */
 const initialState: IState = {
-    current: Theme.LIGHT,
+    current: Theme.DARK,
 };
 
 /** Reducer */

@@ -2,7 +2,6 @@
 import React, { FC } from 'react';
 
 /** MATERIAL */
-import ButtonBase from '@material-ui/core/ButtonBase';
 import Tooltip from '@material-ui/core/Tooltip';
 
 /** STYLES */
@@ -23,13 +22,11 @@ const SideBarItem: FC<IProps> = (props) => {
         }
     };
     return (
-        <ButtonBase onClick={click}>
-            <Tooltip title={props.tip} placement='right'>
-                <div className={classes.container}>
-                    {props.icon}
-                </div>
-            </Tooltip>
-        </ButtonBase>
+        <Tooltip title={props.tip} placement='right'>
+            <div className={classes.container} onClick={click}>
+                {props.icon}
+            </div>
+        </Tooltip>
     );
 };
 

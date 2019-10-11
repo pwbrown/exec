@@ -93,7 +93,7 @@ export const reducer = (
                     [id]: action.payload.command,
                 },
                 editor: { id: null, show: false },
-                order: [ ...state.order, id ],
+                order: state.commands[id] ? state.order : [ ...state.order, id ],
             };
         case Actions.ARCHIVE_COMMAND:
             oi = state.order.indexOf(action.payload.id);
