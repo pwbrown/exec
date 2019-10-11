@@ -3,11 +3,13 @@
     "extends": [
         "tslint:recommended",
         "tslint-react",
-        "tslint-eslint-rules"
+        "tslint-eslint-rules",
+        "tslint-react-hooks"
     ],
     "jsRules": {},
     "rules": {
-        "quotemark": [true, "single"]
+        "quotemark": [true, "single"],
+        "react-hooks-nesting": "error"
     },
     "rulesDirectory": []
 }
