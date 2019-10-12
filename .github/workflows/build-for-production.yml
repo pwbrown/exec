@@ -28,7 +28,7 @@ jobs:
         run: npm run-script release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          CSC_LINK: .build/mac-cert.p12
+          CSC_LINK: .build/keys/mac-cert.p12
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}

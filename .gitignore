@@ -65,3 +65,4 @@ app/assets/js/exec.js
 app/assets/js/exec.js.map
 artifacts/
 .DS_Store
+.tests/
