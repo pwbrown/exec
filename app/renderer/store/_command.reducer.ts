@@ -54,13 +54,13 @@ export type ActionTypes =
 
 /** Initial State */
 const initialState: IState = {
-    archive: [],
-    commands: {},
+    archive: ipc.sendSync('commandsSync:get', 'archive') || [],
+    commands: ipc.sendSync('commandsSync:get', 'commands') || {},
     editor: {
         id: null,
         show: false,
     },
-    order: [],
+    order: ipc.sendSync('commandsSync:get', 'order') || [],
 };
 
 /** Reducer */
@@ -72,6 +72,7 @@ export const reducer = (
     let id: string; // Command Id
     let ai: number; // Archive index
     let oi: number; // Order index
+    let next: IState; // Next State
     let commands: { [id: string]: ICommand }; // Command map
     switch (action.type) {
         case Actions.CREATE_COMMAND:
@@ -86,44 +87,53 @@ export const reducer = (
             };
         case Actions.SAVE_COMMAND:
             id = action.payload.command.id;
-            return {
+            const isNew = !state.commands[id];
+            next = {
                 ...state,
                 commands: {
                     ...state.commands,
                     [id]: action.payload.command,
                 },
                 editor: { id: null, show: false },
-                order: [ ...state.order, id ],
+                order: isNew ? [ ...state.order, id ] : state.order,
             };
+            if (isNew) {
+                ipc.sendSync('commandsSync:set', 'order', next.order);
+            }
+            ipc.sendSync('commandsSync:set', 'commands', next.commands);
+            return next;
         case Actions.ARCHIVE_COMMAND:
             oi = state.order.indexOf(action.payload.id);
-            return {
+            next = {
                 ...state,
                 archive: [ ...state.archive, action.payload.id ],
                 order: [ ...state.order.slice(0, oi), ...state.order.slice(oi + 1) ],
             };
+            ipc.sendSync('commandsSync:set', 'order', next.order);
+            ipc.sendSync('commandsSync:set', 'archive', next.archive);
+            return next;
         case Actions.DELETE_COMMAND:
             ai = state.archive.indexOf(action.payload.id);
-            oi = state.order.indexOf(action.payload.id);
             commands = state.commands;
             delete commands[action.payload.id];
-            return {
+            next = {
                 ...state,
-                archive: ai !== -1 ?
-                    [ ...state.archive.slice(0, ai), ...state.archive.slice(ai + 1) ] :
-                    [ ...state.archive ],
+                archive: [ ...state.archive.slice(0, ai), ...state.archive.slice(ai + 1) ],
                 commands,
-                order: oi !== -1 ?
-                    [ ...state.order.slice(0, oi), ...state.order.slice(oi + 1) ] :
-                    [ ...state.order ],
             };
+            ipc.sendSync('commandsSync:set', 'archive', next.archive);
+            ipc.sendSync('commandsSync:set', 'commands', next.commands);
+            return next;
         case Actions.RESTORE_COMMAND:
             ai = state.archive.indexOf(action.payload.id);
-            return {
+            next = {
                 ...state,
                 archive: [ ...state.archive.slice(0, ai), ...state.archive.slice(ai + 1) ],
                 order: [ ...state.order, action.payload.id ],
             };
+            ipc.sendSync('commandsSync:set', 'order', next.order);
+            ipc.sendSync('commandsSync:set', 'archive', next.archive);
+            return next;
         case Actions.EXECUTE_COMMAND:
             id = action.payload.id;
             if ( state.commands[id].script ) {
@@ -133,11 +143,14 @@ export const reducer = (
         case Actions.WIPE_COMMAND_ARCHIVE:
             commands = state.commands;
             state.archive.forEach((cmdId) => delete commands[cmdId]);
-            return {
+            next = {
                 ...state,
                 archive: [],
                 commands,
             };
+            ipc.sendSync('commandsSync:set', 'archive', next.archive);
+            ipc.sendSync('commandsSync:set', 'commands', next.commands);
+            return next;
         case Actions.CLOSE_COMMAND_EDITOR:
             return { ...state, editor: { ...state.editor, id: null, show: false } };
         case Actions.MOVE_COMMAND:

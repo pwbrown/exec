@@ -12,14 +12,14 @@
     "watch:renderer": "webpack --watch --config ./app/renderer/webpack.config.dev.js",
     "compile:main": "tsc -p ./app/main/tsconfig.json",
     "compile:main:dev": "tsc -p ./app/main/tsconfig.dev.json",
-    "compile": "npm run-script clean && concurrently -n \"Main,Renderer\" -c \"green,yellow\" \"npm run-script compile:main\" \"npm run-script compile:renderer\"",
-    "compile:dev": "npm run-script clean && concurrently -n \"Main Dev, Renderer Dev\" -c \"green,yellow\" \"npm run-script compile:main:dev\" \"npm run-script compile:renderer:dev\"",
-    "local": "npm run-script compile && electron app/build/main.js",
-    "watch": "concurrently -n \"Main Watch,Renderer Watch\" -c \"magenta,cyan\" \"electron app/build/main.js\" \"npm run-script watch:renderer\"",
-    "dev": "npm run-script compile:dev && npm run-script watch",
+    "compile": "npm run clean && concurrently -n \"Main,Renderer\" -c \"green,yellow\" \"npm run compile:main\" \"npm run compile:renderer\"",
+    "compile:dev": "npm run clean && concurrently -n \"Main Dev, Renderer Dev\" -c \"green,yellow\" \"npm run compile:main:dev\" \"npm run compile:renderer:dev\"",
+    "local": "npm run compile && electron app/build/main.js",
+    "watch": "concurrently -n \"Main Watch,Renderer Watch\" -c \"magenta,cyan\" \"electron app/build/main.js\" \"npm run watch:renderer\"",
+    "dev": "npm run compile:dev && npm run watch",
     "clean": "node .build/scripts/clean.js",
-    "build": "npm run-script compile && electron-builder",
-    "release": "npm run-script compile && electron-builder"
+    "build": "npm run compile && electron-builder",
+    "release": "npm run compile && electron-builder"
   },
   "repository": {
     "type": "git",
@@ -60,6 +60,7 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
     "tslint-react": "^4.1.0",
+    "tslint-react-hooks": "^2.2.1",
     "typescript": "^3.6.3",
     "webpack": "^4.40.2",
     "webpack-cli": "^3.3.9"

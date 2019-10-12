@@ -26,7 +26,7 @@ const Themes = {
 };
 
 const ThemeProvider: FC = ({ children }) => {
-    const theme = useSelector((state: State) => state.theme.current);
+    const theme = useSelector((state: State) => state.settings.theme);
     return (
         <MuiThemeProvider theme={Themes[theme]}>
             {children}

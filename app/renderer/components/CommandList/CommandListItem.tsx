@@ -50,15 +50,24 @@ const CommandListItem: FC<IProps> = (props) => {
             dispatch(archiveCommand(props.command.id));
         }
     };
+    /** onClick wrapper to prevent click events underneath buttons */
+    const stopProp = (func: () => void) => (e: MouseEvent<HTMLButtonElement>) => {
+        func();
+        e.stopPropagation();
+    };
     const remove = () => dispatch(deleteCommand(props.command.id));
     const edit = () => dispatch(editCommand(props.command.id));
-    const execute = () => dispatch(executeCommand(props.command.id));
+    const execute = () => {
+        if (!props.archived) {
+            dispatch(executeCommand(props.command.id));
+        }
+    };
 
     const editActionButton = () => {
         if (!props.archived) {
             return (
                 <Tooltip title='Edit' placement='left'>
-                    <IconButton onClick={edit} {...actionProps}>
+                    <IconButton onClick={stopProp(edit)} {...actionProps}>
                         <Edit fontSize='inherit'/>
                     </IconButton>
                 </Tooltip>
@@ -68,8 +77,8 @@ const CommandListItem: FC<IProps> = (props) => {
 
     const toggleArchiveActionButton = () => {
         return (
-            <Tooltip title={props.archived ? 'Unarchive' : 'Archive'} placement='left'>
-                <IconButton onClick={toggleArchive} {...actionProps}>
+            <Tooltip title={props.archived ? 'Restore' : 'Archive'} placement='left'>
+                <IconButton onClick={stopProp(toggleArchive)} {...actionProps}>
                     {props.archived ? <Unarchive fontSize='inherit'/> : <Archive fontSize='inherit'/>}
                 </IconButton>
             </Tooltip>
@@ -80,7 +89,7 @@ const CommandListItem: FC<IProps> = (props) => {
         if (props.archived) {
             return (
                 <Tooltip title='Delete (Permanent)' placement='left'>
-                    <IconButton onClick={remove} {...actionProps}>
+                    <IconButton onClick={stopProp(remove)} {...actionProps}>
                         <Delete fontSize='inherit'/>
                     </IconButton>
                 </Tooltip>

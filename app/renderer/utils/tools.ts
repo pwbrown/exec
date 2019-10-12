@@ -32,3 +32,15 @@ export const bts = (bytes: number) => {
     }
     return `${(bytes / (1024 ** i)).toFixed(1)} ${sizes[i]}`;
 };
+
+export const uniqueId = (value: string, existing: string[]) => {
+    let i = 0;
+    let uid = value
+        .toLowerCase()
+        .replace(/[^a-z]|[aeiou]/gi, '')
+        .replace(/([a-z])\1+/gi, '$1');
+    while (existing.length && existing.indexOf(uid) !== -1) {
+        uid += ++i;
+    }
+    return uid;
+};

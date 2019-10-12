@@ -3,14 +3,12 @@ import { combineReducers, createStore} from 'redux';
 
 /** REDUCERS */
 import { reducer as command } from './_command.reducer';
-import { reducer as theme } from './_theme.reducer';
-import { reducer as update } from './_update.reducer';
+import { reducer as settings } from './_settings.reducer';
 
 /** Root Reducer */
 const rootReducer = combineReducers({
     command,
-    theme,
-    update,
+    settings,
 });
 
 /** Combined Reducer State */

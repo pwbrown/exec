@@ -3,5 +3,4 @@ export { Store, State } from './_app.store';
 
 /** Export All Actions */
 export * from './_command.actions';
-export * from './_theme.actions';
-export * from './_update.actions';
+export * from './_settings.actions';

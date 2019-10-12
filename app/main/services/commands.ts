@@ -11,18 +11,18 @@ import Store from 'electron-store';
 import { runInTerminal } from 'run-in-terminal';
 
 /** CONSTANTS */
-const COMMAND_STORE = new Store({ name: 'commands' });
+const COMMAND_STORE = new Store({ name: 'commands.v1' });
 
 /****************** EVENTS ********************/
 
 /** GET COMMANDS */
-ipc.on('commandsSync:get', (event: IpcMainEvent) => {
-    event.returnValue = COMMAND_STORE.get('commands');
+ipc.on('commandsSync:get', (event: IpcMainEvent, attr: string) => {
+    event.returnValue = COMMAND_STORE.get(attr, null);
 });
 
 /** SET COMMANDS */
-ipc.on('commandsSync:set', (event: IpcMainEvent, commands: any) => {
-    COMMAND_STORE.set('commands', commands);
+ipc.on('commandsSync:set', (event: IpcMainEvent, attr: string, value: any) => {
+    COMMAND_STORE.set(attr, value);
     event.returnValue = true;
 });
 
