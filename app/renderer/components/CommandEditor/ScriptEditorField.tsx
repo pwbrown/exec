@@ -18,8 +18,6 @@ interface IProps {
     onChange: EditorProps['onChange'];
 }
 
-const LINE_DECORATOR = '>';
-
 const ScriptEditorField: FC<IProps> = (props) => {
     const classes = useStyles();
     const [focused, setFocusState] = useState(false);
@@ -41,7 +39,6 @@ const LineDecorator: FC<any> = (props) => {
     const classes = useStyles();
     return (
         <div className={classes.line}>
-            <div className={classes.decorator}>{LINE_DECORATOR}</div>
             <div className={classes.lineContent}>
                 <EditorBlock {...props}/>
             </div>

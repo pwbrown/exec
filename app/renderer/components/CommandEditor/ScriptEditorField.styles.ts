@@ -37,12 +37,13 @@ export const useStyles = makeStyles((theme: Theme) => ({
     focused: {}, // DON'T REMOVE: referred in container['&$focused .DraftEditor-root'],
     line: {
         position: 'relative',
-    },
-    decorator: {
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        color: theme.palette.text.disabled,
+        '&::before': {
+            content: '">"',
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            color: theme.palette.text.disabled,
+        },
     },
     lineContent: {
         marginLeft: 15,
