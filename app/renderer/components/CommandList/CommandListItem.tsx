@@ -77,7 +77,7 @@ const CommandListItem: FC<IProps> = (props) => {
 
     const toggleArchiveActionButton = () => {
         return (
-            <Tooltip title={props.archived ? 'Unarchive' : 'Archive'} placement='left'>
+            <Tooltip title={props.archived ? 'Restore' : 'Archive'} placement='left'>
                 <IconButton onClick={stopProp(toggleArchive)} {...actionProps}>
                     {props.archived ? <Unarchive fontSize='inherit'/> : <Archive fontSize='inherit'/>}
                 </IconButton>

@@ -26,12 +26,10 @@ const CommandList: FC = () => {
     const toggleArchive = () => setShowArchive(!showArchive);
 
     useEffect(() => {
-        if (!order.length && !showArchive && archive.length) {
-            setShowArchive(true);
-        } else if (!archive.length && showArchive) {
+        if (!archive.length && showArchive) {
             setShowArchive(false);
         }
-    }, [order, archive]);
+    }, [archive]);
 
     const listCommands = () => order.map((id: string) => {
         const command = commands[id];
@@ -67,7 +65,7 @@ const CommandList: FC = () => {
                 <Button
                     color='secondary'
                     className={classes.headerButton}
-                    disabled={(!archive.length && !showArchive) || (!order.length && showArchive)}
+                    disabled={(!archive.length && !showArchive)}
                     onClick={toggleArchive}
                 >
                     {showArchive ? 'Commands' : 'Archive'}
