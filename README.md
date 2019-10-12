@@ -32,13 +32,3 @@ Desktop Application for managing and executing commonly used terminal commands
 3. Run `npm install`
 4. Run `npm run-script build`
 5. Open a File Explorer and navigate to the "artifacts" folder generated at the root of the app and choose the appropriate executable.
-
-### Screenshots
-
-***
-
-Click to view.
-
-[![create command](./.build/screenshots/create-command.png)](./.build/screenshots/create-command.png)
-[![command list](./.build/screenshots/command-list.png)](./.build/screenshots/command-list.png)
-[![command executed](./.build/screenshots/command-executed.png)](./.build/screenshots/command-executed.png)

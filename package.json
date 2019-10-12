@@ -1,6 +1,6 @@
 {
   "name": "exec",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Desktop Application for managing and executing commonly used terminal commands",
   "main": "app/build/main.js",
   "scripts": {
