@@ -3,7 +3,7 @@ import { app } from 'electron';
 
 /** SERVICES */
 import './services/commands';
-import './services/theme';
+import './services/settings';
 import { CheckForUpdates } from './services/updater';
 import { setApplicationMenu } from './utils/menu';
 import { Window } from './utils/window';

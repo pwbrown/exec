@@ -1,11 +1,19 @@
 /** TYPES */
-import { IUpdateStatus } from '../types';
+import {
+    IUpdateStatus,
+    Theme,
+} from '../types';
 import {
     Actions,
     ActionTypes,
-} from './_update.reducer';
+} from './_settings.reducer';
 
 /************************** ACTIONS ************************/
+export const setTheme = (theme: Theme): ActionTypes => ({
+    payload: { theme },
+    type: Actions.SET_THEME,
+});
+
 export const attemptedUpdate = (): ActionTypes => ({
     type: Actions.ATTEMPTED_UPDATE,
 });

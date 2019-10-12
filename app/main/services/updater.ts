@@ -10,7 +10,7 @@ import { ipcMain as ipc, IpcMainEvent } from 'electron';
 import { autoUpdater } from 'electron-updater';
 
 /** UPDATER SETTINGS */
-autoUpdater.autoInstallOnAppQuit = false;
+autoUpdater.autoInstallOnAppQuit = true;
 autoUpdater.logger = null;
 
 /** STATUSES */

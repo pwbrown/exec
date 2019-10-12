@@ -19,7 +19,7 @@ import {
 /******************* Software Updates ****************/
 ipc.on('updater:status', (_: IpcRendererEvent, update: IUpdateStatus) => {
     /** Trigger available if previous status was checking and new status is not checking */
-    if ((Store.getState() as State).update.status.checking && !update.checking) {
+    if ((Store.getState() as State).settings.updateStatus.checking && !update.checking) {
         Store.dispatch(attemptedUpdate());
     }
     /** Set the update status */
@@ -27,8 +27,8 @@ ipc.on('updater:status', (_: IpcRendererEvent, update: IUpdateStatus) => {
 });
 
 /******************* OS Color/Theme Mode Changes ********************/
-ipc.on('theme:changed', (_: IpcRendererEvent, theme?: Theme) => {
-    if (theme) {
-        Store.dispatch(setTheme(theme));
-    }
-});
+// ipc.on('theme:changed', (_: IpcRendererEvent, theme?: Theme) => {
+//     if (theme) {
+//         Store.dispatch(setTheme(theme));
+//     }
+// });

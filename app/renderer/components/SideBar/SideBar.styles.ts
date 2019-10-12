@@ -24,4 +24,13 @@ export const useStyles = makeStyles((theme: Theme) => ({
     tilt: {
         transform: 'rotate(45deg)',
     },
+    updateContainer: {
+        position: 'relative',
+    },
+    updateProgress: {
+        position: 'absolute',
+        top: 5.4,
+        left: 4.5,
+        zIndex: -1,
+    },
 }));
