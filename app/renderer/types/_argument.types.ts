@@ -9,7 +9,7 @@ export interface IArgumentBase {
     /** Whether the argument is required */
     required?: boolean;
     /** The contextual value of the argument */
-    value: string;
+    context: string;
     /** A list of arguments used by the argument */
     using?: string[];
 }

@@ -33,4 +33,12 @@ export const useStyles = makeStyles((theme: Theme) => ({
         left: 4.5,
         zIndex: -1,
     },
+    views: {
+        opacity: 1,
+        transition: 'opacity 200ms ease-in-out',
+        '&$editorOpen': {
+            opacity: 0,
+        },
+    },
+    editorOpen: {},
 }));

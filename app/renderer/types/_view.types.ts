@@ -1,0 +1,4 @@
+export enum View {
+    COMMAND_LIST = 'COMMAND_LIST',
+    ARGUMENT_LIST = 'ARGUMENT_LIST',
+}

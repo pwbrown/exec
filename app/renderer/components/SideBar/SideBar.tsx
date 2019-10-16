@@ -8,13 +8,23 @@ import { ipcRenderer as ipc } from 'electron';
 import Badge from '@material-ui/core/Badge';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Add from '@material-ui/icons/Add';
+import Code from '@material-ui/icons/Code';
 import InvertColors from '@material-ui/icons/InvertColors';
+import Link from '@material-ui/icons/Link';
 import Update from '@material-ui/icons/Update';
 
 /** REDUX */
 import { useDispatch, useSelector } from 'react-redux';
-import { closeCommandEditor, createCommand, setTheme, State } from '../../store';
-import { Theme } from '../../types';
+import {
+    closeArgumentEditor,
+    closeCommandEditor,
+    createArgument,
+    createCommand,
+    setTheme,
+    setView,
+    State,
+} from '../../store';
+import { Theme, View } from '../../types';
 
 /** COMPONENTS */
 import SideBarItem from './SideBarItem';
@@ -29,18 +39,25 @@ import { bts } from '../../utils';
 const SideBar: FC = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const view = useSelector((state: State) => state.settings.view);
     const showCommandEditor = useSelector((state: State) => state.command.editor.show);
+    const showArgumentEditor = useSelector((state: State) => state.argument.editor.show);
     const theme = useSelector((state: State) => state.settings.theme);
     const status = useSelector((state: State) => state.settings.updateStatus);
     const attempted = useSelector((state: State) => state.settings.attemptedUpdate);
-    const toggleCommandEditor = () => {
-        if (showCommandEditor) {
-            dispatch(closeCommandEditor());
-        } else {
-            dispatch(createCommand());
+    const editorOpen = showCommandEditor || showArgumentEditor;
+    const toggleEditor = () => {
+        if (editorOpen) {
+            return showCommandEditor ?
+                dispatch(closeCommandEditor()) :
+                dispatch(closeArgumentEditor());
         }
+        return view === View.COMMAND_LIST ?
+            dispatch(createCommand()) :
+            dispatch(createArgument());
     };
     const toggleTheme = () => dispatch(setTheme(theme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT));
+    const changeView = (v: View) => () => !editorOpen ? dispatch(setView(v)) : undefined;
 
     const UpdateIcon = () => (
         <Badge
@@ -75,13 +92,33 @@ const SideBar: FC = () => {
         }
     };
 
+    const addButtonText =
+        showArgumentEditor ? 'Close Argument Editor' :
+        showCommandEditor ? 'Close Command Editor' :
+        view === View.ARGUMENT_LIST ? 'Create Argument' : 'Create Command';
+
     return (
         <div className={classes.container}>
             <SideBarItem
-                icon={<Add className={classnames(classes.icon, { [classes.tilt]: showCommandEditor} )}/>}
-                tip={showCommandEditor ? 'Close Command Editor' : 'Create Command'}
-                onClick={toggleCommandEditor}
+                icon={<Add className={classnames(classes.icon, { [classes.tilt]: editorOpen} )}/>}
+                tip={addButtonText}
+                onClick={toggleEditor}
+                highlight={true}
             />
+            <div className={classnames(classes.views, { [classes.editorOpen]: editorOpen })}>
+                <SideBarItem
+                    icon={<Code/>}
+                    active={view === View.COMMAND_LIST}
+                    tip={'List Commands'}
+                    onClick={changeView(View.COMMAND_LIST)}
+                />
+                <SideBarItem
+                    icon={<Link/>}
+                    active={view === View.ARGUMENT_LIST}
+                    tip={'List Arguments'}
+                    onClick={changeView(View.ARGUMENT_LIST)}
+                />
+            </div>
             <div className={classes.bottom}>
                 <SideBarItem
                     icon={<InvertColors/>}

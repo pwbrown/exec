@@ -2,6 +2,7 @@
 import {
     IUpdateStatus,
     Theme,
+    View,
 } from '../types';
 import {
     Actions,
@@ -12,6 +13,11 @@ import {
 export const setTheme = (theme: Theme): ActionTypes => ({
     payload: { theme },
     type: Actions.SET_THEME,
+});
+
+export const setView = (view: View): ActionTypes => ({
+    payload: { view },
+    type: Actions.SET_VIEW,
 });
 
 export const attemptedUpdate = (): ActionTypes => ({
