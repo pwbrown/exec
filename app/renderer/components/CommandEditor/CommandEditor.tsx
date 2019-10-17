@@ -6,7 +6,6 @@ import EditorBase from '../EditorBase/EditorBase';
 
 /** FIELDS */
 import Editor from '../Fields/Editor';
-import { LinePrompt } from '../Fields/EditorDecorator';
 import TextField from '../Fields/TextField';
 
 /** DRAFT */
@@ -55,9 +54,6 @@ const CommandEditor: FC = () => {
         }
     };
 
-    /** Editor Field Decorators */
-    const decorators = () => ({ component: LinePrompt });
-
     return (
         <EditorBase
             show={show}
@@ -68,7 +64,7 @@ const CommandEditor: FC = () => {
         >
             <TextField label='Label' {...label}/>
             <TextField label='Description' {...description}/>
-            <Editor label='Script' blockRendererFn={decorators} {...script}/>
+            <Editor label='Script' linePrompts={true} {...script}/>
         </EditorBase>
     );
 };

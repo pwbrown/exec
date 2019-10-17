@@ -30,7 +30,7 @@ import { Theme, View } from '../../types';
 import SideBarItem from './SideBarItem';
 
 /** STYLES */
-import classnames from 'classnames';
+import clsx from 'clsx';
 import { useStyles } from './SideBar.styles';
 
 /** UTILS */
@@ -100,12 +100,12 @@ const SideBar: FC = () => {
     return (
         <div className={classes.container}>
             <SideBarItem
-                icon={<Add className={classnames(classes.icon, { [classes.tilt]: editorOpen} )}/>}
+                icon={<Add className={clsx(classes.icon, { [classes.tilt]: editorOpen} )}/>}
                 tip={addButtonText}
                 onClick={toggleEditor}
                 highlight={true}
             />
-            <div className={classnames(classes.views, { [classes.editorOpen]: editorOpen })}>
+            <div className={clsx(classes.views, { [classes.editorOpen]: editorOpen })}>
                 <SideBarItem
                     icon={<Code/>}
                     active={view === View.COMMAND_LIST}

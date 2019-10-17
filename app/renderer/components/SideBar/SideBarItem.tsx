@@ -5,7 +5,7 @@ import React, { FC } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 
 /** STYLES */
-import classnames from 'classnames';
+import clsx from 'clsx';
 import { useStyles } from './SideBarItem.styles';
 
 /** PROPS */
@@ -24,7 +24,7 @@ const SideBarItem: FC<IProps> = (props) => {
             props.onClick();
         }
     };
-    const divClasses = classnames(
+    const divClasses = clsx(
         classes.container,
         {
             [classes.active]: props.active,

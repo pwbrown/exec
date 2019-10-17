@@ -16,11 +16,22 @@ import {
     EditorProps,
 } from 'draft-js';
 
+/** BLOCK RENDERERS */
+import { renderLinePrompts } from './EditorBlockRenderers/LinePrompt';
+
 /** STYLES */
-import classnames from 'classnames';
+import clsx from 'clsx';
 import { useStyles } from './Editor.styles';
 
-const Editor: FC<EditorProps & { label?: string }> = (props) => {
+/** PROPS */
+interface IProps extends EditorProps {
+    /** Label to go above field */
+    label?: string;
+    /** Places a ">" character at the beginning of each line to simulate cli env */
+    linePrompts?: boolean;
+}
+
+const Editor: FC<IProps> = (props) => {
     const classes = useStyles();
     const [focused, setFocus] = useState(false);
 
@@ -41,11 +52,12 @@ const Editor: FC<EditorProps & { label?: string }> = (props) => {
     return (
         <FormGroup>
             <Typography>{props.label || ''}</Typography>
-            <div className={classnames(classes.container, { [classes.focused]: focused })}>
+            <div className={clsx(classes.container, { [classes.focused]: focused })}>
                 <DraftEditor
                     {...props}
                     onFocus={onFocus}
                     onBlur={onBlur}
+                    blockRendererFn={props.linePrompts ? renderLinePrompts : undefined}
                 />
             </div>
         </FormGroup>

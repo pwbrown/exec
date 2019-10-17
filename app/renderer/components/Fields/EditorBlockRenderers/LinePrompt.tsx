@@ -1,8 +1,3 @@
-/**
- * Line Decorator is a block renderer component for
- * Editor that adds
- */
-
 /** REACT */
 import React, { FC } from 'react';
 
@@ -12,13 +7,11 @@ import {
 } from 'draft-js';
 
 /** STYLES */
-import {
-    useLinePromptStyles,
-} from './EditorDecorator.styles';
+import { useStyles } from './LinePrompt.styles';
 
 /** Adds a ">" character to the beginning of a line(EditorBlock) */
-export const LinePrompt: FC<any> = (props) => {
-    const classes = useLinePromptStyles();
+const LinePrompt: FC<any> = (props) => {
+    const classes = useStyles();
     return (
         <div className={classes.container}>
             <div className={classes.content}>
@@ -27,3 +20,5 @@ export const LinePrompt: FC<any> = (props) => {
         </div>
     );
 };
+
+export const renderLinePrompts = () => ({component: LinePrompt});
