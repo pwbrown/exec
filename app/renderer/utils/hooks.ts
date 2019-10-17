@@ -15,8 +15,8 @@ export const useTextFieldState = (initialState: string) => {
     return { value, onChange };
 };
 
-/** Manage Script Editor Field State */
-export const useScriptEditorFieldState = (initialState: EditorState) => {
+/** Manage Editor State */
+export const useEditorState = (initialState: EditorState) => {
     const [editorState, setEditorState] = useState<EditorState>(initialState);
     const onChange: ScriptEditorFieldEvent =
         (nextState) => setEditorState(nextState);

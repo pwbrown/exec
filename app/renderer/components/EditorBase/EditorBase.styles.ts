@@ -4,32 +4,32 @@ import makeStyles from '@material-ui/styles/makeStyles';
 
 /* tslint:disable:object-literal-sort-keys object-literal-key-quotes */
 export const useStyles = makeStyles((theme: Theme) => ({
-    actionButton: {
-        flex: 1,
-        margin: '0px 2px',
-    },
-    actionsContainer: {
-        alignItems: 'center',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        padding: 5,
-    },
     container: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
         bottom: 0,
         left: 0,
         overflow: 'hidden',
-        position: 'absolute',
-        right: 0,
-        top: 0,
-        zIndex: 1,
     },
     editor: {
-        backgroundColor: theme.palette.background.default,
+        background: theme.palette.background.default,
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
         width: '100%',
+    },
+    header: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    title: {
+        margin: '5px 10px',
+    },
+    fieldsOuter: {
+        flex: 1,
+        position: 'relative',
     },
     fieldsInner: {
         '&::-webkit-scrollbar': {
@@ -56,16 +56,15 @@ export const useStyles = makeStyles((theme: Theme) => ({
         right: 0,
         top: 0,
     },
-    fieldsOuter: {
-        flex: 1,
-        position: 'relative',
-    },
-    header: {
-        alignItems: 'center',
+    actionsContainer: {
         display: 'flex',
         flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 5,
     },
-    title: {
-        margin: '5px 10px',
+    actionButton: {
+        flex: 1,
+        margin: '0px 2px',
     },
 }));
