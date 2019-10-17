@@ -68,11 +68,7 @@ const CommandEditor: FC = () => {
         >
             <TextField label='Label' {...label}/>
             <TextField label='Description' {...description}/>
-            <Editor
-                label='Script'
-                blockRendererFn={decorators}
-                {...script}
-            />
+            <Editor label='Script' blockRendererFn={decorators} {...script}/>
         </EditorBase>
     );
 };

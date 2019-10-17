@@ -6,7 +6,7 @@ import { EditorState } from 'draft-js';
 
 /** TYPES */
 type TextFieldEvent = ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;
-type ScriptEditorFieldEvent = (editorState: EditorState) => void;
+type EditorChangeEvent = (editorState: EditorState) => void;
 
 /** Manage Text Field State */
 export const useTextFieldState = (initialState: string) => {
@@ -18,7 +18,6 @@ export const useTextFieldState = (initialState: string) => {
 /** Manage Editor State */
 export const useEditorState = (initialState: EditorState) => {
     const [editorState, setEditorState] = useState<EditorState>(initialState);
-    const onChange: ScriptEditorFieldEvent =
-        (nextState) => setEditorState(nextState);
+    const onChange: EditorChangeEvent = (nextState) => setEditorState(nextState);
     return { editorState, onChange };
 };
