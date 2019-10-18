@@ -11,10 +11,8 @@ import FormGroup from '@material-ui/core/FormGroup';
 import Typography from '@material-ui/core/Typography';
 
 /** DRAFT JS */
-import {
-    Editor as DraftEditor,
-    EditorProps,
-} from 'draft-js';
+import { EditorProps } from 'draft-js';
+import DraftEditor from 'draft-js-plugins-editor';
 
 /** BLOCK RENDERERS */
 import { renderLinePrompts } from './EditorBlockRenderers/LinePrompt';
@@ -22,6 +20,9 @@ import { renderLinePrompts } from './EditorBlockRenderers/LinePrompt';
 /** STYLES */
 import clsx from 'clsx';
 import { useStyles } from './Editor.styles';
+
+/** PLUGINS */
+import ArgumentPlugin from './ArgumentPlugin';
 
 /** PROPS */
 interface IProps extends EditorProps {
@@ -58,6 +59,7 @@ const Editor: FC<IProps> = (props) => {
                     onFocus={onFocus}
                     onBlur={onBlur}
                     blockRendererFn={props.linePrompts ? renderLinePrompts : undefined}
+                    plugins={[ ArgumentPlugin() ]}
                 />
             </div>
         </FormGroup>

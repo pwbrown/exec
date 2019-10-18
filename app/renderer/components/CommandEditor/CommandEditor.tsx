@@ -5,8 +5,8 @@ import React, { FC } from 'react';
 import EditorBase from '../EditorBase/EditorBase';
 
 /** FIELDS */
-import Editor from '../Fields/Editor';
-import TextField from '../Fields/TextField';
+import Editor from '../Fields/Editor/Editor';
+import TextField from '../Fields/TextField/TextField';
 
 /** DRAFT */
 import { ContentState, EditorState } from 'draft-js';
