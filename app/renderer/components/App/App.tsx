@@ -14,6 +14,7 @@ import { State} from '../../store';
 import { View } from '../../types';
 
 /** COMPONENTS */
+import ArgumentEditor from '../ArgumentEditor/ArgumentEditor';
 import ArgumentList from '../ArgumentList/ArgumentList';
 import CommandEditor from '../CommandEditor/CommandEditor';
 import CommandList from '../CommandList/CommandList';
@@ -30,6 +31,8 @@ const App: FC = () => {
     /** Using Editor Keys will reset the state of an editor when toggled */
     const commandEditorKey = useSelector((state: State) =>
         `command-editor${state.command.editor.show ? '-showing' : ''}`);
+    const argumentEditorKey = useSelector((state: State) =>
+        `argument-editor${state.argument.editor.show ? '-showing' : ''}`);
 
     const renderView = () => {
         switch (view) {
@@ -47,6 +50,7 @@ const App: FC = () => {
                 <SideBar/>
                 <div className={classes.mainContainer}>
                     <CommandEditor key={commandEditorKey}/>
+                    <ArgumentEditor key={argumentEditorKey}/>
                     {renderView()}
                 </div>
             </div>

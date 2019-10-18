@@ -24,7 +24,13 @@ import {
 } from '../../utils';
 
 /** EMPTY COMMAND */
-const EMPTY: ICommand = { description: '', id: '', label: '', script: '', using: [] };
+const EMPTY: ICommand = {
+    description: '',
+    id: '',
+    label: '',
+    script: '',
+    using: [],
+};
 
 const CommandEditor: FC = () => {
     const dispatch = useDispatch();
@@ -44,14 +50,12 @@ const CommandEditor: FC = () => {
     /** EDITOR EVENTS */
     const cancel = () => dispatch(closeCommandEditor());
     const save = () => {
-        if (label.value !== '') {
-            dispatch(saveCommand({
-                description: description.value,
-                id: command.id || uniqueId(label.value, ids),
-                label: label.value,
-                script: script.editorState.getCurrentContent().getPlainText(),
-            }));
-        }
+        dispatch(saveCommand({
+            description: description.value,
+            id: command.id || uniqueId(label.value, ids),
+            label: label.value,
+            script: script.editorState.getCurrentContent().getPlainText(),
+        }));
     };
 
     return (
