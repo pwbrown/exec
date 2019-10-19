@@ -30,6 +30,8 @@ interface IProps extends EditorProps {
     label?: string;
     /** Places a ">" character at the beginning of each line to simulate cli env */
     linePrompts?: boolean;
+    /** Whether the field is required */
+    required?: boolean;
 }
 
 const Editor: FC<IProps> = (props) => {
@@ -52,7 +54,7 @@ const Editor: FC<IProps> = (props) => {
 
     return (
         <FormGroup>
-            <Typography>{props.label || ''}</Typography>
+            <Typography>{props.label || ''}{props.required ? ' *' : ''}</Typography>
             <div className={clsx(classes.container, { [classes.focused]: focused })}>
                 <DraftEditor
                     {...props}

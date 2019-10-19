@@ -1,11 +1,18 @@
 /** REACT */
 import React, { FC } from 'react';
 
+/** MATERIAL */
+import MenuItem from '@material-ui/core/MenuItem';
+
 /** EDITOR BASE */
 import EditorBase from '../EditorBase/EditorBase';
 
 /** FIELDS */
 import Editor from '../Fields/Editor/Editor';
+import FilePath from '../Fields/FilePath/FilePath';
+import Preview from '../Fields/Preview/Preview';
+import SectionTitle from '../Fields/SectionTitle/SectionTitle';
+import Select from '../Fields/Select/Select';
 import TextField from '../Fields/TextField/TextField';
 
 /** DRAFT */
@@ -16,10 +23,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { closeArgumentEditor, saveArgument, State } from '../../store';
 import { ArgumentType, IArgument } from '../../types';
 
-/** UTILS */
+/** STYLES */
+import { useStyles } from './ArgumentEditor.styles';
+
+/** STATE HOOKS */
 import {
-    uniqueId,
     useEditorState,
+    useFilePathState,
+    useSelectState,
     useTextFieldState,
 } from '../../utils';
 
@@ -36,6 +47,7 @@ const EMPTY: IArgument = {
 };
 
 const ArgumentEditor: FC = () => {
+    const classes = useStyles();
     const dispatch = useDispatch();
 
     /** REDUX STATE */
@@ -48,21 +60,25 @@ const ArgumentEditor: FC = () => {
 
     /** FIELD STATES */
     const id = useTextFieldState(argument.id);
+    const type = useSelectState<ArgumentType>(argument.type);
     const label = useTextFieldState(argument.label);
     const description = useTextFieldState(argument.description || '');
-    const defalt = useTextFieldState(argument.default || ''); // purposely mispelled (default is a reserved keyword)
     const before = useEditorState(
         EditorState.createWithContent(ContentState.createFromText(bef)));
     const after = useEditorState(
         EditorState.createWithContent(ContentState.createFromText(aft)));
+    const defalt = useTextFieldState(argument.default || ''); // purposely mispelled (default is a reserved keyword)
+    const file = useFilePathState('');
+
+    /** RAW OUTPUT */
+    const beforeTxt = before.editorState.getCurrentContent().getPlainText();
+    const afterTxt = after.editorState.getCurrentContent().getPlainText();
 
     /** EDITOR EVENTS */
     const cancel = () => dispatch(closeArgumentEditor());
     const save = () => {
-        const beforeText = before.editorState.getCurrentContent().getPlainText();
-        const afterText = after.editorState.getCurrentContent().getPlainText();
         dispatch(saveArgument({
-            context: `${beforeText}<:VALUE:>${afterText}`,
+            context: `${beforeTxt}<:VALUE:>${afterTxt}`,
             default: defalt.value,
             description: description.value,
             id: id.value,
@@ -79,12 +95,57 @@ const ArgumentEditor: FC = () => {
             onSave={save}
             z={2}
         >
-            <TextField label='Identifier' {...id}/>
-            <TextField label='Label' {...label}/>
-            <TextField label='Description' {...description}/>
-            <TextField label='Default Value' {...defalt}/>
-            <Editor label='Before' {...before}/>
-            <Editor label='After' {...after}/>
+            <SectionTitle>One-Time</SectionTitle>
+            <TextField
+                label='Trigger'
+                required={true}
+                {...id}
+            />
+            <Select
+                label='Type'
+                required={true}
+                {...type}
+            >
+                <MenuItem value={ArgumentType.FREEFORM}>Freeform</MenuItem>
+                <MenuItem value={ArgumentType.OPTIONS}>Options</MenuItem>
+                <MenuItem value={ArgumentType.FILE_SYSTEM}>File System</MenuItem>
+            </Select>
+
+            <SectionTitle>Appearance</SectionTitle>
+            <TextField
+                label='Label'
+                required={true}
+                {...label}
+            />
+            <TextField
+                label='Description'
+                {...description}
+            />
+
+            <SectionTitle>Context</SectionTitle>
+            <Preview label='Value Context Preview'>
+                {beforeTxt}<span className={classes.value}>{id.value || 'VALUE'}</span>{afterTxt}
+            </Preview>
+            <Editor
+                label='Static Text Before Value'
+                {...before}
+            />
+            <Editor
+                label='Static Text After Value'
+                {...after}
+            />
+
+            <SectionTitle>Options</SectionTitle>
+            <TextField
+                label='Default Value'
+                {...defalt}
+            />
+            <FilePath
+                uid='arg-edit-file'
+                label='File'
+                required={true}
+                {...file}
+            />
         </EditorBase>
     );
 };

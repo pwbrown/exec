@@ -3,22 +3,28 @@ import React, { FC } from 'react';
 
 /** MATERIAL */
 import FormGroup from '@material-ui/core/FormGroup';
-import MuiTextField, { TextFieldProps } from '@material-ui/core/TextField';
+import MuiSelect, { SelectProps } from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
 
-const TextField: FC<TextFieldProps> = (props) => {
+/** PROPS */
+interface IProps extends SelectProps {
+    label?: string;
+}
+
+const Select: FC<IProps> = (props) => {
     return (
         <FormGroup>
             <Typography>{props.label || ''}{props.required ? ' *' : ''}</Typography>
-            <MuiTextField
+            <MuiSelect
                 {...props}
-                label={undefined}
                 required={undefined}
-                variant='outlined'
                 margin='dense'
-            />
+                variant='outlined'
+            >
+                {props.children}
+            </MuiSelect>
         </FormGroup>
     );
 };
 
-export default TextField;
+export default Select;

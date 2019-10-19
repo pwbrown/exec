@@ -61,6 +61,11 @@ export class Window {
         this.window.webContents.send(name, ...payload);
     }
 
+    /** Returns a reference to the browser window */
+    public ref(): BrowserWindow {
+        return this.window as BrowserWindow;
+    }
+
     /**
      * Called any time the window resizes or moves
      * to persist the position for the next session
