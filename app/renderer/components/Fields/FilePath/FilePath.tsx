@@ -8,28 +8,28 @@ import { ipcRenderer as ipc } from 'electron';
 import Button from '@material-ui/core/Button';
 import FormGroup from '@material-ui/core/FormGroup';
 import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
+
+/** FIELDS */
+import Label, { ILabelProps } from '../Label/Label';
 
 /** STYLES */
 import { useStyles } from './FilePath.styles';
 
 /** PROPS */
-interface IProps {
+export interface IFilePathProps extends ILabelProps {
     /** Unique id used for requesting and receiving file paths */
     uid: string;
     /** Optional Label above field */
     label?: string;
     /** Optional placeholder for the file field */
     placeholder?: string;
-    /** Whether the field is required */
-    required?: boolean;
     /** The current file selected */
     value?: string;
     /** Event that is called when the file changes */
     onChange?: (file: string) => void;
 }
 
-const FilePath: FC<IProps> = (props) => {
+const FilePath: FC<IFilePathProps> = (props) => {
     const classes = useStyles();
 
     const selectFile = () => ipc.send('file:selectPath', props.uid);
@@ -53,7 +53,7 @@ const FilePath: FC<IProps> = (props) => {
 
     return (
         <FormGroup>
-            <Typography>{props.label || ''}{props.required ? ' *' : ''}</Typography>
+            <Label help={props.help} required={props.required}>{props.label}</Label>
             <div className={classes.container}>
                 <TextField
                     value={props.value || ''}

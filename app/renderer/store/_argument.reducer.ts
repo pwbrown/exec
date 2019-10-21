@@ -1,6 +1,5 @@
 /** TYPES */
 import {
-    ArgumentType,
     IAction,
     IArgument,
     IPayload,
@@ -54,7 +53,7 @@ const initialState: IState = {
     arguments: {},
     editor: {
         id: null,
-        show: false,
+        show: true,
     },
     order: [],
 };

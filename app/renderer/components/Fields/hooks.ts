@@ -1,5 +1,9 @@
 /** REACT */
-import { ChangeEventHandler, useState } from 'react';
+import {
+    ChangeEvent,
+    ChangeEventHandler,
+    useState,
+} from 'react';
 
 /** DRAFT */
 import { EditorState } from 'draft-js';
@@ -9,6 +13,7 @@ type TextFieldChangeEvent = ChangeEventHandler<HTMLTextAreaElement | HTMLInputEl
 type EditorChangeEvent = (editorState: EditorState) => void;
 type SelectChangeEvent = ChangeEventHandler<{ name?: string | undefined, value: unknown }>;
 type FilePathChangeEvent = (filePath: string) => void;
+type SwitchChangeEvent = (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
 
 /** Manage Text Field State */
 export const useTextFieldState = (initialState: string) => {
@@ -36,4 +41,19 @@ export const useFilePathState = (initialState: string) => {
     const [value, setValue] = useState<string>(initialState);
     const onChange: FilePathChangeEvent = (filePath) => setValue(filePath);
     return { value, onChange };
+};
+
+/** Manage Options State */
+interface IOption { label?: string; value: string; }
+export const useOptionsState = <T = IOption[]>(initialState: T) => {
+    const [value, setValue] = useState<T>(initialState);
+    const onChange = (newValue: T) => setValue(newValue);
+    return { value, onChange };
+};
+
+/** Manage Switch State */
+export const useSwitchState = (initialState: boolean) => {
+    const [checked, setChecked] = useState<boolean>(initialState);
+    const onChange: SwitchChangeEvent = (event, isChecked) => setChecked(isChecked);
+    return { checked, onChange };
 };

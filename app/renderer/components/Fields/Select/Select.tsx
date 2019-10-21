@@ -4,17 +4,19 @@ import React, { FC } from 'react';
 /** MATERIAL */
 import FormGroup from '@material-ui/core/FormGroup';
 import MuiSelect, { SelectProps } from '@material-ui/core/Select';
-import Typography from '@material-ui/core/Typography';
+
+/** FIELDS */
+import Label, { ILabelProps } from '../Label/Label';
 
 /** PROPS */
-interface IProps extends SelectProps {
+interface IProps extends SelectProps, ILabelProps {
     label?: string;
 }
 
 const Select: FC<IProps> = (props) => {
     return (
         <FormGroup>
-            <Typography>{props.label || ''}{props.required ? ' *' : ''}</Typography>
+            <Label required={props.required} help={props.help}>{props.label || ''}</Label>
             <MuiSelect
                 {...props}
                 required={undefined}

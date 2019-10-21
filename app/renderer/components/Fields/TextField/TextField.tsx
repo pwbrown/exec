@@ -4,12 +4,14 @@ import React, { FC } from 'react';
 /** MATERIAL */
 import FormGroup from '@material-ui/core/FormGroup';
 import MuiTextField, { TextFieldProps } from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 
-const TextField: FC<TextFieldProps> = (props) => {
+/** FIELDS */
+import Label, { ILabelProps } from '../Label/Label';
+
+const TextField: FC<TextFieldProps & ILabelProps> = (props) => {
     return (
         <FormGroup>
-            <Typography>{props.label || ''}{props.required ? ' *' : ''}</Typography>
+            <Label help={props.help} required={props.required}>{props.label}</Label>
             <MuiTextField
                 {...props}
                 label={undefined}

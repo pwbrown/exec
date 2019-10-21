@@ -3,7 +3,7 @@ export interface IArgumentBase {
     /** Unique identifier */
     id: string;
     /** A label for the argument */
-    label: string;
+    label?: string;
     /** A description of the purpose of the argument */
     description?: string;
     /** Whether the argument is required */

@@ -8,7 +8,9 @@ import React, { FC, SyntheticEvent, useState } from 'react';
 
 /** MATERIAL */
 import FormGroup from '@material-ui/core/FormGroup';
-import Typography from '@material-ui/core/Typography';
+
+/** FIELDS */
+import Label, { ILabelProps } from '../Label/Label';
 
 /** DRAFT JS */
 import { EditorProps } from 'draft-js';
@@ -25,13 +27,11 @@ import { useStyles } from './Editor.styles';
 import ArgumentPlugin from './ArgumentPlugin';
 
 /** PROPS */
-interface IProps extends EditorProps {
+interface IProps extends EditorProps, ILabelProps {
     /** Label to go above field */
     label?: string;
     /** Places a ">" character at the beginning of each line to simulate cli env */
     linePrompts?: boolean;
-    /** Whether the field is required */
-    required?: boolean;
 }
 
 const Editor: FC<IProps> = (props) => {
@@ -54,7 +54,7 @@ const Editor: FC<IProps> = (props) => {
 
     return (
         <FormGroup>
-            <Typography>{props.label || ''}{props.required ? ' *' : ''}</Typography>
+            <Label help={props.help} required={props.required}>props.label</Label>
             <div className={clsx(classes.container, { [classes.focused]: focused })}>
                 <DraftEditor
                     {...props}
