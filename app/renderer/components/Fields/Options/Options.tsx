@@ -107,6 +107,7 @@ const Options: FC<IProps> = (props) => {
                         value={state.value}
                         margin='dense'
                         fullWidth={true}
+                        disabled={state.index !== -1}
                         error={state.error}
                         onChange={actions.updateValue}
                     />

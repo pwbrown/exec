@@ -2,6 +2,7 @@
 import { app } from 'electron';
 
 /** SERVICES */
+import './services/arguments';
 import './services/commands';
 import './services/file';
 import './services/settings';

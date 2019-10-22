@@ -5,6 +5,9 @@ import {
     IPayload,
 } from '../types';
 
+/** ELECTRON */
+import { ipcRenderer as ipc } from 'electron';
+
 /** State */
 interface IState {
     /** Map of arguments where the key is the argument's id */
@@ -49,13 +52,13 @@ export type ActionTypes =
 
 /** Initial State */
 const initialState: IState = {
-    archive: [],
-    arguments: {},
+    archive: ipc.sendSync('argumentsSync:get', 'archive') || [],
+    arguments: ipc.sendSync('argumentsSync:get', 'arguments') || {},
     editor: {
         id: null,
         show: false,
     },
-    order: [],
+    order: ipc.sendSync('argumentsSync:get', 'order') || [],
 };
 
 /** Reducer */
@@ -100,6 +103,10 @@ export const reducer = (
                 editor: { ...state.editor, id: null, show: false },
                 order: isNew ? [ ...state.order, id ] : state.order,
             };
+            if (isNew) {
+                ipc.sendSync('argumentsSync:set', 'order', next.order);
+            }
+            ipc.sendSync('argumentsSync:set', 'arguments', next.arguments);
             return next;
         case Actions.ARCHIVE_ARGUMENT:
             id = action.payload.id;
@@ -109,6 +116,8 @@ export const reducer = (
                 archive: [ ...state.archive, id ],
                 order: [ ...state.order.slice(0, oi), ...state.order.slice(oi + 1) ],
             };
+            ipc.sendSync('argumentsSync:set', 'order', next.order);
+            ipc.sendSync('argumentsSync:set', 'archive', next.archive);
             return next;
         case Actions.DELETE_ARGUMENT:
             id = action.payload.id;
@@ -120,6 +129,8 @@ export const reducer = (
                 archive: [ ...state.archive.slice(0, ai), ...state.archive.slice(ai + 1) ],
                 arguments: args,
             };
+            ipc.sendSync('argumentsSync:set', 'archive', next.archive);
+            ipc.sendSync('argumentsSync:set', 'arguments', next.arguments);
             return next;
         case Actions.RESTORE_ARGUMENT:
             id = action.payload.id;
@@ -129,6 +140,8 @@ export const reducer = (
                 archive: [ ...state.archive.slice(0, ai), ...state.archive.slice(ai + 1) ],
                 order: [ ...state.order, id ],
             };
+            ipc.sendSync('argumentsSync:set', 'order', next.order);
+            ipc.sendSync('argumentsSync:set', 'archive', next.archive);
             return next;
         case Actions.WIPE_ARGUMENT_ARCHIVE:
             args = state.arguments;
@@ -138,6 +151,8 @@ export const reducer = (
                 archive: [],
                 arguments: args,
             };
+            ipc.sendSync('argumentsSync:set', 'archive', next.archive);
+            ipc.sendSync('argumentsSync:set', 'arguments', next.arguments);
             return next;
         case Actions.CLOSE_ARGUMENT_EDITOR:
             return {

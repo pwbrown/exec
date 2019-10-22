@@ -67,7 +67,25 @@ const ArgumentEditor: FC = () => {
         }
     };
 
-    const renderTypeOptions = () => {
+    const renderTypeConfiguration = () => {
+        switch (fields.type.value) {
+            case ArgumentType.OPTIONS:
+                return (
+                    <Fragment>
+                        <Options
+                            label='Options'
+                            required={true}
+                            help='The list of options displayed in the select field during command execution'
+                            {...fields.oOptions}
+                        />
+                    </Fragment>
+                );
+            default:
+                return '';
+        }
+    };
+
+    const renderTypeAdditionalOptions = () => {
         switch (fields.type.value) {
             case ArgumentType.FREEFORM:
                 return (
@@ -88,12 +106,6 @@ const ArgumentEditor: FC = () => {
                             emptyOption='None'
                             options={fields.oOptions.value}
                             {...fields.oDefault}
-                        />
-                        <Options
-                            label='Options'
-                            required={true}
-                            help='The list of options displayed in the select field during command execution'
-                            {...fields.oOptions}
                         />
                     </Fragment>
                 );
@@ -134,6 +146,13 @@ const ArgumentEditor: FC = () => {
         }
     };
 
+    const hasConfigurationError = () => {
+        return (
+            fields.id.hasError ||
+            (fields.type.value === ArgumentType.OPTIONS && fields.oOptions.hasError)
+        );
+    };
+
     return (
         <EditorBase
             show={show}
@@ -145,7 +164,7 @@ const ArgumentEditor: FC = () => {
             <Section
                 label='Configuration'
                 required={true}
-                hasError={fields.id.hasError}
+                hasError={hasConfigurationError()}
                 startExpanded={!argument.id}
             >
                 <TextField
@@ -175,6 +194,7 @@ const ArgumentEditor: FC = () => {
                     help={`If enabled, the command utilizing this argument cannot be executed until either a default is provided below in "Additional Options" or a value is given during execution`}
                     {...fields.required}
                 />
+                {renderTypeConfiguration()}
             </Section>
 
             <Section label='Appearance' startExpanded={!!argument.id}>
@@ -208,12 +228,8 @@ const ArgumentEditor: FC = () => {
                 />
             </Section>
 
-            <Section
-                label='Additional Options'
-                required={fields.type.value === ArgumentType.OPTIONS}
-                hasError={fields.type.value === ArgumentType.OPTIONS && fields.oOptions.hasError}
-            >
-                {renderTypeOptions()}
+            <Section label='Additional Options'>
+                {renderTypeAdditionalOptions()}
             </Section>
         </EditorBase>
     );
