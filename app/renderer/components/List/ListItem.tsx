@@ -86,7 +86,7 @@ const ListItem: FC<IProps> = (props) => {
                 </Typography>
             );
         }
-    }
+    };
 
     return (
         <div className={classes.container}>
