@@ -8,20 +8,14 @@ import EditorBase from '../EditorBase/EditorBase';
 import Editor from '../Fields/Editor/Editor';
 import TextField from '../Fields/TextField/TextField';
 
-/** DRAFT */
-import { ContentState, EditorState } from 'draft-js';
-
 /** REDUX */
 import { useDispatch, useSelector } from 'react-redux';
 import { closeCommandEditor, saveCommand, State } from '../../store';
 import { ICommand } from '../../types';
 
-/** UTILS */
-import {
-    uniqueId,
-    useEditorState,
-    useTextFieldState,
-} from '../../utils';
+/** HOOKS AND UTILS */
+import { useCommandEditorFieldStates } from './CommandEditor.hooks';
+import { validate } from './CommandEditor.validator';
 
 /** EMPTY COMMAND */
 const EMPTY: ICommand = {
@@ -37,25 +31,20 @@ const CommandEditor: FC = () => {
 
     /** REDUX STATE */
     const show = useSelector((state: State) => state.command.editor.show);
-    const ids = useSelector((state: State) => Object.keys(state.command.commands));
     const command = useSelector((state: State) =>
         state.command.editor.id ? state.command.commands[state.command.editor.id] : { ...EMPTY });
+    const ids = useSelector((state: State) => Object.keys(state.command.commands));
 
     /** FIELD STATES */
-    const label = useTextFieldState(command.label);
-    const description = useTextFieldState(command.description || '');
-    const script = useEditorState(
-        EditorState.createWithContent(ContentState.createFromText(command.script)));
+    const fields = useCommandEditorFieldStates(command);
 
     /** EDITOR EVENTS */
     const cancel = () => dispatch(closeCommandEditor());
     const save = () => {
-        dispatch(saveCommand({
-            description: description.value,
-            id: command.id || uniqueId(label.value, ids),
-            label: label.value,
-            script: script.editorState.getCurrentContent().getPlainText(),
-        }));
+        const result = validate(fields, command.id, ids);
+        if (result.valid) {
+            dispatch(saveCommand(result.command));
+        }
     };
 
     return (
@@ -66,9 +55,24 @@ const CommandEditor: FC = () => {
             onSave={save}
             z={1}
         >
-            <TextField label='Label' {...label}/>
-            <TextField label='Description' {...description}/>
-            <Editor label='Script' linePrompts={true} {...script}/>
+            <TextField
+                label='Label'
+                required={true}
+                help='A label to help identify a command throughout the app'
+                {...fields.label}
+            />
+            <TextField
+                label='Description'
+                help='A description to help understand the purpose of the command'
+                {...fields.description}
+            />
+            <Editor
+                label='Script'
+                linePrompts={true}
+                required={true}
+                help='The script that is run when executing the command'
+                {...fields.script}
+            />
         </EditorBase>
     );
 };
