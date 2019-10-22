@@ -27,6 +27,7 @@ interface IProps {
     onDelete: (id: string) => void;
     onEdit: (id: string) => void;
     onRestore: (id: string) => void;
+    titleRenderer?: (item: IArgument | ICommand, archived: boolean) => any;
 }
 
 const ListItem: FC<IProps> = (props) => {
@@ -75,14 +76,24 @@ const ListItem: FC<IProps> = (props) => {
 
     const { description, label } = props.item;
 
+    const renderTitle = () => {
+        if (typeof props.titleRenderer === 'function') {
+            return props.titleRenderer(props.item, props.archived);
+        } else {
+            return (
+                <Typography>
+                    {props.archived ? <s>{label || ''}</s> : label || ''}
+                </Typography>
+            );
+        }
+    }
+
     return (
         <div className={classes.container}>
             <Paper>
                 <ButtonBase className={classes.paper} onClick={click} disableRipple={!props.onClick}>
                     <div className={classes.infoContainer}>
-                        <Typography>
-                            {props.archived ? <s>{label}</s> : label}
-                        </Typography>
+                        {renderTitle()}
                         <Typography variant='caption'>
                             {props.archived ? <s>{description || ''}</s> : description || ''}
                         </Typography>

@@ -53,7 +53,6 @@ export const useArgumentEditorFieldStates = (argument: IArgument) => ({
     fsAllowFile: useSwitchState(defaultBool(true, (argument as IFileSystemArgument).allowFile)),
     fsAllowDir: useSwitchState(defaultBool(true, (argument as IFileSystemArgument).allowDir)),
     fsShowHidden: useSwitchState(defaultBool(false, (argument as IFileSystemArgument).showHidden)),
-    fsExtensions: 'temp',
 });
 
 export const useOptionValidationEffect = (

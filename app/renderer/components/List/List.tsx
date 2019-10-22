@@ -26,6 +26,7 @@ interface IProps {
     onDelete: (id: string) => void;
     onEdit: (id: string) => void;
     onRestore: (id: string) => void;
+    titleRenderer?: (item: IArgument | ICommand, archived: boolean) => any;
 }
 
 const List: FC<IProps> = (props) => {
@@ -51,6 +52,7 @@ const List: FC<IProps> = (props) => {
                 onDelete={props.onDelete}
                 onEdit={props.onEdit}
                 onRestore={props.onRestore}
+                titleRenderer={props.titleRenderer}
             />
         );
     });
