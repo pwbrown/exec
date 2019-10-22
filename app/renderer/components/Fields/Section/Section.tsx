@@ -17,6 +17,7 @@ interface IProps {
     label?: string;
     startExpanded?: boolean;
     required?: boolean;
+    hasError?: boolean;
 }
 
 const Section: FC<IProps> = (props) => {
@@ -26,7 +27,7 @@ const Section: FC<IProps> = (props) => {
     return (
         <Paper className={classes.container}>
             <div className={classes.header} onClick={toggle}>
-                <Typography variant='h6' color='textSecondary'>
+                <Typography variant='h6' color={props.hasError ? 'error' : 'textSecondary'}>
                     {props.label || ''}{props.required ? ' *' : ''}
                 </Typography>
                 <KeyboardArrowDown className={clsx(classes.icon, {[classes.flipped]: expanded})}/>

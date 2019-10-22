@@ -16,7 +16,7 @@ import { View } from '../../types';
 /** COMPONENTS */
 import ArgumentEditor from '../ArgumentEditor/ArgumentEditor';
 import ArgumentList from '../ArgumentList/ArgumentList';
-//import CommandEditor from '../CommandEditor/CommandEditor';
+// import CommandEditor from '../CommandEditor/CommandEditor';
 import CommandList from '../CommandList/CommandList';
 import SideBar from '../SideBar/SideBar';
 import TitleBar from '../TitleBar/TitleBar';

@@ -33,6 +33,21 @@ export const useStyles = makeStyles((theme: Theme) => ({
             borderWidth: 2,
             padding: 9,
         },
+        '&$error .DraftEditor-root': {
+            '&:hover': {
+                borderColor: theme.palette.error.main,
+            },
+            borderColor: theme.palette.error.main,
+        },
+        '&$focused$error .DraftEditor-root': {
+            '&:hover': {
+                borderColor: theme.palette.error.main,
+            },
+            borderColor: theme.palette.error.main,
+            borderWidth: 2,
+            padding: 9,
+        },
     },
-    focused: {}, // DON'T REMOVE: referred in container['&$focused .DraftEditor-root'],
+    focused: {}, // DON'T REMOVE
+    error: {}, // DON'T REMOVE
 }));

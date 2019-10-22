@@ -6,7 +6,7 @@ import makeStyles from '@material-ui/styles/makeStyles';
 export const useStyles = makeStyles((theme: Theme) => ({
     container: {
         padding: 5,
-        margin: '10px 0px'
+        margin: '10px 0px',
     },
     header: {
         display: 'flex',

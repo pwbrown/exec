@@ -60,7 +60,7 @@ export interface IFileSystemArgument extends IArgumentBase {
     /** Whether to show hidden files */
     showHidden: boolean;
     /** Limit to a list of file extensions */
-    extensions: string[];
+    extensions?: string[];
 }
 
 /** Argument Definition */

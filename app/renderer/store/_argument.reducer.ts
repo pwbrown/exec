@@ -53,7 +53,7 @@ const initialState: IState = {
     arguments: {},
     editor: {
         id: null,
-        show: true,
+        show: false,
     },
     order: [],
 };

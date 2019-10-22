@@ -7,6 +7,7 @@ import { ipcRenderer as ipc } from 'electron';
 /** MATERIAL */
 import Button from '@material-ui/core/Button';
 import FormGroup from '@material-ui/core/FormGroup';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
 
 /** FIELDS */
@@ -17,39 +18,51 @@ import { useStyles } from './FilePath.styles';
 
 /** PROPS */
 export interface IFilePathProps extends ILabelProps {
-    /** Unique id used for requesting and receiving file paths */
-    uid: string;
-    /** Optional Label above field */
     label?: string;
-    /** Optional placeholder for the file field */
     placeholder?: string;
-    /** The current file selected */
     value?: string;
-    /** Event that is called when the file changes */
     onChange?: (file: string) => void;
+    helperText?: string;
+    hasError?: boolean;
+    errorText?: string;
+    allowFileSelection?: boolean;
+    allowDirectorySelection?: boolean;
+    showHiddenFiles?: boolean;
+    startingLocation?: string;
+    allowedExtensions?: string[];
 }
 
 const FilePath: FC<IFilePathProps> = (props) => {
     const classes = useStyles();
 
-    const selectFile = () => ipc.send('file:selectPath', props.uid);
-
-    const fileSelected = (_: any, filePath: string) => {
+    const selectFile = () => {
+        const file: string = ipc.sendSync('fileSync:selectPath', {
+            allowDir: props.allowDirectorySelection,
+            allowFile: props.allowFileSelection,
+            extensions: props.allowedExtensions,
+            showHidden: props.showHiddenFiles,
+        });
         if (typeof props.onChange === 'function') {
-            props.onChange(filePath);
+            props.onChange(file);
         }
     };
 
-    useEffect(() => {
-        /** Listen for File Selected Event */
-        const event = `file:selected:${props.uid}`;
-        ipc.addListener(event, fileSelected);
-
-        /** Event cleanup on Unmount */
-        return () => {
-            ipc.removeListener(event, fileSelected);
-        };
-    }, [props.uid]);
+    let helperText = props.helperText || '';
+    if (props.hasError) {
+        helperText = 'This field is required.';
+        if (props.value && props.errorText) {
+            helperText = props.errorText;
+        }
+    }
+    const renderHelperText = () => !helperText ? '' : (
+        <FormHelperText
+            variant='outlined'
+            margin='dense'
+            error={props.hasError}
+        >
+            {helperText}
+        </FormHelperText>
+    );
 
     return (
         <FormGroup>
@@ -61,6 +74,7 @@ const FilePath: FC<IFilePathProps> = (props) => {
                     variant='outlined'
                     disabled={true}
                     margin='dense'
+                    error={props.hasError}
                     className={classes.text}
                 />
                 <Button
@@ -71,6 +85,7 @@ const FilePath: FC<IFilePathProps> = (props) => {
                     {props.value ? 'Change' : 'Select File'}
                 </Button>
             </div>
+            {renderHelperText()}
         </FormGroup>
     );
 };

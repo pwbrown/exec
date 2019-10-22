@@ -8,6 +8,7 @@ import React, { FC, SyntheticEvent, useState } from 'react';
 
 /** MATERIAL */
 import FormGroup from '@material-ui/core/FormGroup';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 /** FIELDS */
 import Label, { ILabelProps } from '../Label/Label';
@@ -28,10 +29,11 @@ import ArgumentPlugin from './ArgumentPlugin';
 
 /** PROPS */
 interface IProps extends EditorProps, ILabelProps {
-    /** Label to go above field */
     label?: string;
-    /** Places a ">" character at the beginning of each line to simulate cli env */
     linePrompts?: boolean;
+    helperText?: string;
+    hasError?: boolean;
+    errorText?: string;
 }
 
 const Editor: FC<IProps> = (props) => {
@@ -52,10 +54,26 @@ const Editor: FC<IProps> = (props) => {
         setFocus(false);
     };
 
+    let helperText = props.helperText || '';
+    if (props.hasError) {
+        helperText = 'This field is required.';
+        if (props.editorState.getCurrentContent().getPlainText() && props.errorText) {
+            helperText = props.errorText;
+        }
+    }
+    const renderHelperText = () => !helperText ? '' : (
+        <FormHelperText
+            variant='outlined'
+            margin='dense'
+            error={props.hasError}
+        >
+            {helperText}
+        </FormHelperText>
+    );
     return (
         <FormGroup>
-            <Label help={props.help} required={props.required}>props.label</Label>
-            <div className={clsx(classes.container, { [classes.focused]: focused })}>
+            <Label help={props.help} required={props.required}>{props.label}</Label>
+            <div className={clsx(classes.container, { [classes.focused]: focused, [classes.error]: props.hasError })}>
                 <DraftEditor
                     {...props}
                     onFocus={onFocus}
@@ -64,6 +82,7 @@ const Editor: FC<IProps> = (props) => {
                     plugins={[ ArgumentPlugin() ]}
                 />
             </div>
+            {renderHelperText()}
         </FormGroup>
     );
 };
