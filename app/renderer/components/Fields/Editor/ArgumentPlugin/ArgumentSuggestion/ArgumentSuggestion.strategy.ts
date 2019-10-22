@@ -6,8 +6,8 @@ export default (
     contentBlock: ContentBlock,
     callback: (start: number, end: number) => void,
 ) => {
-    /** Regular expression to match variations of "<:EXAMPLE_ARGUMENT:>" */
-    const rgx = /<:(?:[A-Z]+(?:\_+[A-Z]+)*)?(?::>)?/g;
+    /** Regular expression to match variations of "{{EXAMPLE_ARGUMENT}}" */
+    const rgx = /\{\{(?:[A-Z]+(?:\_+[A-Z]+)*)?(?:\}\})?/g;
 
     /** Get the current block text */
     const contentBlockText = contentBlock.getText();
