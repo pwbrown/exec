@@ -1,83 +1,46 @@
 /** REACT */
-import React, { FC, useEffect, useState } from 'react';
-
-/** MATERIAL */
-import Button from '@material-ui/core/Button';
-import DialogContent from '@material-ui/core/DialogContent';
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
+import React, { FC } from 'react';
 
 /** REDUX */
-import { useSelector } from 'react-redux';
-import { State } from '../../store';
-
-/** STYLES */
-import { useStyles } from './CommandList.styles';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    archiveCommand,
+    deleteCommand,
+    editCommand,
+    executeCommand,
+    restoreCommand,
+    State,
+} from '../../store';
 
 /** COMPONENTS */
-import CommandListItem from './CommandListItem';
+import List from '../List/List';
 
 const CommandList: FC = () => {
-    const classes = useStyles();
-    const [ showArchive, setShowArchive ] = useState(false);
-    const commands = useSelector(({ command }: State) => command.commands);
-    const order = useSelector(({ command }: State) => command.order);
-    const archive = useSelector(({ command }: State) => command.archive);
-    const toggleArchive = () => setShowArchive(!showArchive);
+    /** REDUX */
+    const dispatch = useDispatch();
+    const commands = useSelector((state: State) => state.command.commands);
+    const order = useSelector((state: State) => state.command.order);
+    const archive = useSelector((state: State) => state.command.archive);
 
-    useEffect(() => {
-        if (!archive.length && showArchive) {
-            setShowArchive(false);
-        }
-    }, [archive]);
-
-    const listCommands = () => order.map((id: string) => {
-        const command = commands[id];
-        return (
-            <CommandListItem
-                key={`command-item--${command.id}`}
-                command={command}
-                archived={false}
-            />
-        );
-    });
-
-    const listArchivedCommands = () => archive.map((id: string) => {
-        const command = commands[id];
-        return (
-            <CommandListItem
-                key={`archived-command-item--${command.id}`}
-                command={command}
-                archived={true}
-            />
-        );
-    });
+    /** ACTION HANDLERS */
+    const editCmd = (id: string) => dispatch(editCommand(id));
+    const archiveCmd = (id: string) => dispatch(archiveCommand(id));
+    const restoreCmd = (id: string) => dispatch(restoreCommand(id));
+    const deleteCmd = (id: string) => dispatch(deleteCommand(id));
+    const executeCmd = (id: string) => dispatch(executeCommand(id));
 
     return (
-        <div className={classes.container}>
-            <div className={classes.header}>
-                <Typography
-                    variant='h5'
-                    className={classes.title}
-                >
-                    {showArchive ? 'Command Archive' : 'Commands'}
-                </Typography>
-                <Button
-                    color='secondary'
-                    className={classes.headerButton}
-                    disabled={(!archive.length && !showArchive)}
-                    onClick={toggleArchive}
-                >
-                    {showArchive ? 'Commands' : 'Archive'}
-                </Button>
-            </div>
-            <Divider/>
-            <div className={classes.listOuter}>
-                <div className={classes.listInner}>
-                    {showArchive ? listArchivedCommands() : listCommands()}
-                </div>
-            </div>
-        </div>
+        <List
+            title='Commands'
+            items={commands}
+            order={order}
+            archive={archive}
+            onEdit={editCmd}
+            onArchive={archiveCmd}
+            onRestore={restoreCmd}
+            onDelete={deleteCmd}
+            onClick={executeCmd}
+        />
     );
 };
 

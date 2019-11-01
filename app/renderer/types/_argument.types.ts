@@ -3,13 +3,13 @@ export interface IArgumentBase {
     /** Unique identifier */
     id: string;
     /** A label for the argument */
-    label: string;
+    label?: string;
     /** A description of the purpose of the argument */
     description?: string;
     /** Whether the argument is required */
     required?: boolean;
     /** The contextual value of the argument */
-    value: string;
+    context: string;
     /** A list of arguments used by the argument */
     using?: string[];
 }
@@ -60,7 +60,7 @@ export interface IFileSystemArgument extends IArgumentBase {
     /** Whether to show hidden files */
     showHidden: boolean;
     /** Limit to a list of file extensions */
-    extensions: string[];
+    extensions?: string[];
 }
 
 /** Argument Definition */

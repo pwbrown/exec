@@ -2,7 +2,9 @@
 import { app } from 'electron';
 
 /** SERVICES */
+import './services/arguments';
 import './services/commands';
+import './services/file';
 import './services/settings';
 import { CheckForUpdates } from './services/updater';
 import { setApplicationMenu } from './utils/menu';

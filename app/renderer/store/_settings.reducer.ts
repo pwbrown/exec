@@ -7,11 +7,13 @@ import {
     IPayload,
     IUpdateStatus,
     Theme,
+    View,
 } from '../types';
 
 /** State */
 interface IState {
     theme: Theme;
+    view: View;
     attemptedUpdate: boolean;
     updateStatus: IUpdateStatus;
 }
@@ -19,6 +21,7 @@ interface IState {
 /** Actions */
 export enum Actions {
     SET_THEME = 'SET_THEME',
+    SET_VIEW = 'SET_VIEW',
     ATTEMPTED_UPDATE = 'ATTEMPTED_UPDATE',
     SET_UPDATE_STATUS = 'SET_UPDATE_STATUS',
 }
@@ -26,6 +29,7 @@ export enum Actions {
 /** Combined Action Types */
 export type ActionTypes =
     IPayload<Actions.SET_THEME, { theme: Theme}> |
+    IPayload<Actions.SET_VIEW, { view: View }> |
     IAction<Actions.ATTEMPTED_UPDATE> |
     IPayload<Actions.SET_UPDATE_STATUS, { status: IUpdateStatus }>;
 
@@ -39,6 +43,7 @@ const initialState: IState = {
         next: null,
         progress: null,
     },
+    view: View.COMMAND_LIST,
 };
 
 /** Reducer */
@@ -50,6 +55,8 @@ export const reducer = (
         case Actions.SET_THEME:
             ipc.sendSync('settingsSync:set', 'theme', action.payload.theme);
             return { ...state, theme: action.payload.theme };
+        case Actions.SET_VIEW:
+            return { ...state, view: action.payload.view };
         case Actions.ATTEMPTED_UPDATE:
             return { ...state, attemptedUpdate: true };
         case Actions.SET_UPDATE_STATUS:

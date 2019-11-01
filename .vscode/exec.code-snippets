@@ -83,5 +83,12 @@
 			""
 		],
 		"description": "Creates a Styles File"
+	},
+	"Linter:Disables object sorting": {
+		"prefix": "lint:sorting",
+		"body": [
+			"/* tslint:disable:object-literal-sort-keys */"
+		],
+		"description": "Disables object sort keys requirement for an object"
 	}
 }
