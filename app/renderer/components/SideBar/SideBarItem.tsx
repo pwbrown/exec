@@ -5,12 +5,15 @@ import React, { FC } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 
 /** STYLES */
+import clsx from 'clsx';
 import { useStyles } from './SideBarItem.styles';
 
 /** PROPS */
 interface IProps {
     icon: any;
     tip: string;
+    active?: boolean;
+    highlight?: boolean;
     onClick?: () => void;
 }
 
@@ -21,9 +24,17 @@ const SideBarItem: FC<IProps> = (props) => {
             props.onClick();
         }
     };
+    const divClasses = clsx(
+        classes.container,
+        {
+            [classes.active]: props.active,
+            [classes.highlight]: props.highlight,
+        },
+    );
     return (
         <Tooltip title={props.tip} placement='right'>
-            <div className={classes.container} onClick={click}>
+            <div className={divClasses} onClick={click}>
+                <div className={classes.bar}/>
                 {props.icon}
             </div>
         </Tooltip>

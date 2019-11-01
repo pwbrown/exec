@@ -1,120 +1,79 @@
 /** REACT */
 import React, { FC } from 'react';
 
-/** MATERIAL */
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import Fade from '@material-ui/core/Fade';
-import FormGroup from '@material-ui/core/FormGroup';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
+/** EDITOR BASE */
+import EditorBase from '../EditorBase/EditorBase';
 
-/** DRAFT */
-import { ContentState, EditorState } from 'draft-js';
-import ScriptEditorField from './ScriptEditorField'; // Draft Editor modified to appear material
+/** FIELDS */
+import Editor from '../Fields/Editor/Editor';
+import TextField from '../Fields/TextField/TextField';
 
 /** REDUX */
 import { useDispatch, useSelector } from 'react-redux';
 import { closeCommandEditor, saveCommand, State } from '../../store';
 import { ICommand } from '../../types';
 
-/** UTILS */
-import {
-    uniqueId,
-    useScriptEditorFieldState,
-    useTextFieldState,
-} from '../../utils';
-
-/** STYLES */
-import { useStyles } from './CommandEditor.styles';
+/** HOOKS AND UTILS */
+import { useCommandEditorFieldStates } from './CommandEditor.hooks';
+import { validate } from './CommandEditor.validator';
 
 /** EMPTY COMMAND */
-const EMPTY: ICommand = { description: '', id: '', label: '', script: '', using: [] };
+const EMPTY: ICommand = {
+    description: '',
+    id: '',
+    label: '',
+    script: '',
+    using: [],
+};
 
 const CommandEditor: FC = () => {
-    const classes = useStyles();
     const dispatch = useDispatch();
+
+    /** REDUX STATE */
     const show = useSelector((state: State) => state.command.editor.show);
-    const ids = useSelector((state: State) => Object.keys(state.command.commands));
     const command = useSelector((state: State) =>
-        state.command.editor.id ?
-            state.command.commands[state.command.editor.id] : { ...EMPTY });
-    const cancel = () => dispatch(closeCommandEditor());
+        state.command.editor.id ? state.command.commands[state.command.editor.id] : { ...EMPTY });
+    const ids = useSelector((state: State) => Object.keys(state.command.commands));
 
     /** FIELD STATES */
-    const label = useTextFieldState(command.label);
-    const description = useTextFieldState(command.description || '');
-    const script = useScriptEditorFieldState(
-        EditorState.createWithContent(ContentState.createFromText(command.script)));
+    const fields = useCommandEditorFieldStates(command);
 
-    const validate = () => {
-        return label.value !== '';
-    };
-
+    /** EDITOR EVENTS */
+    const cancel = () => dispatch(closeCommandEditor());
     const save = () => {
-        if (validate()) {
-            dispatch(saveCommand({
-                description: description.value,
-                id: command.id || uniqueId(label.value, ids),
-                label: label.value,
-                script: script.editorState.getCurrentContent().getPlainText(),
-            }));
+        const result = validate(fields, command.id, ids);
+        if (result.valid) {
+            dispatch(saveCommand(result.command));
         }
     };
 
     return (
-        <div
-            className={classes.container}
-            style={{pointerEvents: show ? 'all' : 'none'}}
+        <EditorBase
+            show={show}
+            title={`${command.id ? 'Edit' : 'New'} Command`}
+            onCancel={cancel}
+            onSave={save}
+            z={1}
         >
-            <Fade in={show}>
-                <div className={classes.editor}>
-                    <div className={classes.header}>
-                        <Typography
-                            variant='h5'
-                            className={classes.title}
-                        >
-                            {command.id ? 'Edit' : 'New'} Command
-                        </Typography>
-                    </div>
-                    <Divider/>
-                    <div className={classes.fieldsOuter}>
-                        <div className={classes.fieldsInner}>
-                            <FormGroup>
-                                <Typography>Label</Typography>
-                                <TextField {...label} variant='outlined' margin='dense'/>
-                            </FormGroup>
-                            <FormGroup>
-                                <Typography>Description</Typography>
-                                <TextField {...description} variant='outlined' margin='dense'/>
-                            </FormGroup>
-                            <FormGroup>
-                                <Typography>Script</Typography>
-                                <ScriptEditorField {...script}/>
-                            </FormGroup>
-                        </div>
-                    </div>
-                    <Divider/>
-                    <div className={classes.actionsContainer}>
-                        <Button
-                            variant='outlined'
-                            color='secondary'
-                            className={classes.actionButton}
-                            onClick={cancel}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            variant='outlined'
-                            className={classes.actionButton}
-                            onClick={save}
-                        >
-                            Save
-                        </Button>
-                    </div>
-                </div>
-            </Fade>
-        </div>
+            <TextField
+                label='Label'
+                required={true}
+                help='A label to help identify a command throughout the app'
+                {...fields.label}
+            />
+            <TextField
+                label='Description'
+                help='A description to help understand the purpose of the command'
+                {...fields.description}
+            />
+            <Editor
+                label='Script'
+                linePrompts={true}
+                required={true}
+                help='The script that is run when executing the command'
+                {...fields.script}
+            />
+        </EditorBase>
     );
 };
 
