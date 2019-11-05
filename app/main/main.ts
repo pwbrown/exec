@@ -7,6 +7,8 @@ import './services/commands';
 import './services/file';
 import './services/settings';
 import { CheckForUpdates } from './services/updater';
+
+/** UTILITIES */
 import { ApplicationMenu } from './utils/applicationMenu';
 import { Mode, Window } from './utils/window';
 
@@ -23,7 +25,7 @@ global.mainWindow = new Window('main', 'app.html', {
     width: 500,
 }, {
     [Mode.DEFAULT]: { minHeight: 500, minWidth: 400 },
-    [Mode.CONDENSED]: { minHeight: 100, minWidth: 100 },
+    [Mode.CONDENSED]: { minHeight: 170, minWidth: 170 },
 });
 /** Application Menu Instance */
 global.applicationMenu = new ApplicationMenu();

@@ -8,11 +8,13 @@ import {
     IUpdateStatus,
     Theme,
     View,
+    WindowMode,
 } from '../types';
 
 /** State */
 interface IState {
     theme: Theme;
+    windowMode: WindowMode;
     view: View;
     attemptedUpdate: boolean;
     updateStatus: IUpdateStatus;
@@ -24,6 +26,7 @@ export enum Actions {
     SET_VIEW = 'SET_VIEW',
     ATTEMPTED_UPDATE = 'ATTEMPTED_UPDATE',
     SET_UPDATE_STATUS = 'SET_UPDATE_STATUS',
+    SET_WINDOW_MODE = 'SET_WINDOW_MODE',
 }
 
 /** Combined Action Types */
@@ -31,7 +34,8 @@ export type ActionTypes =
     IPayload<Actions.SET_THEME, { theme: Theme}> |
     IPayload<Actions.SET_VIEW, { view: View }> |
     IAction<Actions.ATTEMPTED_UPDATE> |
-    IPayload<Actions.SET_UPDATE_STATUS, { status: IUpdateStatus }>;
+    IPayload<Actions.SET_UPDATE_STATUS, { status: IUpdateStatus }> |
+    IPayload<Actions.SET_WINDOW_MODE, { windowMode: WindowMode }>;
 
 /** Initial State */
 const initialState: IState = {
@@ -44,6 +48,7 @@ const initialState: IState = {
         progress: null,
     },
     view: View.COMMAND_LIST,
+    windowMode: ipc.sendSync('windowSync:getMode') || WindowMode.DEFAULT,
 };
 
 /** Reducer */
@@ -61,6 +66,8 @@ export const reducer = (
             return { ...state, attemptedUpdate: true };
         case Actions.SET_UPDATE_STATUS:
             return { ...state, updateStatus: action.payload.status };
+        case Actions.SET_WINDOW_MODE:
+            return { ...state, windowMode: action.payload.windowMode };
         default:
             return state;
     }

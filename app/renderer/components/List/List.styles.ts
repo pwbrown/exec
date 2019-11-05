@@ -45,5 +45,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
     },
     title: {
         margin: '5px 10px',
+        '&$condensed': {
+            margin: '0px 10px',
+        },
     },
+    condensed: {},
 }));

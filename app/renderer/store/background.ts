@@ -7,11 +7,17 @@
 
 /** DEPENDENCIES */
 import { ipcRenderer as ipc, IpcRendererEvent } from 'electron';
-import { IUpdateStatus, Theme } from '../types';
+import { IUpdateStatus, Theme, View, WindowMode } from '../types';
 import {
     attemptedUpdate,
+    closeArgumentEditor,
+    closeCommandEditor,
+    createArgument,
+    createCommand,
     setTheme,
     setUpdateStatus,
+    setView,
+    setWindowMode,
     State,
     Store,
 } from './';
@@ -24,6 +30,26 @@ ipc.on('updater:status', (_: IpcRendererEvent, update: IUpdateStatus) => {
     }
     /** Set the update status */
     Store.dispatch(setUpdateStatus(update));
+});
+
+/******************** WINDOW MODE CHANGE *******************/
+ipc.on('window:mode', (_: IpcRendererEvent, mode: WindowMode) => {
+    Store.dispatch(setWindowMode(mode));
+    Store.dispatch(setView(View.COMMAND_LIST));
+    Store.dispatch(closeArgumentEditor());
+    Store.dispatch(closeCommandEditor());
+});
+
+/******************* MENU EVENTS **************************/
+ipc.on('menu:openEditor', (_: IpcRendererEvent, type: 'command' | 'argument') => {
+    if (type === 'argument') {
+        Store.dispatch(createArgument());
+    } else if (type === 'command') {
+        Store.dispatch(createCommand());
+    }
+});
+ipc.on('menu:toggleTheme', (_: IpcRendererEvent) => {
+    Store.dispatch(setTheme(Store.getState().settings.theme === Theme.DARK ? Theme.LIGHT : Theme.DARK));
 });
 
 /******************* OS Color/Theme Mode Changes ********************/
