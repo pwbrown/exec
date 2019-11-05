@@ -1,5 +1,5 @@
 /** REACT */
-import React, { FC, MouseEvent } from 'react';
+import React, { FC, Fragment, MouseEvent } from 'react';
 
 /** MATERIAL */
 import ButtonBase from '@material-ui/core/ButtonBase';
@@ -13,6 +13,7 @@ import Edit from '@material-ui/icons/Edit';
 import Unarchive from '@material-ui/icons/Unarchive';
 
 /** STYLES */
+import clsx from 'clsx';
 import { useStyles } from './ListItem.styles';
 
 /** TYPES */
@@ -21,6 +22,7 @@ import { IArgument, ICommand } from '../../types';
 /** PROPS */
 interface IProps {
     archived: boolean;
+    condensed: boolean;
     item: IArgument | ICommand;
     onArchive: (id: string) => void;
     onClick?: (id: string) => void;
@@ -74,6 +76,14 @@ const ListItem: FC<IProps> = (props) => {
         </Tooltip>
     );
 
+    const renderActionButtons = () => props.condensed ? <Fragment/> : (
+        <div className={classes.actionsContainer}>
+            {editActionButton()}
+            {archiveActionButton()}
+            {deleteActionButton()}
+        </div>
+    );
+
     const { description, label } = props.item;
 
     const renderTitle = () => {
@@ -88,21 +98,30 @@ const ListItem: FC<IProps> = (props) => {
         }
     };
 
+    const renderDescription = () => props.condensed ? <Fragment/> : (
+        <Typography variant='caption'>
+            {props.archived ? <s>{description || ''}</s> : description || ''}
+        </Typography>
+    );
+
+    const buttonClasses = clsx(classes.paper, {
+        [classes.condensed]: props.condensed,
+        [classes.noClick]: typeof props.onClick !== 'function',
+    });
+
     return (
         <div className={classes.container}>
             <Paper>
-                <ButtonBase className={classes.paper} onClick={click} disableRipple={!props.onClick}>
+                <ButtonBase
+                    className={buttonClasses}
+                    onClick={click}
+                    disableRipple={!props.onClick}
+                >
                     <div className={classes.infoContainer}>
                         {renderTitle()}
-                        <Typography variant='caption'>
-                            {props.archived ? <s>{description || ''}</s> : description || ''}
-                        </Typography>
+                        {renderDescription()}
                     </div>
-                    <div className={classes.actionsContainer}>
-                        {editActionButton()}
-                        {archiveActionButton()}
-                        {deleteActionButton()}
-                    </div>
+                    {renderActionButtons()}
                 </ButtonBase>
             </Paper>
         </div>

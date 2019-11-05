@@ -21,6 +21,13 @@ export const useStyles = makeStyles((theme: Theme) => ({
         '&:hover': {
             backgroundColor: theme.palette.divider,
         },
+        '&$condensed': {
+            padding: '2px 10px',
+        },
+        '&$noClick:hover': {
+            backgroundColor: 'inherit',
+            cursor: 'default',
+        },
         alignItems: 'center',
         cursor: 'pointer',
         display: 'flex',
@@ -30,4 +37,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
         textAlign: 'left',
         width: '100%',
     },
+    noClick: {},
+    condensed: {},
 }));

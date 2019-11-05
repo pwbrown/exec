@@ -6,8 +6,12 @@
 
 /** ELECTRON */
 import { ProgressInfo, UpdateInfo } from 'builder-util-runtime';
-import { ipcMain as ipc, IpcMainEvent } from 'electron';
+import { dialog, ipcMain as ipc, IpcMainEvent, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
+import { Mode } from '../utils/window';
+
+/** NODE */
+import { join } from 'path';
 
 /** UPDATER SETTINGS */
 autoUpdater.autoInstallOnAppQuit = true;
@@ -19,6 +23,9 @@ let AVAILABLE = false;
 let NEXT_VERSION: UpdateInfo | null = null;
 let PROGRESS: ProgressInfo | null = null;
 let CHECK_INTERVAL: NodeJS.Timeout | number;
+
+/** ALERNATE WORKFLOW */
+let SHOWED_UPDATE_DIALOG = false;
 
 /** CONSTANTS */
 const SIMULATE: boolean = false; /** Run update simulation */
@@ -45,43 +52,88 @@ export const CheckForUpdates = (intervalInSeconds ?: number) => {
 
 /*********************** UPDATER EVENT HANDLERS *********************/
 
-const GetCurrentStatus = () => ({
+export const GetCurrentStatus = () => ({
     available: AVAILABLE,
     checking: CHECKING,
     next: NEXT_VERSION,
     progress: PROGRESS,
 });
 
-const SendStatusToWindow = () => {
+const ReportStatus = () => {
     global.mainWindow.send('updater:status', GetCurrentStatus());
+    if (global.applicationMenu) {
+        global.applicationMenu.rebuild();
+    }
 };
 
 const CheckingForUpdates = () => {
     CHECKING = true;
-    SendStatusToWindow();
+    ReportStatus();
 };
 
 const UpdateAvailable = (info: UpdateInfo) => {
     NEXT_VERSION = info;
-    SendStatusToWindow();
+    ReportStatus();
 };
 
 const UpdateNotAvailable = () => {
     CHECKING = false;
     AVAILABLE = false;
-    SendStatusToWindow();
+    ReportStatus();
 };
 
 const DownloadProgress = (progress: ProgressInfo) => {
     PROGRESS = progress;
-    SendStatusToWindow();
+    ReportStatus();
 };
 
 const UpdateDownloaded = (info: UpdateInfo) => {
     CHECKING = false;
     AVAILABLE = true;
     NEXT_VERSION = info;
-    SendStatusToWindow();
+    ReportStatus();
+    if (global.mainWindow && global.mainWindow.mode === Mode.CONDENSED && !SHOWED_UPDATE_DIALOG) {
+        SHOWED_UPDATE_DIALOG = true;
+        showUpdateDialog();
+    }
+};
+
+export const showUpdateDialog = () => {
+    if (!global.mainWindow || !global.mainWindow.window_UNSAFE) {
+        return;
+    }
+    const icon = join(__dirname, '../../assets/icon/icon.png');
+    let buttons: string[];
+    if (!AVAILABLE || !NEXT_VERSION) {
+        buttons = ['Ok'];
+        dialog.showMessageBoxSync(global.mainWindow.window_UNSAFE, {
+            buttons,
+            cancelId: 0,
+            defaultId: 0,
+            icon,
+            message: 'You are on the latest version',
+            title: 'No Updates Available',
+            type: 'info',
+        });
+    } else if (AVAILABLE && NEXT_VERSION) {
+        buttons = ['View Release Notes', 'Later', 'Install and Restart'];
+        const index = dialog.showMessageBoxSync(global.mainWindow.window_UNSAFE, {
+            buttons,
+            cancelId: 1,
+            defaultId: 2,
+            icon,
+            message: `Version ${NEXT_VERSION.version} has been downloaded is ready to install!`,
+            noLink: true,
+            title: 'Updates are Available!',
+            type: 'info',
+        });
+        switch (index) {
+            case 0:
+                return shell.openExternal('https://github.com/pwbrown/exec/releases/latest');
+            case 2:
+                return autoUpdater.quitAndInstall();
+        }
+    }
 };
 
 autoUpdater.on('update-available', UpdateAvailable);

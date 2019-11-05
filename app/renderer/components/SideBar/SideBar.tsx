@@ -1,5 +1,5 @@
 /** REACT */
-import React, { FC } from 'react';
+import React, { FC, Fragment } from 'react';
 
 /** ELECTRON */
 import { ipcRenderer as ipc } from 'electron';
@@ -24,7 +24,7 @@ import {
     setView,
     State,
 } from '../../store';
-import { Theme, View } from '../../types';
+import { Theme, View, WindowMode } from '../../types';
 
 /** COMPONENTS */
 import SideBarItem from './SideBarItem';
@@ -45,6 +45,7 @@ const SideBar: FC = () => {
     const theme = useSelector((state: State) => state.settings.theme);
     const status = useSelector((state: State) => state.settings.updateStatus);
     const attempted = useSelector((state: State) => state.settings.attemptedUpdate);
+    const condensed = useSelector((state: State) => state.settings.windowMode === WindowMode.CONDENSED);
     const editorOpen = showCommandEditor || showArgumentEditor;
     const toggleEditor = () => {
         if (editorOpen) {
@@ -97,7 +98,7 @@ const SideBar: FC = () => {
         showCommandEditor ? 'Close Command Editor' :
         view === View.ARGUMENT_LIST ? 'Create Argument' : 'Create Command';
 
-    return (
+    return condensed ? <Fragment/> : (
         <div className={classes.container}>
             <SideBarItem
                 icon={<Add className={clsx(classes.icon, { [classes.tilt]: editorOpen} )}/>}
