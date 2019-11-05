@@ -3,6 +3,7 @@ import {
     IUpdateStatus,
     Theme,
     View,
+    WindowMode,
 } from '../types';
 import {
     Actions,
@@ -27,4 +28,9 @@ export const attemptedUpdate = (): ActionTypes => ({
 export const setUpdateStatus = (status: IUpdateStatus): ActionTypes => ({
     payload: { status },
     type: Actions.SET_UPDATE_STATUS,
+});
+
+export const setWindowMode = (windowMode: WindowMode): ActionTypes => ({
+    payload: { windowMode },
+    type: Actions.SET_WINDOW_MODE,
 });

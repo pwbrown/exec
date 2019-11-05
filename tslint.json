@@ -9,7 +9,14 @@
     "jsRules": {},
     "rules": {
         "quotemark": [true, "single"],
-        "react-hooks-nesting": "error"
+        "react-hooks-nesting": "error",
+        "variable-name": {
+            "options": [
+                "check-format",
+                "allow-pascal-case",
+                "allow-leading-underscore"
+            ]
+        }
     },
     "rulesDirectory": []
 }

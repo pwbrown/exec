@@ -11,7 +11,7 @@ Desktop Application for managing and executing commonly used terminal commands
 * Each time a command is executed it will simply open a CLI (terminal) window and execute the command for you.
 
 ## Features Roadmap
-- [ ] Condensed View Mode
+- [x] Condensed View Mode
 - [ ] Command Arguments (Free form and option based)
 - [ ] Import and Export Lists
 - [ ] Drag and Drop Organizing
