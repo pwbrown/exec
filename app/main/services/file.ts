@@ -47,7 +47,7 @@ ipc.on('fileSync:selectPath', (event: IpcMainEvent, opt?: ISelectOptions) => {
         }
     }
     try {
-        const files = dialog.showOpenDialogSync(global.mainWindow.ref(), options);
+        const files = dialog.showOpenDialogSync(global.mainWindow.window_UNSAFE, options);
         event.returnValue = files && files.length ? files[0] : '';
     } catch (e) {
         event.returnValue = '';
