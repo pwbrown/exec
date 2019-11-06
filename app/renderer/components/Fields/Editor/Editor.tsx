@@ -18,7 +18,7 @@ import { EditorProps } from 'draft-js';
 import DraftEditor from 'draft-js-plugins-editor';
 
 /** BLOCK RENDERERS */
-import { renderLinePrompts } from './EditorBlockRenderers/LinePrompt';
+import { renderLinePrompts } from './BlockRenderers/LinePrompt';
 
 /** STYLES */
 import clsx from 'clsx';
