@@ -2,7 +2,7 @@
 name: Roadmap Feature
 about: Generating an issue outlining a desired feature from the roadmap
 title: ''
-labels: enhancement
+labels: enhancement, roadmap
 assignees: ''
 
 ---
