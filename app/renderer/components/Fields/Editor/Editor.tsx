@@ -1,116 +1,98 @@
-/**
- * Editor is a wrapper for the Draft JS Editor
- * to style it like a material ui outlined text field
- */
-
 /** REACT */
-import React, {
-    FC,
-    Fragment,
-    SyntheticEvent,
-    useEffect,
-    useRef,
-    useState,
-} from 'react';
+import React, { FC, Fragment, useEffect, useState } from 'react';
 
 /** MATERIAL */
 import FormGroup from '@material-ui/core/FormGroup';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
-/** FIELDS */
-import Label, { ILabelProps } from '../Label/Label';
-
 /** DRAFT JS */
-import { EditorProps } from 'draft-js';
-import DraftEditor from 'draft-js-plugins-editor';
+import {
+    CompositeDecorator,
+    Editor as DraftJSEditor,
+    EditorProps,
+    EditorState,
+} from 'draft-js';
 
 /** BLOCK RENDERERS */
-import { renderLinePrompts } from './BlockRenderers/LinePrompt';
+import { renderLinePrompts } from './renderers/LinePrompt';
+
+/** DECORATORS */
+import LinkedArgument, { LinkedArgumentStrategy } from './decorators/LinkedArgument';
+import UnlinkedArgument, { UnlinkedArgumentStrategy } from './decorators/UnlinkedArgument';
+
+/** FIELDS */
+import Label, { ILabelProps } from '../Label/Label';
 
 /** STYLES */
 import clsx from 'clsx';
 import { useStyles } from './Editor.styles';
 
-/** TYPES */
-import { IArgument } from '../../../types';
-
-/** PLUGINS */
-import DraftJSArgumentPlugin, { IDraftJSArgumentPlugin } from '../../../custom/draft-js-argument-plugin';
-
 /** PROPS */
 interface IProps extends EditorProps, ILabelProps {
     label?: string;
-    linePrompts?: boolean;
     helperText?: string;
     hasError?: boolean;
     errorText?: string;
-    arguments?: IArgument[];
-    onLinkArgument?: (argument: IArgument) => void;
-    onUnlinkArgument?: (argument: IArgument) => void;
+    prompts?: boolean;
+    onLinkArgument?: (id: string) => void;
+    onUnlinkArgument?: (id: string) => void;
+    onCreateArgument?: (id?: string) => void;
 }
 
 const Editor: FC<IProps> = (props) => {
     const classes = useStyles();
     const [focused, setFocus] = useState(false);
+    const plainText = props.editorState.getCurrentContent().getPlainText();
 
-    /** Argument Plugin */
-    const ArgumentPluginRef = useRef<IDraftJSArgumentPlugin>();
+    /** FOCUS/BLUR INTERCEPTORS */
+    const onFocus = (e: any) => {
+        setFocus(true);
+        if (props.onFocus) { props.onFocus(e); }
+    };
+    const onBlur = (e: any) => {
+        setFocus(false);
+        if (props.onBlur) { props.onBlur(e); }
+    };
+
+    /** INITIALIZING DECORATORS */
+    const DecoratedUnlinkedArgument: FC<any> = (passThrough) =>
+        <UnlinkedArgument {...passThrough}/>;
     useEffect(() => {
-        /** Save the plugin only once */
-        ArgumentPluginRef.current = DraftJSArgumentPlugin();
+        const decorator = new CompositeDecorator([
+            {
+                component: LinkedArgument,
+                strategy: LinkedArgumentStrategy,
+            },
+            {
+                component: DecoratedUnlinkedArgument,
+                strategy: UnlinkedArgumentStrategy,
+            },
+        ]);
+        props.onChange(EditorState.set(props.editorState, { decorator }));
     }, []);
 
-    /** Focus and Blur interceptors to trigger material styling */
-    const onFocus = (e: SyntheticEvent<{}, Event>) => {
-        if (typeof props.onFocus === 'function') {
-            props.onFocus(e);
-        }
-        setFocus(true);
+    /** ADDITIONAL RENDERERS */
+    const renderHelperText = () => {
+        const text =
+            props.hasError ? 'This field is required.' :
+            plainText && props.errorText ? props.errorText :
+            props.helperText || '';
+        return !text ? <Fragment/> : (
+            <FormHelperText variant='outlined' margin='dense' error={props.hasError}>
+                {text}
+            </FormHelperText>
+        );
     };
-    const onBlur = (e: SyntheticEvent<{}, Event>) => {
-        if (typeof props.onBlur === 'function') {
-            props.onBlur(e);
-        }
-        setFocus(false);
-    };
-
-    let helperText = props.helperText || '';
-    if (props.hasError) {
-        helperText = 'This field is required.';
-        if (props.editorState.getCurrentContent().getPlainText() && props.errorText) {
-            helperText = props.errorText;
-        }
-    }
-    const renderHelperText = () => !helperText ? '' : (
-        <FormHelperText
-            variant='outlined'
-            margin='dense'
-            error={props.hasError}
-        >
-            {helperText}
-        </FormHelperText>
-    );
-
-    /** Don't load if the plugin ref effect has not been called */
-    if (!ArgumentPluginRef.current) {
-        return <Fragment/>;
-    }
-
-    const { ArgumentPlugin, ArgumentSuggestions } = ArgumentPluginRef.current;
 
     return (
         <FormGroup>
             <Label help={props.help} required={props.required}>{props.label}</Label>
             <div className={clsx(classes.container, { [classes.focused]: focused, [classes.error]: props.hasError })}>
-                <DraftEditor
+                <DraftJSEditor
                     {...props}
                     onFocus={onFocus}
                     onBlur={onBlur}
-                    blockRendererFn={props.linePrompts ? renderLinePrompts : undefined}
-                    plugins={[ ArgumentPlugin ]}
-                />
-                <ArgumentSuggestions
-                    arguments={props.arguments || []}
+                    blockRendererFn={props.prompts ? renderLinePrompts : undefined}
                 />
             </div>
             {renderHelperText()}
