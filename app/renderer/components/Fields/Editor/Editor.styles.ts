@@ -50,4 +50,19 @@ export const useStyles = makeStyles((theme: Theme) => ({
     },
     focused: {}, // DON'T REMOVE
     error: {}, // DON'T REMOVE
+    listOuter: {
+        padding: '0px 10px',
+    },
+    list: {
+        background: theme.palette.divider,
+    },
+    listItem: {
+        color: theme.palette.text.secondary,
+        cursor: 'pointer',
+        padding: '2px 5px',
+        '&$focused': {
+            color: theme.palette.secondary.light,
+            fontWeight: 'bold',
+        },
+    },
 }));

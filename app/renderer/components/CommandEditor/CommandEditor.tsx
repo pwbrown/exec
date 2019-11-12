@@ -34,6 +34,7 @@ const CommandEditor: FC = () => {
     const command = useSelector((state: State) =>
         state.command.editor.id ? state.command.commands[state.command.editor.id] : { ...EMPTY });
     const ids = useSelector((state: State) => Object.keys(state.command.commands));
+    const argIds = useSelector((state: State) => state.argument.order);
 
     /** FIELD STATES */
     const fields = useCommandEditorFieldStates(command);
@@ -71,6 +72,7 @@ const CommandEditor: FC = () => {
                 prompts={true}
                 required={true}
                 help='The script that is run when executing the command'
+                argumentIds={argIds}
                 {...fields.script}
             />
         </EditorBase>

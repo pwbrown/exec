@@ -33,13 +33,3 @@ const UnlinkedArgument: FC<IProps> = (props) => {
 export default UnlinkedArgument;
 
 export * from './UnlinkedArgument.strategy';
-
-/** Actions to perform on every update */
-    // useEffect(() => {
-    //     props.store.updatePortalClientRect(props.offsetKey, () => {
-    //         if (searchPortalRef.current) {
-    //             return searchPortalRef.current.getBoundingClientRect();
-    //         }
-    //         return { height: 0, width: 0, x: 0, y: 0 } as DOMRect;
-    //     });
-    // });
