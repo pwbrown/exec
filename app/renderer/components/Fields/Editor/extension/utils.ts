@@ -8,10 +8,10 @@ import { Iterable, Map } from 'immutable';
 import { CustomEntities } from './types';
 
 /** If successful it returns an iterable of offsetKeys to booleans */
-export const getSelectionIsInsideWord = (
+export const getKeyFromSelection = (
     es: EditorState,
     searches: Map<string, string>,
-): Iterable<string, boolean> | null => {
+): string | null => {
     /** Get the current selection */
     const selection = es.getSelection();
     /** Cancel if a range is selected or the editor does not have focus */
@@ -52,7 +52,7 @@ export const getSelectionIsInsideWord = (
     if (selectionIsInsideWord.every((isInside) => isInside === false)) {
         return null;
     }
-    return selectionIsInsideWord;
+    return selectionIsInsideWord.filter((value) => value === true).keySeq().first();
 };
 
 /** Takes in an offset key and returns the decoded components  */

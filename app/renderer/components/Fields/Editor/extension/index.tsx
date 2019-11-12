@@ -20,7 +20,7 @@ import UnlinkedArgumentStrategy from './decorators/UnlinkedArgument.strategy';
 import SuggestionList from './SuggestionList';
 
 /** UTILS */
-import { addArgument, filterSuggestions, getSearchText, getSelectionIsInsideWord } from './utils';
+import { addArgument, filterSuggestions, getKeyFromSelection, getSearchText } from './utils';
 
 /** Exposes props for the editor and the suggestion list */
 export const useEditorExtension = (props: IProps) => {
@@ -34,7 +34,6 @@ export const useEditorExtension = (props: IProps) => {
     const unlinkedArgs = useRef(Map<string, string>());
     const activeKey = useRef<string>('');
     const lastSearch = useRef<string | undefined>();
-    const lastSelectionIsInsideWord = useRef<Iterable<string, boolean> | undefined>();
 
     /** DECORATORS */
     const onRegister = (offsetKey: string) => {
@@ -74,29 +73,27 @@ export const useEditorExtension = (props: IProps) => {
 
     /** Editor State Change Handler */
     const onChange = (es: EditorState) => {
-        const cancel = () => {
+        const closeList = () => {
             setOpen(false);
             props.onChange(es);
         };
         if (!unlinkedArgs.current.size) {
-            return cancel();
+            return closeList();
         }
-        const selectionIsInsideWord = getSelectionIsInsideWord(es, unlinkedArgs.current);
-        if (!selectionIsInsideWord) {
-            return cancel();
+        const selectionKey = getKeyFromSelection(es, unlinkedArgs.current);
+        if (!selectionKey) {
+            return closeList();
         }
         const lastActiveKey = activeKey.current;
-        activeKey.current = selectionIsInsideWord.filter((value) => value === true).keySeq().first();
+        activeKey.current = selectionKey;
         const { searchValue } = getSearchText(es);
         if (lastSearch.current !== searchValue || activeKey.current !== lastActiveKey) {
             lastSearch.current = searchValue;
-            const filtered = filterSuggestions(searchValue, props.argumentIds || []);
-            setSuggestions(filtered);
+            setSuggestions(filterSuggestions(searchValue, props.argumentIds || []));
         }
         if (!open) {
             setOpen(true);
         }
-        lastSelectionIsInsideWord.current = selectionIsInsideWord;
         props.onChange(es);
     };
 
