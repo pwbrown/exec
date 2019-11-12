@@ -1,5 +1,5 @@
 /** TYPES */
-import { CustomEntities, Strategy } from '../../../../types';
+import { CustomEntities, Strategy } from '../types';
 
 const LinkedArgumentStrategy: Strategy = (
     contentBlock,

@@ -5,7 +5,7 @@ import { EditorState, Modifier, SelectionState } from 'draft-js';
 import { Iterable, Map } from 'immutable';
 
 /** TYPES */
-import { CustomEntities } from '../../../../types';
+import { CustomEntities } from './types';
 
 /** If successful it returns an iterable of offsetKeys to booleans */
 export const getSelectionIsInsideWord = (

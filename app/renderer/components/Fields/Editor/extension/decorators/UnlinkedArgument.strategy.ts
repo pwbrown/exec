@@ -1,5 +1,5 @@
 /** TYPES */
-import { Strategy } from '../../../../types';
+import { Strategy } from '../types';
 
 const UnlinkedArgumentStrategy: Strategy = (
     contentBlock,

@@ -1,32 +1,24 @@
 /** REACT */
-import React, { FC, Fragment, useRef } from 'react';
-
-/** IMMUTABLE */
-import { Map } from 'immutable';
+import React, { FC, Fragment } from 'react';
 
 /** COMPONENTS */
 import FormGroup from '@material-ui/core/FormGroup';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import { Editor as DraftJSEditor } from 'draft-js';
 import Label from '../Label/Label';
-import SuggestionList from './SuggestionList';
 
 /** EDITOR HOOKS */
-import { useEditorDecorators } from './decorators';
 import { useEditorStyling } from './Editor.styles';
-import { useEditorHandlers } from './handlers';
+import { useEditorExtension } from './extension';
 import { useEditorRenderers } from './renderers';
 
 /** TYPES */
 import { IProps } from './Editor.types';
 
 const Editor: FC<IProps> = (props) => {
-    /** Refs */
-    const shouldRerender = useRef(false);
-    const unlinkedArgs = useRef(Map<string, string>());
-
-    /** Initialize Decorators */
-    useEditorDecorators(props, unlinkedArgs, shouldRerender);
+    const { className, ...editorStyling } = useEditorStyling(props);
+    const { SuggestionList, editorExtensionProps } = useEditorExtension(props);
+    const editorRenderer = useEditorRenderers(props);
 
     /** ADDITIONAL RENDERERS */
     const renderHelperText = () => {
@@ -41,17 +33,6 @@ const Editor: FC<IProps> = (props) => {
         );
     };
 
-    /** Get Component Props from hooks */
-    const {
-        className,
-        ...editorStyling
-    } = useEditorStyling(props);
-    const {
-        editorHandlerProps,
-        suggestionListHandlerProps,
-    } = useEditorHandlers(props, unlinkedArgs, shouldRerender);
-    const editorRenderer = useEditorRenderers(props);
-
     return (
         <FormGroup>
             <Label help={props.help} required={props.required}>{props.label}</Label>
@@ -59,11 +40,11 @@ const Editor: FC<IProps> = (props) => {
                 <DraftJSEditor
                     {...props}
                     {...editorStyling}
-                    {...editorHandlerProps}
+                    {...editorExtensionProps}
                     {...editorRenderer}
                 />
             </div>
-            <SuggestionList {...suggestionListHandlerProps}/>
+            <SuggestionList/>
             {renderHelperText()}
         </FormGroup>
     );

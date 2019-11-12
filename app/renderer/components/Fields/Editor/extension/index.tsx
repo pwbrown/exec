@@ -1,18 +1,8 @@
 /** REACT */
-import {
-    KeyboardEvent,
-    MutableRefObject,
-    useEffect,
-    useRef,
-    useState,
-} from 'react';
+import React, { FC, KeyboardEvent, useEffect, useRef, useState } from 'react';
 
 /** DRAFT JS */
-import {
-    DraftHandleValue,
-    EditorState,
-    getDefaultKeyBinding,
-} from 'draft-js';
+import { CompositeDecorator, DraftHandleValue, EditorState, getDefaultKeyBinding } from 'draft-js';
 
 /** IMMUTABLE */
 import { Iterable, Map } from 'immutable';
@@ -20,40 +10,62 @@ import { Iterable, Map } from 'immutable';
 /** TYPES */
 import { IProps } from '../Editor.types';
 
+/** DECORATORS */
+import LinkedArgument from './decorators/LinkedArgument';
+import LinkedArgumentStrategy from './decorators/LinkedArgument.strategy';
+import UnlinkedArgument from './decorators/UnlinkedArgument';
+import UnlinkedArgumentStrategy from './decorators/UnlinkedArgument.strategy';
+
+/** COMPONENTS */
+import SuggestionList from './SuggestionList';
+
 /** UTILS */
-import {
-    addArgument,
-    filterSuggestions,
-    getSearchText,
-    getSelectionIsInsideWord,
-} from './utils';
+import { addArgument, filterSuggestions, getSearchText, getSelectionIsInsideWord } from './utils';
 
 /** Exposes props for the editor and the suggestion list */
-export const useEditorHandlers = (
-    props: IProps,
-    unlinkedArgs: MutableRefObject<Map<string, string>>,
-    shouldRerender: MutableRefObject<boolean>,
-) => {
-    /** State */
+export const useEditorExtension = (props: IProps) => {
+    /** STATE */
     const [open, setOpen] = useState<boolean>(false);
     const [focusIndex, setFocusIndex] = useState<number>(0);
     const [suggestions, setSuggestions] = useState<string[]>([]);
 
     /** REFS */
+    const shouldRerender = useRef(false);
+    const unlinkedArgs = useRef(Map<string, string>());
     const activeKey = useRef<string>('');
     const lastSearch = useRef<string | undefined>();
     const lastSelectionIsInsideWord = useRef<Iterable<string, boolean> | undefined>();
 
-    /** RESETTING FOCUS INDEX */
+    /** DECORATORS */
+    const onRegister = (offsetKey: string) => {
+        unlinkedArgs.current = unlinkedArgs.current.set(offsetKey, offsetKey);
+        shouldRerender.current = true;
+    };
+    const onUnregister = (offsetKey: string) => {
+        unlinkedArgs.current = unlinkedArgs.current.delete(offsetKey);
+        shouldRerender.current = true;
+    };
+    const DecoratedUnlinkedArgument: FC<any> = (passThrough) => (
+        <UnlinkedArgument
+            {...passThrough}
+            onRegister={onRegister}
+            onUnregister={onUnregister}
+        />
+    );
+    useEffect(() => {
+        const decorator = new CompositeDecorator([
+            { component: LinkedArgument, strategy: LinkedArgumentStrategy },
+            { component: DecoratedUnlinkedArgument, strategy: UnlinkedArgumentStrategy },
+        ]);
+        props.onChange(EditorState.set(props.editorState, { decorator }));
+    }, []);
+
+    /** HANDLE FOCUS INDEX RESET & RERENDER TRIGGER */
     useEffect(() => {
         const size = suggestions.length;
         if (size > 0 && focusIndex >= size) {
             setFocusIndex(size - 1);
         }
-    });
-
-    /** Handle rerender trigger */
-    useEffect(() => {
         if (shouldRerender.current) {
             shouldRerender.current = false;
             onChange(props.editorState);
@@ -131,18 +143,18 @@ export const useEditorHandlers = (
 
     const onChangeFocus = (index: number) => setFocusIndex(index);
 
+    const DecoratedSuggestionList: FC = () => (
+        <SuggestionList
+            open={open}
+            focusIndex={focusIndex}
+            onChangeFocus={onChangeFocus}
+            onSelect={commitFocusedSuggestion}
+            suggestions={suggestions}
+        />
+    );
+
     return {
-        editorHandlerProps: {
-            handleReturn,
-            keyBindingFn,
-            onChange,
-        },
-        suggestionListHandlerProps: {
-            focusIndex,
-            onChangeFocus,
-            onSelect: commitFocusedSuggestion,
-            open,
-            suggestions,
-        },
+        SuggestionList: DecoratedSuggestionList,
+        editorExtensionProps: { handleReturn, keyBindingFn, onChange },
     };
 };
