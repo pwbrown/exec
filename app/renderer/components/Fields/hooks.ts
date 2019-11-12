@@ -85,3 +85,23 @@ export const useSwitchState = (initialState: boolean) => {
     const onChange: SwitchChangeEvent = (event, isChecked) => setChecked(isChecked);
     return { checked, onChange };
 };
+
+/** Manage the linked arguments list */
+export const useLinkedArgumentsState = (initialState: string[]) => {
+    const [linkedArgs, setLinkedArgs] = useState<string[]>(initialState);
+    const onLinkArgument = (id: string) => {
+        if (linkedArgs.indexOf(id) < 0) {
+            setLinkedArgs([ ...linkedArgs, id ]);
+        }
+    };
+    const onUnlinkArgument = (id: string) => {
+        const i = linkedArgs.indexOf(id);
+        if (i > -1) {
+            setLinkedArgs([
+                ...linkedArgs.slice(0, i),
+                ...linkedArgs.slice(i + 1),
+            ]);
+        }
+    };
+    return { linkedArgs, onLinkArgument, onUnlinkArgument };
+};

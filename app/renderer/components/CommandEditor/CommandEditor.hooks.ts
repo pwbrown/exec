@@ -7,7 +7,7 @@ import { ICommand } from '../../types';
 /** FIELD HOOKS */
 import {
     useEditorState,
-    useSwitchState,
+    useLinkedArgumentsState,
     useTextFieldState,
 } from '../Fields/hooks';
 
@@ -18,4 +18,5 @@ export const useCommandEditorFieldStates = (command: ICommand) => ({
     script: useEditorState(
         EditorState.createWithContent(
             ContentState.createFromText(command.script))),
+    using: useLinkedArgumentsState(command.using || []),
 });

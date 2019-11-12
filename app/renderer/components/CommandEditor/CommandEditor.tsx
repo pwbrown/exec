@@ -73,6 +73,7 @@ const CommandEditor: FC = () => {
                 required={true}
                 help='The script that is run when executing the command'
                 argumentIds={argIds}
+                {...fields.using}
                 {...fields.script}
             />
         </EditorBase>
