@@ -1,9 +1,37 @@
+/** REACT */
+import { useState } from 'react';
+
 /** MATERIAL */
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import makeStyles from '@material-ui/styles/makeStyles';
 
+/** STYLES */
+import clsx from 'clsx';
+
+/** TYPES */
+import { IProps } from './Editor.types';
+
+/** Hook that exposes all props necessary for handling editor styling */
+export const useEditorStyling = (props: IProps) => {
+    const [focused, setFocus] = useState(false);
+    const classes = useStyles();
+    const onBlur = (e: any) => {
+        setFocus(false);
+        if (props.onBlur) { props.onBlur(e); }
+    };
+    const onFocus = (e: any) => {
+        setFocus(true);
+        if (props.onFocus) { props.onFocus(e); }
+    };
+    const className = clsx(classes.container, {
+        [classes.focused]: focused,
+        [classes.error]: props.hasError,
+    });
+    return { className, onBlur, onFocus };
+};
+
 /* tslint:disable:object-literal-sort-keys object-literal-key-quotes */
-export const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     container: {
         '& .DraftEditor-root': {
             '&:hover': {

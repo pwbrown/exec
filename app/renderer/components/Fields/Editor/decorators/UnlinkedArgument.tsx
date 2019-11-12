@@ -23,6 +23,7 @@ const UnlinkedArgument: FC<IProps> = (props) => {
             if (props.onUnregister) { props.onUnregister(props.offsetKey); }
         };
     }, []);
+
     return (
         <span ref={element} className={classes.container}>
             {props.children}
@@ -31,5 +32,3 @@ const UnlinkedArgument: FC<IProps> = (props) => {
 };
 
 export default UnlinkedArgument;
-
-export * from './UnlinkedArgument.strategy';

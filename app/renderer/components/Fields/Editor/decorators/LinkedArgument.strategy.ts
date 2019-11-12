@@ -1,7 +1,7 @@
 /** TYPES */
 import { CustomEntities, Strategy } from '../../../../types';
 
-export const LinkedArgumentStrategy: Strategy = (
+const LinkedArgumentStrategy: Strategy = (
     contentBlock,
     callback,
     contentState,
@@ -11,3 +11,5 @@ export const LinkedArgumentStrategy: Strategy = (
         return key !== null && contentState.getEntity(key).getType() === CustomEntities.ARGUMENT;
     }, callback);
 };
+
+export default LinkedArgumentStrategy;

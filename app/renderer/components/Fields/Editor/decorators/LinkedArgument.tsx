@@ -14,5 +14,3 @@ const LinkedArgument: FC = (props) => {
 };
 
 export default LinkedArgument;
-
-export * from './LinkedArgument.strategy';
