@@ -1,7 +1,7 @@
 /** TYPES */
 import { Strategy } from '../types';
 
-const UnlinkedArgumentStrategy: Strategy = (
+export const UnlinkedArgumentStrategy: Strategy = (
     contentBlock,
     callback,
 ) => {
@@ -28,5 +28,3 @@ const UnlinkedArgumentStrategy: Strategy = (
         },
     );
 };
-
-export default UnlinkedArgumentStrategy;

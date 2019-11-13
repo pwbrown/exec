@@ -1,14 +1,10 @@
 /** REACT */
 import { useEffect } from 'react';
 
-/** DRAFT */
-import { ContentState, EditorState } from 'draft-js';
-
 /** TYPES */
 import {
     ArgumentType,
     IArgument,
-    IArgumentOption,
     IFileSystemArgument,
     IOptionsArgument,
 } from '../../types';
@@ -36,12 +32,8 @@ export const useArgumentEditorFieldStates = (argument: IArgument) => ({
     label: useTextFieldState(argument.label || ''),
     description: useTextFieldState(argument.description || ''),
     /** CONTEXT Fields */
-    before: useEditorState(
-        EditorState.createWithContent(
-            ContentState.createFromText(argument.context.split('<:VALUE:>')[0]))),
-    after: useEditorState(
-        EditorState.createWithContent(
-            ContentState.createFromText(argument.context.split('<:VALUE:>')[1]))),
+    before: useEditorState(argument.context.split('<:VALUE:>')[0]),
+    after: useEditorState(argument.context.split('<:VALUE:>')[1]),
     /** FREEFORM TYPE OPTIONS - N/A */
     ffDefault: useTextFieldState(argument.default || ''),
     /** OPTIONS TYPE OPTIONS */

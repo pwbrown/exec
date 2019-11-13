@@ -1,10 +1,16 @@
 /** REACT */
-import React, { FC } from 'react';
+import React, { FC, MouseEvent } from 'react';
 
 /** MATERIAL */
 import Collapse from '@material-ui/core/Collapse';
+import Divider from '@material-ui/core/Divider';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import Typography from '@material-ui/core/Typography';
+import Add from '@material-ui/icons/Add';
 import makeStyles from '@material-ui/styles/makeStyles';
+
+/** STYLES */
+import clsx from 'clsx';
 
 /** COMPONENTS */
 import SuggestionListItem from './SuggestionListItem';
@@ -24,6 +30,9 @@ const SuggestionList: FC<IProps> = (props) => {
 
     const changeFocus = (index: number) => () => props.onChangeFocus(index);
 
+    const onMouseDown = (e: MouseEvent<HTMLDivElement>) => e.preventDefault();
+    const onMouseUp = () => props.onCreate ? props.onCreate() : undefined;
+
     const renderListItem = (suggestion: string, index: number) => (
         <SuggestionListItem
             key={`list-item-${suggestion}`}
@@ -39,6 +48,15 @@ const SuggestionList: FC<IProps> = (props) => {
         <div className={classes.container}>
             <Collapse in={props.open}>
                 <div className={classes.inner}>
+                    <div
+                        className={clsx(classes.newArg, {[classes.focused]: !props.suggestions.length})}
+                        onMouseDown={onMouseDown}
+                        onMouseUp={onMouseUp}
+                    >
+                        <Add fontSize='small'/>
+                        <Typography>New Argument</Typography>
+                    </div>
+                    <Divider/>
                     {props.suggestions.map(renderListItem)}
                 </div>
             </Collapse>
@@ -54,6 +72,20 @@ export const useStyles = makeStyles((theme: Theme) => ({
     inner: {
         background: theme.palette.divider,
     },
+    newArg: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        color: theme.palette.text.secondary,
+        cursor: 'pointer',
+        '&$focused': {
+            color: theme.palette.primary.light,
+        },
+        '&:hover': {
+            color: theme.palette.primary.light,
+        },
+    },
+    focused: {},
 }));
 
 export default SuggestionList;

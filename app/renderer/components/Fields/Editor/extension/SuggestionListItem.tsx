@@ -44,7 +44,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
         padding: '2px 5px',
         '&$focused': {
             color: theme.palette.secondary.light,
-            fontWeight: 'bold',
         },
     },
     focused: {},

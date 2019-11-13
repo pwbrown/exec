@@ -1,5 +1,5 @@
 /** DRAFTJS */
-import { EditorState, Modifier, SelectionState } from 'draft-js';
+import { ContentState, EditorState, Modifier, SelectionState } from 'draft-js';
 
 /** IMMUTABLE */
 import { Iterable, Map } from 'immutable';

@@ -1,33 +1,31 @@
 /** REACT */
-import React, { FC, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import React, { FC, KeyboardEvent, RefObject, useEffect, useRef, useState } from 'react';
 
 /** DRAFT JS */
-import { CompositeDecorator, DraftHandleValue, EditorState, getDefaultKeyBinding } from 'draft-js';
+import { DraftHandleValue, Editor, EditorState, getDefaultKeyBinding } from 'draft-js';
 
 /** IMMUTABLE */
-import { Iterable, Map } from 'immutable';
+import { Map } from 'immutable';
 
 /** TYPES */
 import { IProps } from '../Editor.types';
-
-/** DECORATORS */
-import LinkedArgument from './decorators/LinkedArgument';
-import LinkedArgumentStrategy from './decorators/LinkedArgument.strategy';
-import UnlinkedArgument from './decorators/UnlinkedArgument';
-import UnlinkedArgumentStrategy from './decorators/UnlinkedArgument.strategy';
 
 /** COMPONENTS */
 import SuggestionList from './SuggestionList';
 
 /** UTILS */
+import { createEditorState } from './initialize';
 import { addArgument, filterSuggestions, getKeyFromSelection, getSearchText } from './utils';
 
+/** REDUX */
+import { useDispatch, useSelector } from 'react-redux';
+import { createArgument, State } from '../../../../store';
+
 /** Exposes props for the editor and the suggestion list */
-export const useEditorExtension = (props: IProps) => {
-    /** STATE */
-    const [open, setOpen] = useState<boolean>(false);
-    const [focusIndex, setFocusIndex] = useState<number>(0);
-    const [suggestions, setSuggestions] = useState<string[]>([]);
+export const useEditorExtension = (props: IProps, editor: RefObject<Editor>) => {
+    /** STORE */
+    const dispatch = useDispatch();
+    const argIds = useSelector((state: State) => state.argument.order);
 
     /** REFS */
     const shouldRerender = useRef(false);
@@ -35,29 +33,16 @@ export const useEditorExtension = (props: IProps) => {
     const activeKey = useRef<string>('');
     const lastSearch = useRef<string | undefined>();
 
-    /** DECORATORS */
-    const onRegister = (offsetKey: string) => {
-        unlinkedArgs.current = unlinkedArgs.current.set(offsetKey, offsetKey);
-        shouldRerender.current = true;
-    };
-    const onUnregister = (offsetKey: string) => {
-        unlinkedArgs.current = unlinkedArgs.current.delete(offsetKey);
-        shouldRerender.current = true;
-    };
-    const DecoratedUnlinkedArgument: FC<any> = (passThrough) => (
-        <UnlinkedArgument
-            {...passThrough}
-            onRegister={onRegister}
-            onUnregister={onUnregister}
-        />
-    );
-    useEffect(() => {
-        const decorator = new CompositeDecorator([
-            { component: LinkedArgument, strategy: LinkedArgumentStrategy },
-            { component: DecoratedUnlinkedArgument, strategy: UnlinkedArgumentStrategy },
-        ]);
-        props.onChange(EditorState.set(props.editorState, { decorator }));
-    }, []);
+    /** STATE */
+    const [editorState, setEditorState] = useState<EditorState>(
+        createEditorState(
+            props.value || '',
+            props.linkedArgs || [],
+            unlinkedArgs,
+            shouldRerender));
+    const [open, setOpen] = useState<boolean>(false);
+    const [focusIndex, setFocusIndex] = useState<number>(0);
+    const [suggestions, setSuggestions] = useState<string[]>([]);
 
     /** HANDLE FOCUS INDEX RESET & RERENDER TRIGGER */
     useEffect(() => {
@@ -67,15 +52,25 @@ export const useEditorExtension = (props: IProps) => {
         }
         if (shouldRerender.current) {
             shouldRerender.current = false;
-            onChange(props.editorState);
+            onChange(editorState);
         }
     });
+
+    /** HANDLE NEW ARGUMENT RETURN */
+    useEffect(() => {
+        if (lastSearch.current !== undefined && unlinkedArgs.current.size) {
+            setSuggestions(filterSuggestions(lastSearch.current, argIds));
+            if (editor.current) {
+                editor.current.focus(); // Focus back on the editor when returning
+            }
+        }
+    }, [argIds.length]);
 
     /** Editor State Change Handler */
     const onChange = (es: EditorState) => {
         const closeList = () => {
             setOpen(false);
-            props.onChange(es);
+            applyEditorState(es);
         };
         if (!unlinkedArgs.current.size) {
             return closeList();
@@ -89,12 +84,17 @@ export const useEditorExtension = (props: IProps) => {
         const { searchValue } = getSearchText(es);
         if (lastSearch.current !== searchValue || activeKey.current !== lastActiveKey) {
             lastSearch.current = searchValue;
-            setSuggestions(filterSuggestions(searchValue, props.argumentIds || []));
+            setSuggestions(filterSuggestions(searchValue, argIds));
         }
         if (!open) {
             setOpen(true);
         }
-        props.onChange(es);
+        applyEditorState(es);
+    };
+
+    const applyEditorState = (es: EditorState) => {
+        props.onChange(es.getCurrentContent().getPlainText());
+        setEditorState(es);
     };
 
     const commitFocusedSuggestion = () => {
@@ -104,7 +104,9 @@ export const useEditorExtension = (props: IProps) => {
                 props.onLinkArgument(toAdd);
             }
             setOpen(false);
-            onChange(addArgument(props.editorState, toAdd));
+            onChange(addArgument(editorState, toAdd));
+        } else {
+            onCreate();
         }
     };
 
@@ -139,6 +141,10 @@ export const useEditorExtension = (props: IProps) => {
     };
 
     const onChangeFocus = (index: number) => setFocusIndex(index);
+    const onCreate = () => {
+        setOpen(false);
+        dispatch(createArgument(getSearchText(editorState).searchValue));
+    };
 
     const DecoratedSuggestionList: FC = () => (
         <SuggestionList
@@ -147,11 +153,12 @@ export const useEditorExtension = (props: IProps) => {
             onChangeFocus={onChangeFocus}
             onSelect={commitFocusedSuggestion}
             suggestions={suggestions}
+            onCreate={onCreate}
         />
     );
 
     return {
         SuggestionList: DecoratedSuggestionList,
-        editorExtensionProps: { handleReturn, keyBindingFn, onChange },
+        editorExtensionProps: { editorState, handleReturn, keyBindingFn, onChange },
     };
 };

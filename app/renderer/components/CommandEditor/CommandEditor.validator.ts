@@ -21,7 +21,7 @@ export const validate: CommandEditorValidator = (fields, currentId, allIds) => {
         fields.label.setHasError(true);
     }
     const description = fields.description.value.trim();
-    const script = fields.script.editorState.getCurrentContent().getPlainText();
+    const script = fields.script.value;
     if (script.trim() === '') {
         valid = false;
         fields.script.setHasError(true);

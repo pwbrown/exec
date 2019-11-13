@@ -4,14 +4,19 @@ import { EditorProps } from 'draft-js';
 /** TYPES */
 import { ILabelProps } from '../Label/Label';
 
-export interface IProps extends EditorProps, ILabelProps {
+type EditorPropsNotControlled = Omit<EditorProps, 'editorState' | 'onChange'>;
+
+export interface IProps extends EditorPropsNotControlled, ILabelProps {
+    /** Editor will take care of generating editor state on initial load */
+    value?: string;
+    /** Editor will take care of returning the plain text version of the string */
+    onChange: (value: string) => void;
     label?: string;
     helperText?: string;
     hasError?: boolean;
     errorText?: string;
     prompts?: boolean;
-    argumentIds?: string[];
+    linkedArgs?: string[];
     onLinkArgument?: (id: string) => void;
     onUnlinkArgument?: (id: string) => void;
-    onCreateArgument?: (id?: string) => void;
 }

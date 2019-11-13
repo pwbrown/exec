@@ -22,8 +22,8 @@ export const validate: ArgumentEditorValidator = (fields, editing, ids) => {
     const label = fields.label.value.trim();
     const description = fields.description.value.trim();
     const required = fields.required.checked;
-    const before = fields.before.editorState.getCurrentContent().getPlainText();
-    const after = fields.after.editorState.getCurrentContent().getPlainText();
+    const before = fields.before.value;
+    const after = fields.after.value;
     const context = `${before}<:VALUE:>${after}`;
     /************************ ARGUMENT TYPES ********************/
     const type = fields.type.value;

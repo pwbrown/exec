@@ -32,3 +32,5 @@ const UnlinkedArgument: FC<IProps> = (props) => {
 };
 
 export default UnlinkedArgument;
+
+export * from './UnlinkedArgument.strategy';
