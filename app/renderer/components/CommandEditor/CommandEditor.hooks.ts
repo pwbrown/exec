@@ -1,6 +1,9 @@
 /** DRAFT */
 import { ContentState, EditorState } from 'draft-js';
 
+/** EDITOR UTILS */
+import { editorStateFromText } from '../Fields/Editor/Editor.utils';
+
 /** TYPES */
 import { ICommand } from '../../types';
 
@@ -15,8 +18,6 @@ import {
 export const useCommandEditorFieldStates = (command: ICommand) => ({
     label: useTextFieldState(command.label),
     description: useTextFieldState(command.description || ''),
-    script: useEditorState(
-        EditorState.createWithContent(
-            ContentState.createFromText(command.script))),
+    script: useEditorState(editorStateFromText(command.script, command.using || [])),
     using: useLinkedArgumentsState(command.using || []),
 });
