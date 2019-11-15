@@ -1,11 +1,16 @@
 /** REACT */
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 /** EDITOR BASE */
 import EditorBase from '../EditorBase/EditorBase';
 
+/** MATERIAL */
+import Button from '@material-ui/core/Button';
+import Collapse from '@material-ui/core/Collapse';
+
 /** FIELDS */
 import Editor from '../Fields/Editor/Editor';
+import ScriptPreview from '../Fields/ScriptPreview/ScriptPreview';
 import TextField from '../Fields/TextField/TextField';
 
 /** REDUX */
@@ -28,6 +33,9 @@ const EMPTY: ICommand = {
 
 const CommandEditor: FC = () => {
     const dispatch = useDispatch();
+    const [showPreview, setShowPreview] = useState<boolean>(false);
+
+    const toggleScriptPreview = () => setShowPreview(!showPreview);
 
     /** REDUX STATE */
     const show = useSelector((state: State) => state.command.editor.show);
@@ -74,6 +82,17 @@ const CommandEditor: FC = () => {
                 {...fields.using}
                 {...fields.script}
             />
+            <Button size='small' onClick={toggleScriptPreview} color='primary'>
+                {showPreview ? 'Hide' : 'Show'} Preview
+            </Button>
+            <Collapse in={showPreview}>
+                <ScriptPreview
+                    label='Script Preview'
+                    help='A preview of the full script including the full context of all arguments'
+                    script={fields.script.value}
+                    linkedArgs={fields.using.linkedArgs}
+                />
+            </Collapse>
         </EditorBase>
     );
 };

@@ -58,7 +58,7 @@ const initialState: IState = {
     commands: ipc.sendSync('commandsSync:get', 'commands') || {},
     editor: {
         id: null,
-        show: true,
+        show: false,
     },
     order: ipc.sendSync('commandsSync:get', 'order') || [],
 };
