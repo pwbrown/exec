@@ -52,10 +52,11 @@ const ArgumentEditor: FC = () => {
     const show = useSelector((state: State) => state.argument.editor.show);
     const argument = useSelector((state: State) =>
         state.argument.editor.id ? state.argument.arguments[state.argument.editor.id] : { ...EMPTY });
+    const newId = useSelector((state: State) => state.argument.editor.newId);
     const ids = useSelector((state: State) => Object.keys(state.argument.arguments));
 
     /** FIELD STATES */
-    const fields = useArgumentEditorFieldStates(argument);
+    const fields = useArgumentEditorFieldStates({ ...argument, id: newId || argument.id });
     useOptionValidationEffect(fields);
 
     /** EDITOR EVENTS */
@@ -212,19 +213,25 @@ const ArgumentEditor: FC = () => {
 
             <Section label='Context'>
                 <Preview label='Value Context Preview'>
-                    {fields.before.editorState.getCurrentContent().getPlainText()}
+                    {fields.before.value}
                     <span className={classes.value}>{fields.id.value || 'VALUE'}</span>
-                    {fields.after.editorState.getCurrentContent().getPlainText()}
+                    {fields.after.value}
                 </Preview>
                 <Editor
                     label='Static Text Before Value'
                     help={`Static text that is prepended to the value of the argument during execution. Will not be included if a value was not provided.`}
+                    excludeArgs={argument.id ? [argument.id] : undefined}
+                    preventArgCreate={true}
                     {...fields.before}
+                    {...fields.using}
                 />
                 <Editor
                     label='Static Text After Value'
                     help={`Static text that is appended to the value of the argument during execution. Will not be included if a value was not provided.`}
+                    excludeArgs={argument.id ? [argument.id] : undefined}
+                    preventArgCreate={true}
                     {...fields.after}
+                    {...fields.using}
                 />
             </Section>
 

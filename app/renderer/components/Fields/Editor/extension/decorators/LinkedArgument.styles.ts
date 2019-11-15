@@ -5,13 +5,8 @@ import makeStyles from '@material-ui/styles/makeStyles';
 /* tslint:disable:object-literal-sort-keys object-literal-key-quotes */
 export const useStyles = makeStyles((theme: Theme) => ({
     container: {
-        margin: '5px 0px',
-        padding: 5,
-        background: theme.palette.divider,
-        borderRadius: 4,
-    },
-    divider: {
-        color: theme.palette.background.default,
-        marginBottom: 5,
+        // background: theme.palette.secondary.light,
+        color: theme.palette.secondary.main,
+        // padding: '0px 2px',
     },
 }));

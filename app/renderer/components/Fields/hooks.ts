@@ -10,7 +10,7 @@ import { EditorState } from 'draft-js';
 
 /** TYPES */
 type TextFieldChangeEvent = ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;
-type EditorChangeEvent = (editorState: EditorState) => void;
+type EditorChangeEvent = (value: string) => void;
 type SelectChangeEvent = ChangeEventHandler<{ name?: string | undefined, value: unknown }>;
 type FilePathChangeEvent = (filePath: string) => void;
 type SwitchChangeEvent = (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
@@ -32,17 +32,17 @@ export const useTextFieldState = (initialState: string) => {
 };
 
 /** Manage Editor State */
-export const useEditorState = (initialState: EditorState) => {
-    const [editorState, setEditorState] = useState<EditorState>(initialState);
+export const useEditorState = (initialState: string) => {
+    const [value, setValue] = useState<string>(initialState);
     const error = useErrorState();
-    const onChange: EditorChangeEvent = (nextState) => {
+    const onChange: EditorChangeEvent = (nextValue) => {
         /** onChange is called on focus, so disable error on non empty string */
-        if (nextState.getCurrentContent().getPlainText() !== '') {
+        if (value !== '') {
             error.setHasError(false);
         }
-        setEditorState(nextState);
+        setValue(nextValue);
     };
-    return { editorState, onChange, ...error };
+    return { value, onChange, ...error };
 };
 
 /** Manage Select State */
@@ -84,4 +84,24 @@ export const useSwitchState = (initialState: boolean) => {
     const [checked, setChecked] = useState<boolean>(initialState);
     const onChange: SwitchChangeEvent = (event, isChecked) => setChecked(isChecked);
     return { checked, onChange };
+};
+
+/** Manage the linked arguments list */
+export const useLinkedArgumentsState = (initialState: string[]) => {
+    const [linkedArgs, setLinkedArgs] = useState<string[]>(initialState);
+    const onLinkArgument = (id: string) => {
+        if (linkedArgs.indexOf(id) < 0) {
+            setLinkedArgs([ ...linkedArgs, id ]);
+        }
+    };
+    const onUnlinkArgument = (id: string) => {
+        const i = linkedArgs.indexOf(id);
+        if (i > -1) {
+            setLinkedArgs([
+                ...linkedArgs.slice(0, i),
+                ...linkedArgs.slice(i + 1),
+            ]);
+        }
+    };
+    return { linkedArgs, onLinkArgument, onUnlinkArgument };
 };

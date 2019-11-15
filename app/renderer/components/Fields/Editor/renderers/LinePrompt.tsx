@@ -21,4 +21,4 @@ const LinePrompt: FC<any> = (props) => {
     );
 };
 
-export const renderLinePrompts = () => ({component: LinePrompt});
+export default LinePrompt;

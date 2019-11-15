@@ -22,6 +22,8 @@ interface IState {
         show: boolean;
         /** The id of the argument being edited or null if creating a new argument */
         id: string | null;
+        /** The suggested id for the new argument being created */
+        newId: string | null;
     };
 }
 
@@ -40,7 +42,7 @@ export enum Actions {
 
 /** Combined Action Types */
 export type ActionTypes =
-    IAction<Actions.CREATE_ARGUMENT> |
+    IPayload<Actions.CREATE_ARGUMENT, { id?: string }> |
     IPayload<Actions.EDIT_ARGUMENT, { id: string }> |
     IPayload<Actions.SAVE_ARGUMENT, { argument: IArgument }> |
     IPayload<Actions.ARCHIVE_ARGUMENT, { id: string }> |
@@ -56,6 +58,7 @@ const initialState: IState = {
     arguments: ipc.sendSync('argumentsSync:get', 'arguments') || {},
     editor: {
         id: null,
+        newId: null,
         show: false,
     },
     order: ipc.sendSync('argumentsSync:get', 'order') || [],
@@ -79,6 +82,7 @@ export const reducer = (
                 editor: {
                     ...state.editor,
                     id: null,
+                    newId: action.payload.id || null,
                     show: true,
                 },
             };
