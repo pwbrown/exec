@@ -112,8 +112,11 @@ export class Window {
         if (this._window) {
             this.send('window:mode', this.mode);
             this._window.setMinimumSize(this.mins.minWidth, this.mins.minHeight);
+            const bounds = this._window.getBounds();
             if (this.dims) {
                 this._window.setSize(this.dims.width, this.dims.height);
+            } else if (bounds.width < this.mins.minWidth || bounds.height < this.mins.minHeight) {
+                this._window.setSize(this.mins.minWidth, this.mins.minHeight);
             }
         }
     }
