@@ -17,6 +17,8 @@ export interface IProps extends EditorPropsNotControlled, ILabelProps {
     errorText?: string;
     prompts?: boolean;
     linkedArgs?: string[];
+    excludeArgs?: string[];
+    preventArgCreate?: boolean;
     onLinkArgument?: (id: string) => void;
     onUnlinkArgument?: (id: string) => void;
 }

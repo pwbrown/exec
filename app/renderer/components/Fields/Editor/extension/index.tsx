@@ -59,7 +59,7 @@ export const useEditorExtension = (props: IProps, editor: RefObject<Editor>) => 
     /** HANDLE NEW ARGUMENT RETURN */
     useEffect(() => {
         if (lastSearch.current !== undefined && unlinkedArgs.current.size) {
-            setSuggestions(filterSuggestions(lastSearch.current, argIds));
+            updateSuggestionsList(lastSearch.current);
             if (editor.current) {
                 editor.current.focus(); // Focus back on the editor when returning
             }
@@ -84,12 +84,19 @@ export const useEditorExtension = (props: IProps, editor: RefObject<Editor>) => 
         const { searchValue } = getSearchText(es);
         if (lastSearch.current !== searchValue || activeKey.current !== lastActiveKey) {
             lastSearch.current = searchValue;
-            setSuggestions(filterSuggestions(searchValue, argIds));
+            updateSuggestionsList(searchValue);
         }
         if (!open) {
             setOpen(true);
         }
         applyEditorState(es);
+    };
+
+    const updateSuggestionsList = (searchValue: string) => {
+        setSuggestions(filterSuggestions(
+            searchValue,
+            argIds.filter((id) => props.excludeArgs === undefined || props.excludeArgs.indexOf(id) < 0),
+        ));
     };
 
     const applyEditorState = (es: EditorState) => {
@@ -105,7 +112,7 @@ export const useEditorExtension = (props: IProps, editor: RefObject<Editor>) => 
             }
             setOpen(false);
             onChange(addArgument(editorState, toAdd));
-        } else {
+        } else if (!props.preventArgCreate) {
             onCreate();
         }
     };
@@ -154,6 +161,7 @@ export const useEditorExtension = (props: IProps, editor: RefObject<Editor>) => 
             onSelect={commitFocusedSuggestion}
             suggestions={suggestions}
             onCreate={onCreate}
+            noCreate={props.preventArgCreate}
         />
     );
 

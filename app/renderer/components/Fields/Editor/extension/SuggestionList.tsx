@@ -1,5 +1,5 @@
 /** REACT */
-import React, { FC, MouseEvent } from 'react';
+import React, { FC, Fragment, MouseEvent } from 'react';
 
 /** MATERIAL */
 import Collapse from '@material-ui/core/Collapse';
@@ -20,6 +20,7 @@ interface IProps {
     suggestions: string[];
     open: boolean;
     focusIndex: number;
+    noCreate?: boolean;
     onChangeFocus: (index: number) => void;
     onSelect: () => void;
     onCreate?: () => void;
@@ -44,19 +45,25 @@ const SuggestionList: FC<IProps> = (props) => {
         </SuggestionListItem>
     );
 
+    const renderCreateButton = () => props.noCreate ? <Fragment/> : (
+        <Fragment>
+            <div
+                className={clsx(classes.newArg, {[classes.focused]: !props.suggestions.length})}
+                onMouseDown={onMouseDown}
+                onMouseUp={onMouseUp}
+            >
+                <Add fontSize='small'/>
+                <Typography>New Argument</Typography>
+            </div>
+            <Divider/>
+        </Fragment>
+    );
+
     return (
         <div className={classes.container}>
             <Collapse in={props.open}>
                 <div className={classes.inner}>
-                    <div
-                        className={clsx(classes.newArg, {[classes.focused]: !props.suggestions.length})}
-                        onMouseDown={onMouseDown}
-                        onMouseUp={onMouseUp}
-                    >
-                        <Add fontSize='small'/>
-                        <Typography>New Argument</Typography>
-                    </div>
-                    <Divider/>
+                    {renderCreateButton()}
                     {props.suggestions.map(renderListItem)}
                 </div>
             </Collapse>

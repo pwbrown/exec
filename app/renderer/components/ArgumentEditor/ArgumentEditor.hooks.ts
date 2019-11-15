@@ -13,6 +13,7 @@ import {
 import {
     useEditorState,
     useFilePathState,
+    useLinkedArgumentsState,
     useOptionsState,
     useSelectState,
     useSwitchState,
@@ -34,6 +35,7 @@ export const useArgumentEditorFieldStates = (argument: IArgument) => ({
     /** CONTEXT Fields */
     before: useEditorState(argument.context.split('<:VALUE:>')[0]),
     after: useEditorState(argument.context.split('<:VALUE:>')[1]),
+    using: useLinkedArgumentsState(argument.using || []),
     /** FREEFORM TYPE OPTIONS - N/A */
     ffDefault: useTextFieldState(argument.default || ''),
     /** OPTIONS TYPE OPTIONS */

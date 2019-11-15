@@ -220,12 +220,18 @@ const ArgumentEditor: FC = () => {
                 <Editor
                     label='Static Text Before Value'
                     help={`Static text that is prepended to the value of the argument during execution. Will not be included if a value was not provided.`}
+                    excludeArgs={argument.id ? [argument.id] : undefined}
+                    preventArgCreate={true}
                     {...fields.before}
+                    {...fields.using}
                 />
                 <Editor
                     label='Static Text After Value'
                     help={`Static text that is appended to the value of the argument during execution. Will not be included if a value was not provided.`}
+                    excludeArgs={argument.id ? [argument.id] : undefined}
+                    preventArgCreate={true}
                     {...fields.after}
+                    {...fields.using}
                 />
             </Section>
 
