@@ -1,5 +1,6 @@
 /** ELECTRON */
 import {
+    app,
     dialog,
     ipcMain as ipc,
     IpcMainEvent,
@@ -21,6 +22,8 @@ ipc.on('fileSync:selectPath', (event: IpcMainEvent, opt?: ISelectOptions) => {
     if (opt) {
         if (opt.start && opt.start.trim()) {
             options.defaultPath = opt.start;
+        } else {
+            options.defaultPath = app.getPath('home');
         }
         if (opt.allowFile) {
             if (typeof options.properties === 'undefined') {
@@ -47,7 +50,10 @@ ipc.on('fileSync:selectPath', (event: IpcMainEvent, opt?: ISelectOptions) => {
         }
     }
     try {
-        const files = dialog.showOpenDialogSync(global.mainWindow.window_UNSAFE, options);
+        const files = dialog.showOpenDialogSync(
+            global.executorWindow ? global.executorWindow.window_UNSAFE : global.mainWindow.window_UNSAFE,
+            options,
+        );
         event.returnValue = files && files.length ? files[0] : '';
     } catch (e) {
         event.returnValue = '';

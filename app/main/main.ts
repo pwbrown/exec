@@ -4,6 +4,7 @@ import { app } from 'electron';
 /** SERVICES */
 import './services/arguments';
 import './services/commands';
+import './services/executor';
 import './services/file';
 import './services/settings';
 import { CheckForUpdates } from './services/updater';

@@ -1,13 +1,11 @@
-/** DRAFT */
-import { ContentState, EditorState } from 'draft-js';
-
 /** TYPES */
 import { ICommand } from '../../types';
 
 /** FIELD HOOKS */
 import {
     useEditorState,
-    useSwitchState,
+    useFilePathState,
+    useLinkedArgumentsState,
     useTextFieldState,
 } from '../Fields/hooks';
 
@@ -15,7 +13,7 @@ import {
 export const useCommandEditorFieldStates = (command: ICommand) => ({
     label: useTextFieldState(command.label),
     description: useTextFieldState(command.description || ''),
-    script: useEditorState(
-        EditorState.createWithContent(
-            ContentState.createFromText(command.script))),
+    script: useEditorState(command.script || ''),
+    cwd: useFilePathState(command.cwd || ''),
+    using: useLinkedArgumentsState(command.using || []),
 });

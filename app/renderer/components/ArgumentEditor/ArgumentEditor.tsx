@@ -5,10 +5,10 @@ import React, { FC, Fragment } from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
 
 /** EDITOR BASE */
-import EditorBase from '../EditorBase/EditorBase';
+import Floating from '../Floating/Floating';
+import Form from '../Form/Form';
 
 /** FIELDS */
-import Editor from '../Fields/Editor/Editor';
 import FilePath from '../Fields/FilePath/FilePath';
 import Options from '../Fields/Options/Options';
 import Preview from '../Fields/Preview/Preview';
@@ -52,10 +52,11 @@ const ArgumentEditor: FC = () => {
     const show = useSelector((state: State) => state.argument.editor.show);
     const argument = useSelector((state: State) =>
         state.argument.editor.id ? state.argument.arguments[state.argument.editor.id] : { ...EMPTY });
+    const newId = useSelector((state: State) => state.argument.editor.newId);
     const ids = useSelector((state: State) => Object.keys(state.argument.arguments));
 
     /** FIELD STATES */
-    const fields = useArgumentEditorFieldStates(argument);
+    const fields = useArgumentEditorFieldStates({ ...argument, id: newId || argument.id });
     useOptionValidationEffect(fields);
 
     /** EDITOR EVENTS */
@@ -154,84 +155,84 @@ const ArgumentEditor: FC = () => {
     };
 
     return (
-        <EditorBase
-            show={show}
-            title={`${argument.id ? 'Edit' : 'New'} Argument`}
-            onCancel={cancel}
-            onSave={save}
-            z={2}
-        >
-            <Section
-                label='Configuration'
-                required={true}
-                hasError={hasConfigurationError()}
-                startExpanded={!argument.id}
+        <Floating show={show} z={2}>
+            <Form
+                title={`${argument.id ? 'Edit' : 'New'} Argument`}
+                onCancel={cancel}
+                onConfirm={save}
             >
-                <TextField
-                    label='Identifier'
+                <Section
+                    label='Configuration'
                     required={true}
-                    placeholder='Enter an identifer'
-                    disabled={!!argument.id}
-                    errorText={ids.indexOf(fields.id.value.trim()) !== -1 ? 'This id is already being used.' : 'Invalid id formatting. Hover over the help icon to check requirments'}
-                    helperText={!!argument.id ? 'The id cannot be changed after an argument has been created' : ''}
-                    help={`The identifier used in scripts or another argument's context for inserting this argument - Can only be set once during argument creation - Formatting: 1. Can only use capital letters or underscore characters. 2. Must begin and end with a letter`}
-                    {...fields.id}
-                />
-                <Select
-                    label='Type'
-                    required={true}
-                    disabled={!!argument.id}
-                    help={`The argument type defines how a user interacts with an argument during command execution. FREEFORM arguments appear as a text field, OPTIONS arguments appear as a select field with pre-defined options, and FILE arguments appear as a file selector field`}
-                    helperText={`${!!argument.id ? 'The argument type cannot be changed after an argument has been created' : ''}`}
-                    {...fields.type}
+                    hasError={hasConfigurationError()}
+                    startExpanded={!argument.id}
                 >
-                    <MenuItem value={ArgumentType.FREEFORM}>Freeform</MenuItem>
-                    <MenuItem value={ArgumentType.OPTIONS}>Options</MenuItem>
-                    <MenuItem value={ArgumentType.FILE_SYSTEM}>File</MenuItem>
-                </Select>
-                <Switch
-                    label='Required'
-                    help={`If enabled, the command utilizing this argument cannot be executed until either a default is provided below in "Additional Options" or a value is given during execution`}
-                    {...fields.required}
-                />
-                {renderTypeConfiguration()}
-            </Section>
+                    <TextField
+                        label='Identifier'
+                        required={true}
+                        placeholder='Enter an identifer'
+                        disabled={!!argument.id}
+                        errorText={ids.indexOf(fields.id.value.trim()) !== -1 ? 'This id is already being used.' : 'Invalid id formatting. Hover over the help icon to check requirments'}
+                        helperText={!!argument.id ? 'The id cannot be changed after an argument has been created' : ''}
+                        help={`The identifier used in scripts or another argument's context for inserting this argument - Can only be set once during argument creation - Formatting: 1. Can only use capital letters or underscore characters. 2. Must begin and end with a letter`}
+                        {...fields.id}
+                    />
+                    <Select
+                        label='Type'
+                        required={true}
+                        disabled={!!argument.id}
+                        help={`The argument type defines how a user interacts with an argument during command execution. FREEFORM arguments appear as a text field, OPTIONS arguments appear as a select field with pre-defined options, and FILE arguments appear as a file selector field`}
+                        helperText={`${!!argument.id ? 'The argument type cannot be changed after an argument has been created' : ''}`}
+                        {...fields.type}
+                    >
+                        <MenuItem value={ArgumentType.FREEFORM}>Freeform</MenuItem>
+                        <MenuItem value={ArgumentType.OPTIONS}>Options</MenuItem>
+                        <MenuItem value={ArgumentType.FILE_SYSTEM}>File</MenuItem>
+                    </Select>
+                    <Switch
+                        label='Required'
+                        help={`If enabled, the command utilizing this argument cannot be executed until either a default is provided below in "Additional Options" or a value is given during execution`}
+                        {...fields.required}
+                    />
+                    {renderTypeConfiguration()}
+                </Section>
 
-            <Section label='Appearance' startExpanded={!!argument.id}>
-                <TextField
-                    label='Label'
-                    help={`Label to help better identify an argument throughout the app`}
-                    {...fields.label}
-                />
-                <TextField
-                    label='Description'
-                    help={`Longer description to help describe the purpose of an argument thoughout the app`}
-                    {...fields.description}
-                />
-            </Section>
+                <Section label='Appearance' startExpanded={!!argument.id}>
+                    <TextField
+                        label='Label'
+                        help={`Label to help better identify an argument throughout the app`}
+                        {...fields.label}
+                    />
+                    <TextField
+                        label='Description'
+                        help={`Longer description to help describe the purpose of an argument thoughout the app`}
+                        {...fields.description}
+                    />
+                </Section>
 
-            <Section label='Context'>
-                <Preview label='Value Context Preview'>
-                    {fields.before.editorState.getCurrentContent().getPlainText()}
-                    <span className={classes.value}>{fields.id.value || 'VALUE'}</span>
-                    {fields.after.editorState.getCurrentContent().getPlainText()}
-                </Preview>
-                <Editor
-                    label='Static Text Before Value'
-                    help={`Static text that is prepended to the value of the argument during execution. Will not be included if a value was not provided.`}
-                    {...fields.before}
-                />
-                <Editor
-                    label='Static Text After Value'
-                    help={`Static text that is appended to the value of the argument during execution. Will not be included if a value was not provided.`}
-                    {...fields.after}
-                />
-            </Section>
+                <Section label='Context'>
+                    <Preview label='Value Context Preview'>
+                        {fields.before.value}
+                        <span className={classes.value}>{fields.id.value || 'VALUE'}</span>
+                        {fields.after.value}
+                    </Preview>
+                    <TextField
+                        label='Static Text Before Value'
+                        help={`Static text that is prepended to the value of the argument during execution. Will not be included if a value was not provided.`}
+                        {...fields.before}
+                    />
+                    <TextField
+                        label='Static Text After Value'
+                        help={`Static text that is appended to the value of the argument during execution. Will not be included if a value was not provided.`}
+                        {...fields.after}
+                    />
+                </Section>
 
-            <Section label='Additional Options'>
-                {renderTypeAdditionalOptions()}
-            </Section>
-        </EditorBase>
+                <Section label='Additional Options'>
+                    {renderTypeAdditionalOptions()}
+                </Section>
+            </Form>
+        </Floating>
     );
 };
 

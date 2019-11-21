@@ -1,6 +1,6 @@
 {
   "name": "exec",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Desktop Application for managing and executing commonly used terminal commands",
   "main": "app/build/main.js",
   "scripts": {
@@ -45,7 +45,6 @@
     "clsx": "^1.0.4",
     "concurrently": "^4.1.2",
     "draft-js": "^0.11.1",
-    "draft-js-plugins-editor": "^3.0.0",
     "electron": "^6.0.9",
     "electron-builder": "^21.2.0",
     "electron-notarize": "^0.1.1",

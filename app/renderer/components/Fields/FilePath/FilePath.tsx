@@ -41,6 +41,7 @@ const FilePath: FC<IFilePathProps> = (props) => {
             allowFile: props.allowFileSelection,
             extensions: props.allowedExtensions,
             showHidden: props.showHiddenFiles,
+            start: props.startingLocation,
         });
         if (typeof props.onChange === 'function') {
             props.onChange(file);

@@ -6,7 +6,8 @@ import {
 } from './_argument.reducer';
 
 /************************** ACTIONS ************************/
-export const createArgument = (): ActionTypes => ({
+export const createArgument = (id?: string): ActionTypes => ({
+    payload: { id },
     type: Actions.CREATE_ARGUMENT,
 });
 

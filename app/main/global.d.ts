@@ -7,6 +7,7 @@ declare global {
     namespace NodeJS {
         interface Global {
             mainWindow : Window;
+            executorWindow: Window | null;
             applicationMenu: ApplicationMenu;
         }
     }
