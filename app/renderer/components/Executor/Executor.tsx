@@ -24,6 +24,9 @@ import { useStyles } from './Executor.styles';
 /** TYPES */
 import { ICommand } from '../../types';
 
+/** Listen for Background Events */
+import '../../store/background';
+
 const Executor: FC = () => {
     const classes = useStyles();
     const commandId = useRef<string>(ipc.sendSync('executeSync:id')).current;

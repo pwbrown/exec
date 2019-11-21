@@ -56,8 +56,25 @@ ipc.on('executeSync:id', (event: IpcMainEvent) => {
 });
 
 ipc.on('execute:arguments', (_event: IpcMainEvent, values: {[arg: string]: any}) => {
-    // console.log(JSON.stringify(values));
     closeExecutor();
+    const cmds = COMMAND_STORE.get('commands', null);
+    const args = ARGUMENT_STORE.get('arguments', null);
+    if (!currentId || !cmds || !cmds[currentId] || !cmds[currentId].using || !args) {
+        currentId = null;
+        return;
+    }
+    const cmd = cmds[currentId];
+    currentId = null;
+    let script = cmd.script;
+    cmd.using.forEach((argId: string) => {
+        const rgx = new RegExp(`\\$${argId}`, 'g');
+        if (!values[argId] || !args[argId]) {
+            script = script.replace(rgx, '');
+        } else {
+            script = script.replace(rgx, args[argId].context).replace(/<:VALUE:>/g, values[argId]);
+        }
+    });
+    return runInTerminal(script, [], { cwd: app.getPath('home') });
 });
 
 ipc.on('execute:cancel', (_event: IpcMainEvent) => {
