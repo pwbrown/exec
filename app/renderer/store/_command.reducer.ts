@@ -47,7 +47,6 @@ export type ActionTypes =
     IPayload<Actions.ARCHIVE_COMMAND, { id: string }> |
     IPayload<Actions.DELETE_COMMAND, { id: string }> |
     IPayload<Actions.RESTORE_COMMAND, { id: string }> |
-    IPayload<Actions.EXECUTE_COMMAND, { id: string }> |
     IAction<Actions.WIPE_COMMAND_ARCHIVE> |
     IPayload<Actions.MOVE_COMMAND, { id: string, to: number }> |
     IAction<Actions.CLOSE_COMMAND_EDITOR>;
@@ -134,12 +133,6 @@ export const reducer = (
             ipc.sendSync('commandsSync:set', 'order', next.order);
             ipc.sendSync('commandsSync:set', 'archive', next.archive);
             return next;
-        case Actions.EXECUTE_COMMAND:
-            id = action.payload.id;
-            if ( state.commands[id].script ) {
-                ipc.send('commands:execute', state.commands[id].script);
-            }
-            return state;
         case Actions.WIPE_COMMAND_ARCHIVE:
             commands = state.commands;
             state.archive.forEach((cmdId) => delete commands[cmdId]);

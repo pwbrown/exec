@@ -41,6 +41,7 @@ export class Window {
     private _mode: Mode | null = null;                    /** The current window mode (determines state variances) */
     private _pos: IPos | null = null;                     /** Stores the X and Y postition on the screen */
     private _dims: { [mode in Mode]?: IDim | null } = {}; /** Stores the Width and Height of mode preferences */
+    private _track: boolean = true;
 
     constructor(
         private _id: string,
@@ -72,6 +73,13 @@ export class Window {
         this._window.loadFile(this.file);
     }
 
+    /** Closes an open window */
+    public close() {
+        if (this._window) {
+            this._window.close();
+        }
+    }
+
     /** Used for sending an ipc message directly to the window */
     public send(name: string, ...payload: any) {
         if (!this._window) {
@@ -98,15 +106,20 @@ export class Window {
     get id() { return this._id; }
     get window_UNSAFE() { return this._window as BrowserWindow; }
 
+    get track() { return this._track; }
+    set track(track: boolean) { this._track = track; }
+
     get file() { return join(__dirname, '../../assets', this._fileInAssets); }
 
     get mode() {
+        if (!this.track) { return Mode.DEFAULT; }
         if (!this._mode) {
             this._mode = this._store.get('mode', Mode.DEFAULT);
         }
         return this._mode as Mode;
     }
     set mode(m: Mode) {
+        if (!this.track) { return; }
         this._mode = m;
         this._store.set('mode', m);
         if (this._window) {
@@ -122,23 +135,27 @@ export class Window {
     }
 
     get pos() {
+        if (!this.track) { return null; }
         if (!this._pos) {
             this._pos = this._store.get('position', null);
         }
         return this._pos;
     }
     set pos(p: IPos | null) {
+        if (!this.track) { return; }
         this._pos = p;
         this._store.set('position', p);
     }
 
     get dims() {
+        if (!this.track) { return null; }
         if (!this._dims[this.mode]) {
             this._dims[this.mode] = this._store.get(`DIMS_${this.mode}`, null);
         }
         return this._dims[this.mode] as IDim | null;
     }
     set dims(d: IDim | null) {
+        if (!this.track) { return; }
         this._dims[this.mode] = d;
         this._store.set(`DIMS_${this.mode}`, d);
     }
@@ -154,6 +171,7 @@ export class Window {
 
     /****************************** EVENT HANDLERS ******************************/
     private onResize() {
+        if (!this.track) { return; }
         if (this._window) {
             const { x, y, width, height } = this._window.getBounds();
             this.pos = { x, y };
@@ -172,12 +190,3 @@ ipc.on('window:setMode', (_: IpcMainEvent, mode: Mode) => {
         global.mainWindow.mode = mode;
     }
 });
-
-// CODE THAT I MIGHT NEED
-// const { bounds } = screen.getDisplayMatching(state);
-// if (state.x < bounds.x || (state.x + state.width) > (bounds.x + bounds.width)) {
-//     return null;
-// }
-// if (state.y < bounds.y || (state.y + state.height) > (bounds.y + bounds.height)) {
-//     return null;
-// }

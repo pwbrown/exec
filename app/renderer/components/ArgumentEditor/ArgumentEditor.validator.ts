@@ -25,13 +25,13 @@ export const validate: ArgumentEditorValidator = (fields, editing, ids) => {
     const before = fields.before.value;
     const after = fields.after.value;
     const context = `${before}<:VALUE:>${after}`;
-    const using = fields.using.linkedArgs;
-    for (let i = using.length - 1; i >= 0; i--) {
-        const index = context.indexOf(using[i]);
-        if (index < 0) {
-            using.splice(index, 1);
-        }
-    }
+    // const using = fields.using.linkedArgs;
+    // for (let i = using.length - 1; i >= 0; i--) {
+    //     const index = context.indexOf(using[i]);
+    //     if (index < 0) {
+    //         using.splice(index, 1);
+    //     }
+    // }
     /************************ ARGUMENT TYPES ********************/
     const type = fields.type.value;
     switch (type) {
@@ -50,7 +50,7 @@ export const validate: ArgumentEditorValidator = (fields, editing, ids) => {
                 options,
                 required,
                 type,
-                using,
+                // using,
             };
             break;
         case ArgumentType.FILE_SYSTEM:
@@ -72,7 +72,7 @@ export const validate: ArgumentEditorValidator = (fields, editing, ids) => {
                 showHidden,
                 start,
                 type,
-                using,
+                // using,
             };
             break;
         case ArgumentType.FREEFORM:
@@ -85,7 +85,7 @@ export const validate: ArgumentEditorValidator = (fields, editing, ids) => {
                 label,
                 required,
                 type,
-                using,
+                // using,
             };
             break;
     }
