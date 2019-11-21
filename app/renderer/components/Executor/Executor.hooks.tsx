@@ -2,11 +2,11 @@
 import React from 'react';
 
 /** TYPES */
-import { ArgumentType, ICommand } from '../../types';
+import { ArgumentType, ICommand } from 'types';
 
 /** REDUX */
 import { useSelector } from 'react-redux';
-import { AppState } from '../../store';
+import { AppState } from 'store';
 
 /** FIELD HOOKS */
 import {

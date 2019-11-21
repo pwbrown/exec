@@ -4,7 +4,7 @@ import {
     Theme,
     View,
     WindowMode,
-} from '../../types';
+} from 'types';
 import {
     Actions,
     ActionTypes,

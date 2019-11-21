@@ -16,7 +16,12 @@ module.exports = {
     },
     target: 'electron-renderer',
     resolve: {
-        extensions: ['.ts','.tsx','.js','.json']
+        extensions: ['.ts','.tsx','.js','.json'],
+        alias: {
+            store: app('renderer/store'),
+            types: app('renderer/types'),
+            utils: app('renderer/utils'),
+        }
     },
     module: {
         rules: [{

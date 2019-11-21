@@ -3,7 +3,7 @@ import {
     IAction,
     IArgument,
     IPayload,
-} from '../../types';
+} from 'types';
 
 /** State */
 export interface IState {

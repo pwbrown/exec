@@ -17,8 +17,8 @@ import TextField from '../Fields/TextField/TextField';
 
 /** REDUX */
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState, closeCommandEditor, saveCommand } from '../../store';
-import { ICommand } from '../../types';
+import { AppState, closeCommandEditor, saveCommand } from 'store';
+import { ICommand } from 'types';
 
 /** HOOKS AND UTILS */
 import { useCommandEditorFieldStates } from './CommandEditor.hooks';

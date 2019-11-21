@@ -2,7 +2,7 @@
 import { ChangeEventHandler, useReducer } from 'react';
 
 /** TYPES */
-import { IAction, IPayload } from '../../../types';
+import { IAction, IPayload } from 'types';
 type TextFieldChangeEvent = ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;
 
 /** Options Reducer State */

@@ -7,7 +7,7 @@
 
 /** DEPENDENCIES */
 import { ipcRenderer as ipc, IpcRendererEvent } from 'electron';
-import { IUpdateStatus, Theme, View, WindowMode } from '../types';
+import { IUpdateStatus, Theme, View, WindowMode } from 'types';
 import {
     AppState,
     AppStore,

@@ -19,8 +19,8 @@ import TextField from '../Fields/TextField/TextField';
 
 /** REDUX */
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState, closeArgumentEditor, saveArgument } from '../../store';
-import { ArgumentType, IArgument } from '../../types';
+import { AppState, closeArgumentEditor, saveArgument } from 'store';
+import { ArgumentType, IArgument } from 'types';
 
 /** STYLES */
 import { useStyles } from './ArgumentEditor.styles';

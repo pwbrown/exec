@@ -12,10 +12,10 @@ import {
     deleteArgument,
     editArgument,
     restoreArgument,
-} from '../../store';
+} from 'store';
 
 /** TYPES */
-import { IArgument, ICommand } from '../../types';
+import { IArgument, ICommand } from 'types';
 
 /** COMPONENTS */
 import List from '../List/List';

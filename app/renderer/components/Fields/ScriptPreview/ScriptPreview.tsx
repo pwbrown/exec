@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 /** REDUX */
 import { useSelector } from 'react-redux';
-import { AppState } from '../../../store';
+import { AppState } from 'store';
 
 /** FIELDS */
 import Preview from '../Preview/Preview';

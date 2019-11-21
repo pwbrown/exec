@@ -3,7 +3,7 @@ import React, { FC, Fragment, useEffect, useState } from 'react';
 
 /** REDUX */
 import { useSelector } from 'react-redux';
-import { AppState } from '../../store';
+import { AppState } from 'store';
 
 /** MATERIAL */
 import Button from '@material-ui/core/Button';
@@ -18,7 +18,7 @@ import { useStyles } from './List.styles';
 import ListItem from './ListItem';
 
 /** TYPES */
-import { IArgument, ICommand, WindowMode } from '../../types';
+import { IArgument, ICommand, WindowMode } from 'types';
 
 /** PROPS */
 interface IProps {

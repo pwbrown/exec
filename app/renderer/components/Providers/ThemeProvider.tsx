@@ -16,8 +16,8 @@ import MuiThemeProvider from '@material-ui/styles/ThemeProvider';
 import { useSelector } from 'react-redux';
 
 /** TYPES */
-import { AppState } from '../../store';
-import { Theme } from '../../types';
+import { AppState } from 'store';
+import { Theme } from 'types';
 
 /** Themes */
 const Themes = {

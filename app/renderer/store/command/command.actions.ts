@@ -1,5 +1,5 @@
 /** TYPES */
-import { ICommand } from '../../types';
+import { ICommand } from 'types';
 import {
     Actions,
     ActionTypes,

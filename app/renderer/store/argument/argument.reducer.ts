@@ -1,5 +1,5 @@
 /** TYPES */
-import { IArgument } from '../../types';
+import { IArgument } from 'types';
 import {
     Actions,
     ActionTypes,

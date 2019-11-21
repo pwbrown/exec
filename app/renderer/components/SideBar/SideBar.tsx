@@ -23,8 +23,8 @@ import {
     createCommand,
     setTheme,
     setView,
-} from '../../store';
-import { Theme, View, WindowMode } from '../../types';
+} from 'store';
+import { Theme, View, WindowMode } from 'types';
 
 /** COMPONENTS */
 import SideBarItem from './SideBarItem';
@@ -34,7 +34,7 @@ import clsx from 'clsx';
 import { useStyles } from './SideBar.styles';
 
 /** UTILS */
-import { bts } from '../../utils';
+import { bts } from 'utils';
 
 const SideBar: FC = () => {
     const classes = useStyles();

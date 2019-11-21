@@ -2,10 +2,10 @@
 import { useCommandEditorFieldStates } from './CommandEditor.hooks';
 
 /** TYPES */
-import { ICommand } from '../../types';
+import { ICommand } from 'types';
 
 /** UTILS */
-import { uniqueId } from '../../utils';
+import { uniqueId } from 'utils';
 
 type CommandEditorValidator = (
     fields: ReturnType<typeof useCommandEditorFieldStates>,

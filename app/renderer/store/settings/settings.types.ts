@@ -1,14 +1,12 @@
 /** TYPES */
 import {
+    IAction,
+    IPayload,
     IUpdateStatus,
     Theme,
     View,
     WindowMode,
-} from '../../types';
-import {
-    IAction,
-    IPayload,
-} from '../../types';
+} from 'types';
 
 /** State */
 export interface IState {

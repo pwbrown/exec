@@ -12,7 +12,7 @@ import {
     deleteCommand,
     editCommand,
     restoreCommand,
-} from '../../store';
+} from 'store';
 
 /** COMPONENTS */
 import List from '../List/List';

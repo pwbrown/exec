@@ -17,7 +17,7 @@ import clsx from 'clsx';
 import { useStyles } from './ListItem.styles';
 
 /** TYPES */
-import { IArgument, ICommand } from '../../types';
+import { IArgument, ICommand } from 'types';
 
 /** PROPS */
 interface IProps {

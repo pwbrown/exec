@@ -16,7 +16,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import ThemeProvider from './ThemeProvider';
 
 /** STORE */
-import { AppStore } from '../../store';
+import { AppStore } from 'store';
 
 const Providers: FC = ({ children }) => {
     return (

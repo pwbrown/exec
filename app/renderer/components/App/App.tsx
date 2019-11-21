@@ -10,8 +10,8 @@ import { useStyles } from './App.styles';
 
 /** REDUX */
 import { useSelector } from 'react-redux';
-import { AppState } from '../../store';
-import { View } from '../../types';
+import { AppState } from 'store';
+import { View } from 'types';
 
 /** COMPONENTS */
 import ArgumentEditor from '../ArgumentEditor/ArgumentEditor';
@@ -22,7 +22,7 @@ import SideBar from '../SideBar/SideBar';
 import TitleBar from '../TitleBar/TitleBar';
 
 /** Listen for Background Events */
-import '../../store/background';
+import 'store/background';
 
 const App: FC = () => {
     const classes = useStyles();

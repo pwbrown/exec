@@ -2,7 +2,7 @@
 import { useArgumentEditorFieldStates } from './ArgumentEditor.hooks';
 
 /** TYPES */
-import { ArgumentType, IArgument } from '../../types';
+import { ArgumentType, IArgument } from 'types';
 
 type ArgumentEditorValidator = (
     fields: ReturnType<typeof useArgumentEditorFieldStates>,

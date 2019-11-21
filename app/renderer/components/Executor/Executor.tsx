@@ -13,7 +13,7 @@ import Providers from '../Providers/Providers';
 
 /** REDUX */
 import { useSelector } from 'react-redux';
-import { AppState } from '../../store';
+import { AppState } from 'store';
 
 /** FIELDS */
 import { useExecutorFields } from './Executor.hooks';
@@ -22,10 +22,10 @@ import { useExecutorFields } from './Executor.hooks';
 import { useStyles } from './Executor.styles';
 
 /** TYPES */
-import { ICommand } from '../../types';
+import { ICommand } from 'types';
 
 /** Listen for Background Events */
-import '../../store/background';
+import 'store/background';
 
 const Executor: FC = () => {
     const classes = useStyles();

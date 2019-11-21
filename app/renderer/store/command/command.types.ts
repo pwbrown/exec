@@ -1,9 +1,9 @@
 /** TYPES */
-import { ICommand } from '../../types';
 import {
     IAction,
+    ICommand,
     IPayload,
-} from '../../types';
+} from 'types';
 
 /** State */
 export interface IState {

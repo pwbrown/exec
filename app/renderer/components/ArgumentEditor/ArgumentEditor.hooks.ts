@@ -7,7 +7,7 @@ import {
     IArgument,
     IFileSystemArgument,
     IOptionsArgument,
-} from '../../types';
+} from 'types';
 
 /** FIELD HOOKS */
 import {
@@ -19,7 +19,7 @@ import {
 } from '../Fields/hooks';
 
 /** UTILS */
-import { defaultBool } from '../../utils';
+import { defaultBool } from 'utils';
 
 /* tslint:disable:object-literal-sort-keys */
 export const useArgumentEditorFieldStates = (argument: IArgument) => ({
