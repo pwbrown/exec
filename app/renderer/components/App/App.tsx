@@ -10,7 +10,7 @@ import { useStyles } from './App.styles';
 
 /** REDUX */
 import { useSelector } from 'react-redux';
-import { State} from '../../store';
+import { AppState } from '../../store';
 import { View } from '../../types';
 
 /** COMPONENTS */
@@ -27,11 +27,11 @@ import '../../store/background';
 const App: FC = () => {
     const classes = useStyles();
     /** CURRENT VIEW */
-    const view = useSelector((state: State) => state.settings.view);
+    const view = useSelector((state: AppState) => state.settings.view);
     /** Using Editor Keys will reset the state of an editor when toggled */
-    const commandEditorKey = useSelector((state: State) =>
+    const commandEditorKey = useSelector((state: AppState) =>
         `command-editor${state.command.editor.show ? '-showing' : ''}`);
-    const argumentEditorKey = useSelector((state: State) =>
+    const argumentEditorKey = useSelector((state: AppState) =>
         `argument-editor${state.argument.editor.show ? '-showing' : ''}`);
 
     const renderView = () => {

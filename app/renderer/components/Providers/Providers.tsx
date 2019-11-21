@@ -16,11 +16,11 @@ import { Provider as ReduxProvider } from 'react-redux';
 import ThemeProvider from './ThemeProvider';
 
 /** STORE */
-import { Store } from '../../store';
+import { AppStore } from '../../store';
 
 const Providers: FC = ({ children }) => {
     return (
-        <ReduxProvider store={Store}>
+        <ReduxProvider store={AppStore}>
             <ThemeProvider>
                 <CssBaseline/>
                 {children}

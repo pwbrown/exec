@@ -7,11 +7,11 @@ import Typography from '@material-ui/core/Typography';
 /** REDUX */
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    AppState,
     archiveArgument,
     deleteArgument,
     editArgument,
     restoreArgument,
-    State,
 } from '../../store';
 
 /** TYPES */
@@ -23,9 +23,9 @@ import List from '../List/List';
 const ArgumentList: FC = () => {
     /** REDUX */
     const dispatch = useDispatch();
-    const args = useSelector((state: State) => state.argument.arguments);
-    const order = useSelector((state: State) => state.argument.order);
-    const archive = useSelector((state: State) => state.argument.archive);
+    const args = useSelector((state: AppState) => state.argument.arguments);
+    const order = useSelector((state: AppState) => state.argument.order);
+    const archive = useSelector((state: AppState) => state.argument.archive);
 
     /** ACTION HANDLERS */
     const editArg = (id: string) => dispatch(editArgument(id));

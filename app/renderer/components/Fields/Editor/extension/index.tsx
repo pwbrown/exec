@@ -19,13 +19,13 @@ import { addArgument, filterSuggestions, getKeyFromSelection, getSearchText } fr
 
 /** REDUX */
 import { useDispatch, useSelector } from 'react-redux';
-import { createArgument, State } from '../../../../store';
+import { AppState, createArgument } from '../../../../store';
 
 /** Exposes props for the editor and the suggestion list */
 export const useEditorExtension = (props: IProps, editor: RefObject<Editor>) => {
     /** STORE */
     const dispatch = useDispatch();
-    const argIds = useSelector((state: State) => state.argument.order);
+    const argIds = useSelector((state: AppState) => state.argument.order);
 
     /** REFS */
     const shouldRerender = useRef(false);

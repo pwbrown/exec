@@ -1,10 +1,11 @@
 /** TYPES */
-import { IArgument } from '../types';
+import { IArgument } from '../../types';
 import {
     Actions,
     ActionTypes,
-} from './_argument.reducer';
+} from './argument.types';
 
+/************************** ACTIONS ************************/
 /************************** ACTIONS ************************/
 export const createArgument = (id?: string): ActionTypes => ({
     payload: { id },

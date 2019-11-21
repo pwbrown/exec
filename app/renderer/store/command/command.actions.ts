@@ -1,9 +1,9 @@
 /** TYPES */
-import { ICommand } from '../types';
+import { ICommand } from '../../types';
 import {
     Actions,
     ActionTypes,
-} from './_command.reducer';
+} from './command.types';
 
 /************************** ACTIONS ************************/
 export const archiveCommand = (id: string): ActionTypes => ({

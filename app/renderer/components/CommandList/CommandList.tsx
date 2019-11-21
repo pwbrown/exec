@@ -7,11 +7,11 @@ import { ipcRenderer as ipc } from 'electron';
 /** REDUX */
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    AppState,
     archiveCommand,
     deleteCommand,
     editCommand,
     restoreCommand,
-    State,
 } from '../../store';
 
 /** COMPONENTS */
@@ -20,9 +20,9 @@ import List from '../List/List';
 const CommandList: FC = () => {
     /** REDUX */
     const dispatch = useDispatch();
-    const commands = useSelector((state: State) => state.command.commands);
-    const order = useSelector((state: State) => state.command.order);
-    const archive = useSelector((state: State) => state.command.archive);
+    const commands = useSelector((state: AppState) => state.command.commands);
+    const order = useSelector((state: AppState) => state.command.order);
+    const archive = useSelector((state: AppState) => state.command.archive);
 
     /** ACTION HANDLERS */
     const editCmd = (id: string) => dispatch(editCommand(id));

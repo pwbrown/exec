@@ -13,7 +13,7 @@ import Providers from '../Providers/Providers';
 
 /** REDUX */
 import { useSelector } from 'react-redux';
-import { State } from '../../store';
+import { AppState } from '../../store';
 
 /** FIELDS */
 import { useExecutorFields } from './Executor.hooks';
@@ -31,7 +31,7 @@ const Executor: FC = () => {
     const classes = useStyles();
     const commandId = useRef<string>(ipc.sendSync('executeSync:id')).current;
     const command = useRef<ICommand>(
-        useSelector((state: State) => state.command.commands[commandId])).current;
+        useSelector((state: AppState) => state.command.commands[commandId])).current;
 
     const { fields, validate } = useExecutorFields(command);
 

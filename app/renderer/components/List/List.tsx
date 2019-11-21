@@ -3,7 +3,7 @@ import React, { FC, Fragment, useEffect, useState } from 'react';
 
 /** REDUX */
 import { useSelector } from 'react-redux';
-import { State } from '../../store';
+import { AppState } from '../../store';
 
 /** MATERIAL */
 import Button from '@material-ui/core/Button';
@@ -37,7 +37,7 @@ interface IProps {
 const List: FC<IProps> = (props) => {
     const classes = useStyles();
     const [ showArchive, setShowArchive ] = useState(false);
-    const condensed = useSelector((state: State) => state.settings.windowMode === WindowMode.CONDENSED);
+    const condensed = useSelector((state: AppState) => state.settings.windowMode === WindowMode.CONDENSED);
     const toggleArchive = () => setShowArchive(!showArchive);
 
     useEffect(() => {

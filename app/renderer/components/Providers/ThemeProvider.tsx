@@ -16,7 +16,7 @@ import MuiThemeProvider from '@material-ui/styles/ThemeProvider';
 import { useSelector } from 'react-redux';
 
 /** TYPES */
-import { State } from '../../store';
+import { AppState } from '../../store';
 import { Theme } from '../../types';
 
 /** Themes */
@@ -26,7 +26,7 @@ const Themes = {
 };
 
 const ThemeProvider: FC = ({ children }) => {
-    const theme = useSelector((state: State) => state.settings.theme);
+    const theme = useSelector((state: AppState) => state.settings.theme);
     return (
         <MuiThemeProvider theme={Themes[theme]}>
             {children}

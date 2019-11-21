@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 /** REDUX */
 import { useSelector } from 'react-redux';
-import { State } from '../../../store';
+import { AppState } from '../../../store';
 
 /** FIELDS */
 import Preview from '../Preview/Preview';
@@ -25,7 +25,7 @@ interface IProps {
 
 const ScriptPreview: FC<IProps> = (props) => {
     const classes = useStyles();
-    const args = useSelector((state: State) => state.argument.arguments);
+    const args = useSelector((state: AppState) => state.argument.arguments);
 
     const scriptWithStyledArgs = () =>
         !props.script.trim() ? 'Start building a script above to see its full preview' :

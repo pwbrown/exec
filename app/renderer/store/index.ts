@@ -1,7 +1,7 @@
 /** Export Store and Store State */
-export { Store, State } from './_app.store';
+export { AppStore, AppState } from './app.store';
 
 /** Export All Actions */
-export * from './_argument.actions';
-export * from './_command.actions';
-export * from './_settings.actions';
+export * from './argument/argument.actions';
+export * from './command/command.actions';
+export * from './settings/settings.actions';

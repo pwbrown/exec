@@ -16,13 +16,13 @@ import Update from '@material-ui/icons/Update';
 /** REDUX */
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    AppState,
     closeArgumentEditor,
     closeCommandEditor,
     createArgument,
     createCommand,
     setTheme,
     setView,
-    State,
 } from '../../store';
 import { Theme, View, WindowMode } from '../../types';
 
@@ -39,13 +39,13 @@ import { bts } from '../../utils';
 const SideBar: FC = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const view = useSelector((state: State) => state.settings.view);
-    const showCommandEditor = useSelector((state: State) => state.command.editor.show);
-    const showArgumentEditor = useSelector((state: State) => state.argument.editor.show);
-    const theme = useSelector((state: State) => state.settings.theme);
-    const status = useSelector((state: State) => state.settings.updateStatus);
-    const attempted = useSelector((state: State) => state.settings.attemptedUpdate);
-    const condensed = useSelector((state: State) => state.settings.windowMode === WindowMode.CONDENSED);
+    const view = useSelector((state: AppState) => state.settings.view);
+    const showCommandEditor = useSelector((state: AppState) => state.command.editor.show);
+    const showArgumentEditor = useSelector((state: AppState) => state.argument.editor.show);
+    const theme = useSelector((state: AppState) => state.settings.theme);
+    const status = useSelector((state: AppState) => state.settings.updateStatus);
+    const attempted = useSelector((state: AppState) => state.settings.attemptedUpdate);
+    const condensed = useSelector((state: AppState) => state.settings.windowMode === WindowMode.CONDENSED);
     const editorOpen = showCommandEditor || showArgumentEditor;
     const toggleEditor = () => {
         if (editorOpen) {

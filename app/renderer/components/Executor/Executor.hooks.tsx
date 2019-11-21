@@ -6,7 +6,7 @@ import { ArgumentType, ICommand } from '../../types';
 
 /** REDUX */
 import { useSelector } from 'react-redux';
-import { State } from '../../store';
+import { AppState } from '../../store';
 
 /** FIELD HOOKS */
 import {
@@ -23,7 +23,7 @@ import TextField from '../Fields/TextField/TextField';
 /** Takes in the commandId and builds argument fields to display */
 /* tslint:disable:react-hooks-nesting */
 export const useExecutorFields = (command: ICommand) => {
-    const args = useSelector((state: State) => state.argument.arguments);
+    const args = useSelector((state: AppState) => state.argument.arguments);
 
     const fields: any[] = [];
     const states: any = {};

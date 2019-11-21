@@ -4,11 +4,11 @@ import {
     Theme,
     View,
     WindowMode,
-} from '../types';
+} from '../../types';
 import {
     Actions,
     ActionTypes,
-} from './_settings.reducer';
+} from './settings.types';
 
 /************************** ACTIONS ************************/
 export const setTheme = (theme: Theme): ActionTypes => ({

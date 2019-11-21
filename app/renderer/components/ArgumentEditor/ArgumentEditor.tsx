@@ -19,7 +19,7 @@ import TextField from '../Fields/TextField/TextField';
 
 /** REDUX */
 import { useDispatch, useSelector } from 'react-redux';
-import { closeArgumentEditor, saveArgument, State } from '../../store';
+import { AppState, closeArgumentEditor, saveArgument } from '../../store';
 import { ArgumentType, IArgument } from '../../types';
 
 /** STYLES */
@@ -49,11 +49,11 @@ const ArgumentEditor: FC = () => {
     const dispatch = useDispatch();
 
     /** REDUX STATE */
-    const show = useSelector((state: State) => state.argument.editor.show);
-    const argument = useSelector((state: State) =>
+    const show = useSelector((state: AppState) => state.argument.editor.show);
+    const argument = useSelector((state: AppState) =>
         state.argument.editor.id ? state.argument.arguments[state.argument.editor.id] : { ...EMPTY });
-    const newId = useSelector((state: State) => state.argument.editor.newId);
-    const ids = useSelector((state: State) => Object.keys(state.argument.arguments));
+    const newId = useSelector((state: AppState) => state.argument.editor.newId);
+    const ids = useSelector((state: AppState) => Object.keys(state.argument.arguments));
 
     /** FIELD STATES */
     const fields = useArgumentEditorFieldStates({ ...argument, id: newId || argument.id });

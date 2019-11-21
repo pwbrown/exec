@@ -17,7 +17,7 @@ import TextField from '../Fields/TextField/TextField';
 
 /** REDUX */
 import { useDispatch, useSelector } from 'react-redux';
-import { closeCommandEditor, saveCommand, State } from '../../store';
+import { AppState, closeCommandEditor, saveCommand } from '../../store';
 import { ICommand } from '../../types';
 
 /** HOOKS AND UTILS */
@@ -41,10 +41,10 @@ const CommandEditor: FC = () => {
     const toggleScriptPreview = () => setShowPreview(!showPreview);
 
     /** REDUX STATE */
-    const show = useSelector((state: State) => state.command.editor.show);
-    const command = useSelector((state: State) =>
+    const show = useSelector((state: AppState) => state.command.editor.show);
+    const command = useSelector((state: AppState) =>
         state.command.editor.id ? state.command.commands[state.command.editor.id] : { ...EMPTY });
-    const ids = useSelector((state: State) => Object.keys(state.command.commands));
+    const ids = useSelector((state: AppState) => Object.keys(state.command.commands));
 
     /** FIELD STATES */
     const fields = useCommandEditorFieldStates(command);
