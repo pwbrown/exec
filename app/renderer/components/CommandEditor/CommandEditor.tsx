@@ -11,6 +11,7 @@ import Collapse from '@material-ui/core/Collapse';
 
 /** FIELDS */
 import Editor from '../Fields/Editor/Editor';
+import FilePath from '../Fields/FilePath/FilePath';
 import ScriptPreview from '../Fields/ScriptPreview/ScriptPreview';
 import TextField from '../Fields/TextField/TextField';
 
@@ -25,6 +26,7 @@ import { validate } from './CommandEditor.validator';
 
 /** EMPTY COMMAND */
 const EMPTY: ICommand = {
+    cwd: '',
     description: '',
     id: '',
     label: '',
@@ -73,6 +75,14 @@ const CommandEditor: FC = () => {
                     label='Description'
                     help='A description to help understand the purpose of the command'
                     {...fields.description}
+                />
+                <FilePath
+                    label='CWD'
+                    help='The current working directory that the script should run in when executed.'
+                    allowDirectorySelection={true}
+                    allowFileSelection={false}
+                    showHiddenFiles={true}
+                    {...fields.cwd}
                 />
                 <Editor
                     label='Script'
