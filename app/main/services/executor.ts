@@ -17,7 +17,7 @@ import { ARGUMENT_STORE } from './arguments';
 import { COMMAND_STORE } from './commands';
 
 /** EXECUTE WINDOW */
-let executor: Window | null = null;
+global.executorWindow = null;
 let currentId: string | null = null;
 
 /** WINDOW OPTIONS */
@@ -42,12 +42,12 @@ ipc.on('execute:command', (event: IpcMainEvent, cmdId: string) => {
         return runInTerminal(cmd.script, [], { cwd: app.getPath('home') });
     } else if (args && cmd.using.filter((argId: string) => !!args[argId]).length) {
         currentId = cmdId;
-        executor = new Window('executor', 'executor.html', {
+        global.executorWindow = new Window('executor', 'executor.html', {
             ...WindowOptions,
             parent: global.mainWindow.window_UNSAFE,
         });
-        executor.track = false; // Switch off window tracking
-        executor.open();
+        global.executorWindow.track = false; // Switch off window tracking
+        global.executorWindow.open();
     }
 });
 
@@ -66,6 +66,6 @@ ipc.on('execute:cancel', (_event: IpcMainEvent) => {
 });
 
 const closeExecutor = () => {
-    executor?.close();
-    executor = null;
+    global.executorWindow?.close();
+    global.executorWindow = null;
 };

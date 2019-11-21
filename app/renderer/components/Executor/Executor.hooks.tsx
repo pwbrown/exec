@@ -2,7 +2,7 @@
 import React from 'react';
 
 /** TYPES */
-import { ArgumentType, IArgument, ICommand } from '../../types';
+import { ArgumentType, ICommand } from '../../types';
 
 /** REDUX */
 import { useSelector } from 'react-redux';
@@ -11,7 +11,7 @@ import { State } from '../../store';
 /** FIELD HOOKS */
 import {
     useFilePathState,
-    useSwitchState,
+    useSelectState,
     useTextFieldState,
 } from '../Fields/hooks';
 
@@ -40,6 +40,34 @@ export const useExecutorFields = (command: ICommand) => {
                         label={arg.label || arg.id || undefined}
                         help={arg.description || undefined}
                         required={arg.required || false}
+                        {...states[arg.id]}
+                    />
+                ));
+                break;
+            case ArgumentType.OPTIONS:
+                states[arg.id] = useSelectState(arg.default || '');
+                fields.push((
+                    <Select
+                        label={arg.label || arg.id || undefined}
+                        help={arg.description || undefined}
+                        required={arg.required || false}
+                        options={arg.options}
+                        emptyOption='None'
+                        {...states[arg.id]}
+                    />
+                ));
+                break;
+            case ArgumentType.FILE_SYSTEM:
+                states[arg.id] = useFilePathState(arg.default || '');
+                fields.push((
+                    <FilePath
+                        label={arg.label || arg.id || undefined}
+                        help={arg.description || undefined}
+                        required={arg.required || false}
+                        allowDirectorySelection={arg.allowDir}
+                        allowFileSelection={arg.allowFile}
+                        showHiddenFiles={arg.showHidden}
+                        startingLocation={arg.start || undefined}
                         {...states[arg.id]}
                     />
                 ));
