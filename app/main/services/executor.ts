@@ -39,7 +39,7 @@ ipc.on('execute:command', (event: IpcMainEvent, cmdId: string) => {
     if (!cmds || !cmds[cmdId]) { return; }
     const cmd = cmds[cmdId];
     if (!cmd.using || !cmd.using.length) {
-        return runInTerminal(cmd.script, [], { cwd: app.getPath('home') });
+        return runInTerminal(cmd.script, [], { cwd: cmd.cwd || app.getPath('home') });
     } else if (args && cmd.using.filter((argId: string) => !!args[argId]).length) {
         currentId = cmdId;
         global.executorWindow = new Window('executor', 'executor.html', {
@@ -74,7 +74,7 @@ ipc.on('execute:arguments', (_event: IpcMainEvent, values: {[arg: string]: any})
             script = script.replace(rgx, args[argId].context).replace(/<:VALUE:>/g, values[argId]);
         }
     });
-    return runInTerminal(script, [], { cwd: app.getPath('home') });
+    return runInTerminal(script, [], { cwd: cmd.cwd || app.getPath('home') });
 });
 
 ipc.on('execute:cancel', (_event: IpcMainEvent) => {

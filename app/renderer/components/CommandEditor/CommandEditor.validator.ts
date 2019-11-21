@@ -21,6 +21,7 @@ export const validate: CommandEditorValidator = (fields, currentId, allIds) => {
         fields.label.setHasError(true);
     }
     const description = fields.description.value.trim();
+    const cwd = fields.cwd.value;
     const script = fields.script.value;
     if (script.trim() === '') {
         valid = false;
@@ -37,6 +38,7 @@ export const validate: CommandEditorValidator = (fields, currentId, allIds) => {
     const id = currentId || uniqueId(label, allIds);
     return {
         command: {
+            cwd,
             description,
             id,
             label,

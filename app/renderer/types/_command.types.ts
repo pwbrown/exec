@@ -8,6 +8,8 @@ export interface ICommand {
     description?: string;
     /** The script to execute */
     script: string;
+    /** Starting point or Current Working Directory of command execution */
+    cwd?: string;
     /** A list of the argument ids that are used by this command */
     using?: string[];
 }
