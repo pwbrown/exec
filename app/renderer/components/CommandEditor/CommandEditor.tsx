@@ -1,8 +1,9 @@
 /** REACT */
 import React, { FC, useState } from 'react';
 
-/** EDITOR BASE */
-import EditorBase from '../EditorBase/EditorBase';
+/** Form */
+import Floating from '../Floating/Floating';
+import Form from '../Form/Form';
 
 /** MATERIAL */
 import Button from '@material-ui/core/Button';
@@ -56,44 +57,44 @@ const CommandEditor: FC = () => {
     };
 
     return (
-        <EditorBase
-            show={show}
-            title={`${command.id ? 'Edit' : 'New'} Command`}
-            onCancel={cancel}
-            onSave={save}
-            z={1}
-        >
-            <TextField
-                label='Label'
-                required={true}
-                help='A label to help identify a command throughout the app'
-                {...fields.label}
-            />
-            <TextField
-                label='Description'
-                help='A description to help understand the purpose of the command'
-                {...fields.description}
-            />
-            <Editor
-                label='Script'
-                prompts={true}
-                required={true}
-                help='The script that is run when executing the command'
-                {...fields.using}
-                {...fields.script}
-            />
-            <Button size='small' onClick={toggleScriptPreview} color='primary'>
-                {showPreview ? 'Hide' : 'Show'} Preview
-            </Button>
-            <Collapse in={showPreview}>
-                <ScriptPreview
-                    label='Script Preview'
-                    help='A preview of the full script including the full context of all arguments'
-                    script={fields.script.value}
-                    linkedArgs={fields.using.linkedArgs}
+        <Floating show={show} z={1}>
+            <Form
+                title={`${command.id ? 'Edit' : 'New'} Command`}
+                onCancel={cancel}
+                onConfirm={save}
+            >
+                <TextField
+                    label='Label'
+                    required={true}
+                    help='A label to help identify a command throughout the app'
+                    {...fields.label}
                 />
-            </Collapse>
-        </EditorBase>
+                <TextField
+                    label='Description'
+                    help='A description to help understand the purpose of the command'
+                    {...fields.description}
+                />
+                <Editor
+                    label='Script'
+                    prompts={true}
+                    required={true}
+                    help='The script that is run when executing the command'
+                    {...fields.using}
+                    {...fields.script}
+                />
+                <Button size='small' onClick={toggleScriptPreview} color='primary'>
+                    {showPreview ? 'Hide' : 'Show'} Preview
+                </Button>
+                <Collapse in={showPreview}>
+                    <ScriptPreview
+                        label='Script Preview'
+                        help='A preview of the full script including the full context of all arguments'
+                        script={fields.script.value}
+                        linkedArgs={fields.using.linkedArgs}
+                    />
+                </Collapse>
+            </Form>
+        </Floating>
     );
 };
 

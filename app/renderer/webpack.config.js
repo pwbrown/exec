@@ -7,7 +7,8 @@ const app = path => join(__dirname, '../', path);
 module.exports = {
     mode: 'production',
     entry: {
-        exec: app('renderer/components/App/App.tsx')
+        app: app('renderer/components/App/App.tsx'),
+        executor: app('renderer/components/Executor/Executor.tsx')
     },
     output: {
         filename: '[name].js',

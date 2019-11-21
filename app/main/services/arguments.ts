@@ -7,7 +7,7 @@ import { app, ipcMain as ipc, IpcMainEvent } from 'electron';
 import Store from 'electron-store';
 
 /** CONSTANTS */
-const ARGUMENT_STORE = new Store({ name: 'arguments.v1' });
+export const ARGUMENT_STORE = new Store({ name: 'arguments.v1' });
 
 /****************** EVENTS ********************/
 

@@ -23,7 +23,7 @@ export const uniqueId = (value: string, existing: string[]) => {
     return uid;
 };
 
-export const defaultBool = (def: boolean, value?: boolean): boolean => {
+export const defaultBool = (def: any, value?: boolean): boolean => {
     if (typeof value === 'boolean') {
         return value;
     }

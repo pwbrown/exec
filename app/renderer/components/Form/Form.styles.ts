@@ -5,14 +5,6 @@ import makeStyles from '@material-ui/styles/makeStyles';
 /* tslint:disable:object-literal-sort-keys object-literal-key-quotes */
 export const useStyles = makeStyles((theme: Theme) => ({
     container: {
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-        overflow: 'hidden',
-    },
-    editor: {
         background: theme.palette.background.default,
         display: 'flex',
         flexDirection: 'column',

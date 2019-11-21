@@ -1,13 +1,15 @@
 /** REACT */
 import React, { FC } from 'react';
 
+/** ELECTRON */
+import { ipcRenderer as ipc } from 'electron';
+
 /** REDUX */
 import { useDispatch, useSelector } from 'react-redux';
 import {
     archiveCommand,
     deleteCommand,
     editCommand,
-    executeCommand,
     restoreCommand,
     State,
 } from '../../store';
@@ -27,7 +29,11 @@ const CommandList: FC = () => {
     const archiveCmd = (id: string) => dispatch(archiveCommand(id));
     const restoreCmd = (id: string) => dispatch(restoreCommand(id));
     const deleteCmd = (id: string) => dispatch(deleteCommand(id));
-    const executeCmd = (id: string) => dispatch(executeCommand(id));
+
+    /** EXECUTE COMMAND */
+    const executeCmd = (id: string) => {
+        ipc.send('execute:command', id);
+    };
 
     return (
         <List

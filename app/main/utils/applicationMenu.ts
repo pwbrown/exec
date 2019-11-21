@@ -143,5 +143,8 @@ export class ApplicationMenu {
 
     private send(msg: string, ...payload: any) {
         global.mainWindow.send(`menu:${msg}`, ...payload);
+        if (global.executorWindow) {
+            global.executorWindow.send(`menu:${msg}`, ...payload);
+        }
     }
 }

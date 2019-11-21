@@ -61,8 +61,7 @@ typings/
 .next
 
 app/build
-app/assets/js/exec.js
-app/assets/js/exec.js.map
+app/assets/js/*
 artifacts/
 .DS_Store
 .tests/

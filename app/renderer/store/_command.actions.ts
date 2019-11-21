@@ -40,11 +40,6 @@ export const saveCommand = (command: ICommand): ActionTypes => ({
     type: Actions.SAVE_COMMAND,
 });
 
-export const executeCommand = (id: string): ActionTypes => ({
-    payload: { id },
-    type: Actions.EXECUTE_COMMAND,
-});
-
 export const wipeCommandArchive = (): ActionTypes => ({
     type: Actions.WIPE_COMMAND_ARCHIVE,
 });
