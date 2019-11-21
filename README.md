@@ -12,7 +12,7 @@ Desktop Application for managing and executing commonly used terminal commands
 
 ## Features Roadmap
 - [x] Condensed View Mode
-- [ ] Command Arguments (Free form and option based)
+- [x] Command Arguments (Free form, option, and file based)
 - [ ] Import and Export Lists
 - [ ] Drag and Drop Organizing
 - [ ] Command List Groups
