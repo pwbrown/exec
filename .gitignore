@@ -63,6 +63,8 @@ typings/
 app/build
 app/assets/*.js
 app/assets/*.js.map
+app/assets/*.html
+!app/assets/__template__.html
 artifacts/
 .DS_Store
 .tests/
