@@ -57,4 +57,4 @@ const Executor: FC = () => {
     );
 };
 
-render((<Providers><Executor/></Providers>), document.getElementById('executor'));
+render((<Providers><Executor/></Providers>), document.getElementById('root'));

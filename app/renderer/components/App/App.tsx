@@ -58,4 +58,4 @@ const App: FC = () => {
     );
 };
 
-render((<Providers><App/></Providers>), document.getElementById('app'));
+render((<Providers><App/></Providers>), document.getElementById('root'));
